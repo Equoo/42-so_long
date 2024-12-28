@@ -8,7 +8,7 @@ SRC_DIR = src/
 INC_DIR = headers/
 
 CFLAGS = -Wall -Wextra -Werror -MMD -I $(INC_DIR) -I libft -I minilibx-linux
-LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lm
+LIBS = -lXext -lX11 -Llibft -lft -Lminilibx-linux -lmlx -lm
 SOLONG_SRCS = so_long.c
 
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SOLONG_SRCS)}
