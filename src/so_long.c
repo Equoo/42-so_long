@@ -1,7 +1,5 @@
 
-t_env 
-
-int	main(int __attribute__((unused))argc, char **argv)
+int	main(int __attribute__((unused))argc, char **__attribute__((unused))argv)
 {
-
+	return (0);
 }

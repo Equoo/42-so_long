@@ -1,19 +1,24 @@
 NAME = so_long
 CC = cc
-LIB = libft/libft.a
+LIBFT = libft/libft.a
+MLX = minilibx-linux/libmlx.a
 
-CFLAGS = -Wall -Wextra -Werror -MMD -lm
-SOLONG_SRCS = so_long.c
 DIR_OBJ = obj/
 SRC_DIR = src/
 INC_DIR = headers/
+
+CFLAGS = -Wall -Wextra -Werror -MMD -I $(INC_DIR) -I libft -I minilibx-linux
+LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lm
+SOLONG_SRCS = so_long.c
+
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SOLONG_SRCS)}
 
 DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 -include $(DEPS)
 
 .PHONY: all
-all: $(NAME)
+all:
+	$(MAKE) -j --no-print-directory SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:
@@ -23,27 +28,31 @@ bonus:
 	mkdir -p $@
 
 $(DIR_OBJ)%.o: $(SRC_DIR)%.c Makefile
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIB):
-	$(MAKE) -C ./libft
+$(LIBFT):
+	$(MAKE) -j -C ./libft
 
-$(NAME): $(LIB) $(DIR_OBJ) $(OBJS) Makefile
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -c $< -o $@ -Llibft -lft -lmlx
+$(MLX):
+	$(MAKE) -j -C ./minilibx-linux
+
+$(NAME): $(MLX) $(LIBFT) $(DIR_OBJ) $(OBJS) Makefile
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:
-	$(MAKE) clean --no-print-directory -C ./libft
+	$(MAKE) -j clean --no-print-directory -C ./minilibx-linux
+	$(MAKE) -j clean --no-print-directory -C ./libft
 	rm -Rf $(DIR_OBJ)
 
 .PHONY: fclean
 fclean: clean
-	$(MAKE) fclean --no-print-directory -C ./libft
+	$(MAKE) -j fclean --no-print-directory -C ./libft
 	rm -f $(NAME)
 
 .PHONY: re
 re:
-	$(MAKE) fclean
-	$(MAKE) all 
+	$(MAKE) -j --no-print-directory fclean
+	$(MAKE) --no-print-directory all
 
 .DEFAULT_GOAL = all
