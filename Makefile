@@ -7,18 +7,33 @@ DIR_OBJ = obj/
 SRC_DIR = src/
 INC_DIR = headers/
 
-CFLAGS = -Wall -Wextra -Werror -MMD -I $(INC_DIR) -I libft -I minilibx-linux
-LIBS = -lXext -lX11 -Llibft -lft -Lminilibx-linux -lmlx -lm
-SOLONG_SRCS = so_long.c
+DBGFLAGS =
+CFLAGS = -Wall -Wextra -Werror -MMD $(DBGFLAGS) -I $(INC_DIR) -I libft -I minilibx-linux
+LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz -lbsd
+SOLONG_SRCS =   classes/vector2d/add.c\
+				classes/vector2d/dot.c\
+				classes/vector2d/scale.c\
+				classes/vector2d/sub.c\
+				classes/vector2d/length.c\
+				classes/vector2d/normalize.c\
+				classes/vector2d.c\
+            	time.c\
+            	so_long.c\
 
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SOLONG_SRCS)}
 
 DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 -include $(DEPS)
 
+.SILENT:
+
 .PHONY: all
 all:
 	$(MAKE) -j --no-print-directory SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+
+.PHONY: debug
+debug:
+	$(MAKE) -j --no-print-directory DBGFLAGS="-g3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:
@@ -27,14 +42,17 @@ bonus:
 %/:
 	mkdir -p $@
 
-$(DIR_OBJ)%.o: $(SRC_DIR)%.c Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+$(DIR_OBJ)%.o: $(SRC_DIR)%.c
+	echo "Compiling $*.c"
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -O3 -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) -j -C ./libft
+	echo "Make libft"
+	$(MAKE) -s -j -C ./libft
 
 $(MLX):
-	$(MAKE) -j -C ./minilibx-linux
+	$(MAKE) -s -j -C ./minilibx-linux
 
 $(NAME): $(MLX) $(LIBFT) $(DIR_OBJ) $(OBJS) Makefile
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)

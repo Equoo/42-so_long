@@ -1,6 +1,9 @@
 
+#include <ft_printf.h>
 #include <stdlib.h>
-#include "mlx.h"
+#include <mlx.h>
+#include <stdio.h>
+#include "so_long.h"
 
 typedef struct	s_data {
 	void	*img;
@@ -34,49 +37,88 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	close(int __attribute__((unused))keycode, t_vars *vars)
+int	process_close(t_vars *vars)
 {
-	free(vars->img->img);
 	mlx_destroy_window(vars->mlx, vars->win);
+	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-int	render_next_frame(void *__attribute__((unused))vars)
+#define TICK 60
+
+int	render_next_frame(void *vars)
 {
+	t_gameenv	*env;
 
+	static double middle = 0;
+	static double last = 0;
+	static int fps = TICK;
+	static int count = 0;
 
-	return (0);
-}
+	env = (t_gameenv *)vars;
+	env->time = ft_uptime();
+	if (!env->lastframe)
+		env->lastframe = env->time;
 
-int	main(int __attribute__((unused))argc, char **__attribute__((unused))argv)
-{
-	t_vars	vars;
-	t_data	img;
+	if (!last)
+		last = env->time;
 
-
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-	vars.img = &img;
-	img.img = mlx_new_image(vars.mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-
-	int i = 0;
-	while (i < 200)
+	if (env->time - env->lastframe >= 1.f / ((double)TICK * 1.06666f))
 	{
-		my_mlx_pixel_put(&img, i, 5, 0x00FF0000);
-		my_mlx_pixel_put(&img, i, 6, 0x0FFF0000);
-		my_mlx_pixel_put(&img, i, 7, 0xFFFF0000);
-		i++;
+		env->frametime = (env->time - env->lastframe);
+		
+		middle = middle + env->frametime;
+		count++;
+		if (env->time - last >= 1)
+		{
+			middle /= count;
+			count = 0;
+			fps = 1 / middle;
+			middle = env->frametime;
+			last = env->time;
+		}
+
+		__builtin_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
+		env->lastframe = env->time;
 	}
+	return (0);
+}
 
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+int	main()
+{
+	t_gameenv	env;
+	//t_data	img;
 
-	mlx_hook(vars.win, ON_DESTROY, 0, close, &vars);
-	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+	env = (t_gameenv){};
 
-	mlx_hook(vars.win, 2, 1L<<0, close, &vars);
-	mlx_loop(vars.mlx);
+	env.mlx = mlx_init();
+	if (!env.mlx)
+		return (0);
+
+	env.win = mlx_new_window(env.mlx, 1920, 1080, "Hello world!");
+	
+	//vars.img = &img;
+	//img.img = mlx_new_image(vars.mlx, 1920, 1080);
+	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+	//							&img.endian);
+
+	//int i = 0;
+	//while (i < 200)
+	//{
+	//	my_mlx_pixel_put(&img, i, 5, 0x00FF0000);
+	//	my_mlx_pixel_put(&img, i, 6, 0x0FFF0000);
+	//	my_mlx_pixel_put(&img, i, 7, 0xFFFF0000);
+	//	i++;
+	//}
+
+	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+
+	//mlx_destroy_image(vars.mlx, vars.img->img);
+
+	mlx_hook(env.win, ON_DESTROY, 0, process_close, &env);
+
+	mlx_loop_hook(env.mlx, render_next_frame, &env);
+	mlx_loop(env.mlx); 
 
 	return (0);
 }

@@ -46,10 +46,14 @@ SRCS = ft_isalnum.c\
 	   ft_lstclear.c\
 	   ft_lstiter.c\
 	   ft_lstmap.c\
+	   ft_isspace.c\
+	   ft_atoll.c\
 	   printf_converts.c\
 	   printf_nbrtostr.c\
 	   printf_utils.c\
-	   ft_printf.c
+	   ft_printf.c\
+	   get_next_line_utils.c\
+	   get_next_line.c
 
 DIR_OBJ = obj/
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SRCS)}

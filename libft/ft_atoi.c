@@ -6,21 +6,11 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:29:33 by dderny            #+#    #+#             */
-/*   Updated: 2024/11/17 12:41:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/12 15:35:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	ft_isspace(const char c)
-{
-	unsigned char	uc;
-
-	uc = (unsigned char)c;
-	if ((uc >= 9 && uc <= 13) || uc == 32)
-		return (1);
-	return (0);
-}
 
 int	ft_atoi(const char *str)
 {
