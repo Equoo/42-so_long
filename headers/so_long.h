@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/12 16:11:47 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/13 01:30:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ typedef struct s_gameenv {
 	double	time;
 	double	lastframe;
 	double	frametime;
+	int		process;
 }	t_gameenv;
 
-double	ft_uptime();
+double	uptime(int proc);
+int	idproc();
 
 #endif

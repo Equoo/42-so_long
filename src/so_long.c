@@ -1,8 +1,10 @@
 
 #include <ft_printf.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <mlx.h>
 #include <stdio.h>
+#include <libft.h>
 #include "so_long.h"
 
 typedef struct	s_data {
@@ -56,14 +58,14 @@ int	render_next_frame(void *vars)
 	static int count = 0;
 
 	env = (t_gameenv *)vars;
-	env->time = ft_uptime();
+	env->time = uptime(env->process);
 	if (!env->lastframe)
 		env->lastframe = env->time;
 
 	if (!last)
 		last = env->time;
 
-	if (env->time - env->lastframe >= 1.f / ((double)TICK * 1.06666f))
+	if (env->time - env->lastframe >= 1.f / ((double)TICK))
 	{
 		env->frametime = (env->time - env->lastframe);
 		
@@ -90,6 +92,7 @@ int	main()
 	//t_data	img;
 
 	env = (t_gameenv){};
+	env.process = idproc();
 
 	env.mlx = mlx_init();
 	if (!env.mlx)
