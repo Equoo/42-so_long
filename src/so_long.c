@@ -6,83 +6,14 @@
 #include <stdio.h>
 #include <libft.h>
 #include "so_long.h"
+#include "render.h"
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-typedef struct	s_vars {
-	void	*mlx;
-	void	*win;
-	t_data	*img;
-}				t_vars;
-
-enum {
-	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
-	ON_DESTROY = 17
-};
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	process_close(t_gameenv *env)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-int	process_close(t_vars *vars)
-{
-	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_destroy_window(env->mlx, env->win);
+	mlx_destroy_display(env->mlx);
+	free(env->mlx);
 	exit(EXIT_SUCCESS);
-	return (0);
-}
-
-#define TICK 60
-
-int	render_next_frame(void *vars)
-{
-	t_gameenv	*env;
-
-	static double middle = 0;
-	static double last = 0;
-	static int fps = TICK;
-	static int count = 0;
-
-	env = (t_gameenv *)vars;
-	env->time = uptime(env->process);
-	if (!env->lastframe)
-		env->lastframe = env->time;
-
-	if (!last)
-		last = env->time;
-
-	if (env->time - env->lastframe >= 1.f / ((double)TICK))
-	{
-		env->frametime = (env->time - env->lastframe);
-		
-		middle = middle + env->frametime;
-		count++;
-		if (env->time - last >= 1)
-		{
-			middle /= count;
-			count = 0;
-			fps = 1 / middle;
-			middle = env->frametime;
-			last = env->time;
-		}
-
-		__builtin_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
-		env->lastframe = env->time;
-	}
 	return (0);
 }
 
@@ -92,14 +23,13 @@ int	main()
 	//t_data	img;
 
 	env = (t_gameenv){};
-	env.process = idproc();
-
 	env.mlx = mlx_init();
 	if (!env.mlx)
 		return (0);
+	env.width = 1920;
+	env.height = 1080;
+	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
 
-	env.win = mlx_new_window(env.mlx, 1920, 1080, "Hello world!");
-	
 	//vars.img = &img;
 	//img.img = mlx_new_image(vars.mlx, 1920, 1080);
 	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
@@ -119,9 +49,8 @@ int	main()
 	//mlx_destroy_image(vars.mlx, vars.img->img);
 
 	mlx_hook(env.win, ON_DESTROY, 0, process_close, &env);
-
-	mlx_loop_hook(env.mlx, render_next_frame, &env);
-	mlx_loop(env.mlx); 
+	mlx_loop_hook(env.mlx, &update, &env);
+	mlx_loop(env.mlx);
 
 	return (0);
 }

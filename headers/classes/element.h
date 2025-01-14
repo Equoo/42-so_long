@@ -8,6 +8,7 @@ typedef struct s_element
 {
 	t_texture	*texture;
 	t_vector2d	*pos;
+	int			z;
 
 	void		(*draw)(t_element *self);
 	void		(*del)(t_element *self);

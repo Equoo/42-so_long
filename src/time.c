@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:46:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/13 01:45:43 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:39:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,43 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define TIME_PARSE "se.avg.last_update_time"
-#define TENE9 1000000000
+#define TIME_PARSE "se.exec_start"
 
-int idproc()
+double	ft_atof(const char *str)
+{
+	long long	nbr;
+	long long	precision;
+	long long	precc;
+	int			len;
+
+	nbr = ft_atoll(str);
+	while (*str != '.')
+		str++;
+	str++;
+	precision = ft_atoll(str);
+	precc = precision;
+	len = 1;
+	while (precc != 0)
+	{
+		precc /= 10;
+		len *= 10;
+	}
+	return ((double)nbr + ((double)precision / len));
+}
+
+double	uptime()
 {
 	int		fd;
 	int		len;
-	char	line[64];
-	
-	fd = open("/proc/self/stat", O_RDONLY);
-	if (fd < 0)
-		return (-1);
-	len = read(fd, line, 63);
-	close(fd);
-	line[len] = 0;
-	if (len == -1)
-		return (-1);
-	return (ft_atoi(line));
-}
-
-static char	*getfile(int proc)
-{
-	char	file[64];
-	char	*sproc;
-
-	ft_strlcpy(file, "/proc/", 64);
-	sproc = ft_itoa(proc);
-	ft_strlcat(file, sproc, 64);
-	free(sproc);
-	ft_strlcat(file, "/sched", 64);
-
-	return (ft_strdup(file));
-}
-
-double	uptime(int proc)
-{
-	int		fd;
-	int		len;
-	char	line[2048];
+	char	line[256];
 	char	*timestr;
 	double	time;
-	char	*file;
 
-	file = getfile(proc);
 	time = 0;
-	fd = open(file, O_RDONLY);
-	free(file);
+	fd = open("/proc/self/sched", O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	len = read(fd, line, 2047);
+	len = read(fd, line, 255);
 	close(fd);
 	line[len] = 0;
 	if (len == -1)
@@ -74,7 +61,7 @@ double	uptime(int proc)
 	{
 		while (!ft_isdigit(*timestr))
 			timestr++;
-		time = (double)ft_atoll((const char *)(timestr)) / TENE9;
+		time = ft_atof((const char *)(timestr)) / 1000;
 	}
 	return (time);
 }

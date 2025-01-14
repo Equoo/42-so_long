@@ -3,26 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/13 01:30:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/14 12:06:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-typedef struct s_gameenv {
+# ifndef TICK
+#  define TICK 120
+# endif
+
+enum
+{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
+
+typedef struct s_gameenv
+{
 	void	*mlx;
 	void	*win;
 	double	time;
 	double	lastframe;
 	double	frametime;
-	int		process;
-}	t_gameenv;
+	int		width;
+	int		height;
+}			t_gameenv;
 
-double	uptime(int proc);
-int	idproc();
+int			update(t_gameenv *env);
+
+double		uptime(void);
 
 #endif
