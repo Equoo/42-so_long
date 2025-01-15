@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/14 13:07:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/15 02:25:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	tick(t_gameenv *env)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	//img2scale = mylx_img_scale(env->mlx, img2, 8);
 	
-	mylx_img_add(0, 0, buffer, img);
+	mylx_img_addn(0, 0, buffer, img);
 	mylx_img_add(100, 0, buffer, img2);
 	
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);

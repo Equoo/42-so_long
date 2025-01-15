@@ -8,7 +8,7 @@ SRC_DIR = src/
 INC_DIR = headers/
 
 DBGFLAGS =
-CFLAGS = -Wall -Wextra -Werror -MMD $(DBGFLAGS) -I $(INC_DIR) -I libft -I minilibx-linux
+CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(DBGFLAGS) -I $(INC_DIR) -I libft -I minilibx-linux
 LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz -lbsd
 SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/dot.c\

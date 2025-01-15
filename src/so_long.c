@@ -26,8 +26,8 @@ int	main()
 	env.mlx = mlx_init();
 	if (!env.mlx)
 		return (0);
-	env.width = 1920;
-	env.height = 1080;
+	env.width = 2000;
+	env.height = 1800;
 	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
 
 	//vars.img = &img;
