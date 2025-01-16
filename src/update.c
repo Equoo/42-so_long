@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/15 02:25:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:30:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	tick(t_gameenv *env)
 
 	static void	*img;
 	static void	*img2;
-	//void	*img2scale;
-	char	*relative_path = "./textures/test.xpm";
+	char	*relative_path = "./textures/stringstar_fields.xpm";
 	char	*relative_path2 = "./textures/cat.xpm";
 	int		img_width;
 	int		img_height;
@@ -32,10 +31,9 @@ int	tick(t_gameenv *env)
 		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
-	//img2scale = mylx_img_scale(env->mlx, img2, 8);
 	
 	mylx_img_addn(0, 0, buffer, img);
-	mylx_img_add(100, 0, buffer, img2);
+	mylx_img_add(200, 0, buffer, img2);
 	
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
 

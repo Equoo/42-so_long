@@ -1,0 +1,64 @@
+{ "frames": [
+   {
+    "filename": "_stringstar_fields (front).aseprite",
+    "frame": { "x": 0, "y": 0, "w": 288, "h": 356 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 288, "h": 356 },
+    "sourceSize": { "w": 288, "h": 356 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3.9.1-x64-trial",
+  "image": "_stringstar_fields.png",
+  "format": "RGBA8888",
+  "size": { "w": 288, "h": 356 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "front", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 112, "w": 80, "h": 32 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 144, "w": 96, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 144, "w": 32, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 224, "y": 144, "w": 48, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 160, "w": 32, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 160, "w": 32, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 80, "w": 64, "h": 64 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 144, "w": 48, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 160, "w": 32, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 160, "w": 32, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 80, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 80, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 80, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 96, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 96, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 96, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 160, "y": 0, "w": 128, "h": 144 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 80, "w": 48, "h": 32 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 128, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 112, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 48, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 32, "w": 16, "h": 32 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 32, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 32, "w": 16, "h": 48 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 48, "w": 32, "h": 32 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "Slice", "color": "#ffff2b84", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 64, "w": 16, "h": 16 } }] }
+  ]
+ }
+}
