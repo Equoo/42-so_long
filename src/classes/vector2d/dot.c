@@ -6,13 +6,18 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/09 10:09:00 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/17 15:59:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/vector2d.h"
 
-float	vector2d_dot(t_vector2d *self, t_vector2d *other)
+float	float2d_dot(t_float2d *self, t_float2d *other)
+{
+	return (self->x * other->x + self->y * other->y);
+}
+
+int	int2d_dot(t_int2d *self, t_int2d *other)
 {
 	return (self->x * other->x + self->y * other->y);
 }

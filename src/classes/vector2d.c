@@ -5,35 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/09 10:40:04 by dderny           ###   ########.fr       */
+/*   Created: 2025/01/17 16:00:00 by dderny            #+#    #+#             */
+/*   Updated: 2025/01/17 17:22:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "classes/vector2d.h"
 #include "libft.h"
+#include <stdlib.h>
 
-void	vector2d_del(t_vector2d *vector)
+void	float2d_del(t_float2d *vector)
 {
 	if (vector)
 		free(vector);
 }
 
-t_vector2d	*ft_vector2d(float x, float y)
+t_float2d	*ft_float2d(float x, float y)
 {
-	t_vector2d	*vector;
+	t_float2d	*vector;
 
-	vector = ft_calloc(1, sizeof(t_vector2d));
+	vector = ft_calloc(1, sizeof(t_float2d));
 	if (!vector)
-        return (NULL);
-    vector->x = x;
-    vector->y = y;
-    vector->add = &vector2d_add;
-    vector->sub = &vector2d_sub;
-    vector->scale = &vector2d_scale;
-    vector->dot = &vector2d_dot;
-    vector->normalize = &vector2d_normalize;
-    vector->length = &vector2d_length;
+		return (NULL);
+	vector->x = x;
+	vector->y = y;
+	//vector->add = &float2d_add;
+	//vector->sub = &float2d_sub;
+	//vector->scale = &float2d_scale;
+	//vector->dot = &float2d_dot;
+	//vector->normalize = &float2d_normalize;
+	//vector->length = &float2d_length;
+	return (vector);
+}
+
+void	int2d_del(t_int2d *vector)
+{
+	if (vector)
+		free(vector);
+}
+
+t_int2d	*ft_int2d(int x, int y)
+{
+	t_int2d	*vector;
+
+	vector = ft_calloc(1, sizeof(t_int2d));
+	if (!vector)
+		return (NULL);
+	vector->x = x;
+	vector->y = y;
+	//vector->add = &int2d_add;
+	//vector->sub = &int2d_sub;
+	//vector->scale = &int2d_scale;
+	//vector->dot = &int2d_dot;
+	//vector->normalize = &int2d_normalize;
+	//vector->length = &int2d_length;
 	return (vector);
 }

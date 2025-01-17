@@ -6,16 +6,18 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/15 17:30:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/17 18:12:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
+#include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
 
 int	tick(t_gameenv *env)
 {
+	static void	*lbuffer;
 	static void	*buffer;
 
 	static void	*img;
@@ -25,23 +27,22 @@ int	tick(t_gameenv *env)
 	int		img_width;
 	int		img_height;
 
-	if (!buffer)
-		buffer = mlx_new_image(env->mlx, env->width, env->height);
-	if (!img)
-		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
+	if (!lbuffer)
+		lbuffer = mlx_new_image(env->mlx, 288/*env->width*/, 176/*env->height*/);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
+	if (!img)
+		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
 	
-	mylx_img_addn(0, 0, buffer, img);
-	mylx_img_add(200, 0, buffer, img2);
+	mylx_img_add((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
+	mylx_img_add((t_iaabb){(t_int2d){32, 0}, (t_int2d){128, 32}}, (t_int2d){0, 0}, lbuffer, img2);
 	
+	buffer = mylx_img_scale(env->mlx, lbuffer, 6);
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
-
-	//mlx_destroy_image(env->mlx, img);
+	mlx_destroy_image(env->mlx, buffer);
+	
 	//mlx_destroy_image(env->mlx, img2);
-
 	//mlx_destroy_image(env->mlx, buffer);
-
 	return (0);
 }
 

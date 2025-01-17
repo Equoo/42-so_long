@@ -6,12 +6,13 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/15 16:33:52 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/17 18:22:07 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "classes/vector2d.h"
 #include "render.h"
-#include <immintrin.h>
+#include "colors.h"
 #include <mlx.h>
 
 #define NPIXELS (sizeof(__m256i_u) / 4)
@@ -97,7 +98,7 @@ void	*mylx_img_addn(int x, int y, void *dest, void *src)
 	return (a.img);
 }
 
-void	*mylx_img_add(int x, int y, void *dest, void *src)
+void	*mylx_img_add(t_iaabb sqr, t_int2d pos, void *dest, void *src)
 {
 	t_data	a;
 	t_data	b;
@@ -106,63 +107,26 @@ void	*mylx_img_add(int x, int y, void *dest, void *src)
 	a.addr = mlx_get_data_addr(a.img, &a.bpp, &a.line_length, &a.endian);
 	b.img = src;
 	b.addr = mlx_get_data_addr(b.img, &b.bpp, &b.line_length, &b.endian);
-	
-	int		xi;
-	int		yi;
+	t_int2d	i;
 	__m256i_u src_pixels;
-	__m256i_u dst_pixels;
-	//unsigned int color;
-	char	*dst;
-	yi = 0;
-	while (yi < b.img->height)
+	__m256i_u *dst_pixels;
+	t_m256i_rgba src_chans;
+	t_m256i_rgba dst_chans;
+	__builtin_printf("oe: %lu, %li;", sizeof(unsigned int), sizeof(__m256i_u));
+	i.y = sqr.a.y;
+	while (i.y < sqr.b.y)
 	{
-		xi = 0;
-		while ((unsigned long)xi < b.img->width / NPIXELS)
+		i.x = sqr.a.x;
+		while ((unsigned long)i.x < sqr.b.x / NPIXELS)
 		{
-			src_pixels = *(__m256i_u *)(b.addr + (yi * b.line_length + xi * NPIXELS * (b.bpp / 8)));
-			dst = a.addr + ((yi + y) * a.line_length + (xi * NPIXELS + x) * (a.bpp / 8));
-			dst_pixels = *(__m256i_u *)dst;
-
-			__m256i_u src_alpha = ft_mm256_and_si256(src_pixels >> 24, ft_mm256_set1_epi32(0xFF));
-            __m256i_u src_red = ft_mm256_and_si256(src_pixels >> 16, ft_mm256_set1_epi32(0xFF));
-            __m256i_u src_green = ft_mm256_and_si256(src_pixels >> 8, ft_mm256_set1_epi32(0xFF));
-            __m256i_u src_blue = ft_mm256_and_si256(src_pixels, ft_mm256_set1_epi32(0xFF));
-
-            __m256i_u dst_red = ft_mm256_and_si256(dst_pixels >> 16, ft_mm256_set1_epi32(0xFF));
-            __m256i_u dst_green = ft_mm256_and_si256(dst_pixels >> 8, ft_mm256_set1_epi32(0xFF));
-            __m256i_u dst_blue = ft_mm256_and_si256(dst_pixels, ft_mm256_set1_epi32(0xFF));
-
-            __m256i_u inv_src_alpha = ft_mm256_sub_epi32(ft_mm256_set1_epi32(255), src_alpha);
-
-            __m256i_u blended_red = ft_mm256_div_epi32(
-                ft_mm256_add_epi32(
-                	ft_mm256_mullo_epi32(src_red, inv_src_alpha),
-                    ft_mm256_mullo_epi32(dst_red, src_alpha)),
-                ft_mm256_set1_epi32(255));
-
-            __m256i_u blended_green = ft_mm256_div_epi32(
-                ft_mm256_add_epi32(
-                    ft_mm256_mullo_epi32(src_green, inv_src_alpha),
-                    ft_mm256_mullo_epi32(dst_green, src_alpha)),
-                ft_mm256_set1_epi32(255));
-
-            __m256i_u blended_blue = ft_mm256_div_epi32(
-                ft_mm256_add_epi32(
-                    ft_mm256_mullo_epi32(src_blue, inv_src_alpha),
-                    ft_mm256_mullo_epi32(dst_blue, src_alpha)),
-                ft_mm256_set1_epi32(255));
-
-            __m256i_u blended_pixels = ft_mm256_or_si256(
-                ft_mm256_or_si256(
-                    blended_red << 16,
-                    blended_green << 8),
-                blended_blue);
-
-			*(__m256i_u *)dst = blended_pixels;
-
-			xi++;
+			src_pixels = *(__m256i_u *)(b.addr + (i.y * b.line_length + i.x * NPIXELS * (b.bpp / 8)));
+			dst_pixels = (__m256i_u *)(a.addr + ((i.y + pos.y) * a.line_length + (i.x * NPIXELS + pos.x) * (a.bpp / 8)));
+			src_chans = m256_split_channels(src_pixels, 1);
+			dst_chans = m256_split_channels(*dst_pixels, 0);
+			*dst_pixels = m256_combine_channels(m256_blend_by_alpha(dst_chans, src_chans));
+			i.x++;
 		}
-		yi++;
+		i.y++;
 	}
 	return (a.img);
 }

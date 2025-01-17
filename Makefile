@@ -17,6 +17,8 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/length.c\
 				classes/vector2d/normalize.c\
 				classes/vector2d.c\
+            	colors.c\
+            	m256_colors.c\
             	time.c\
             	update.c\
             	render.c\
