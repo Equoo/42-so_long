@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 18:12:26 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/17 18:50:28 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 int	tick(t_gameenv *env)
 {
-	static void	*lbuffer;
-	static void	*buffer;
+	void	*lbuffer;
+	void	*buffer;
 
 	static void	*img;
 	static void	*img2;
@@ -27,22 +27,27 @@ int	tick(t_gameenv *env)
 	int		img_width;
 	int		img_height;
 
-	if (!lbuffer)
-		lbuffer = mlx_new_image(env->mlx, 288/*env->width*/, 176/*env->height*/);
+	lbuffer = mlx_new_image(env->mlx, 288/*env->width*/, 176/*env->height*/);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	if (!img)
 		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
 	
 	mylx_img_add((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
-	mylx_img_add((t_iaabb){(t_int2d){32, 0}, (t_int2d){128, 32}}, (t_int2d){0, 0}, lbuffer, img2);
 	
+	static double sanim;
+	if (!sanim)
+		sanim = env->time;
+	double tanim = (env->time - sanim) / 0.8 * 7;
+	mylx_img_add((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, img2);
+	if (env->time - sanim > 0.8)
+		sanim = env->time;
+
 	buffer = mylx_img_scale(env->mlx, lbuffer, 6);
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
 	mlx_destroy_image(env->mlx, buffer);
 	
-	//mlx_destroy_image(env->mlx, img2);
-	//mlx_destroy_image(env->mlx, buffer);
+	mlx_destroy_image(env->mlx, lbuffer);
 	return (0);
 }
 

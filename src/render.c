@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 18:22:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:25:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,26 @@ void	*mylx_img_scale(void *mlx, void *img, int scale)
 	int		x;
 	int		y;
 	int		i;
-	unsigned int color;
 
 	a.img = img;
 	a.addr = mlx_get_data_addr(a.img, &a.bpp, &a.line_length, &a.endian);
 	b.img = mlx_new_image(mlx, a.img->width * scale, a.img->height * scale);
 	b.addr = mlx_get_data_addr(b.img, &b.bpp, &b.line_length, &b.endian);
 	y = 0;
+	unsigned int src_pixels;
+	char	*dst;
 	while (y < a.img->height)
 	{
 		x = 0;
 		while (x < a.img->width)
 		{
-			color = mylx_pixel_get(&a, x, y);
-			if (color == 0xFF000000 && ++x)
-				continue ;
+			src_pixels = *(unsigned int *)(b.addr + (y * b.line_length + x * (b.bpp / 8)));
 			i = 0;
-			while (i < scale * scale && ++i)
-				mylx_pixel_put(&b, x * scale + (i - 1) / scale, y * scale + (i
-						- 1) % scale, color);
+			while (i < (int)(scale / NPIXELS * scale) && ++i)
+			{
+				dst = a.addr + ((y + i / scale) * a.line_length + (x + (i % (scale / NPIXELS) / NPIXELS)) * (a.bpp / 8));
+				*(__m256i_u *)dst = ft_mm256_set1(src_pixels);
+			}
 			x++;
 		}
 		y++;
@@ -112,15 +113,14 @@ void	*mylx_img_add(t_iaabb sqr, t_int2d pos, void *dest, void *src)
 	__m256i_u *dst_pixels;
 	t_m256i_rgba src_chans;
 	t_m256i_rgba dst_chans;
-	__builtin_printf("oe: %lu, %li;", sizeof(unsigned int), sizeof(__m256i_u));
 	i.y = sqr.a.y;
 	while (i.y < sqr.b.y)
 	{
-		i.x = sqr.a.x;
+		i.x = sqr.a.x / NPIXELS;
 		while ((unsigned long)i.x < sqr.b.x / NPIXELS)
 		{
 			src_pixels = *(__m256i_u *)(b.addr + (i.y * b.line_length + i.x * NPIXELS * (b.bpp / 8)));
-			dst_pixels = (__m256i_u *)(a.addr + ((i.y + pos.y) * a.line_length + (i.x * NPIXELS + pos.x) * (a.bpp / 8)));
+			dst_pixels = (__m256i_u *)(a.addr + ((i.y + pos.y - sqr.a.y) * a.line_length + (i.x * NPIXELS - sqr.a.x + pos.x) * (a.bpp / 8)));
 			src_chans = m256_split_channels(src_pixels, 1);
 			dst_chans = m256_split_channels(*dst_pixels, 0);
 			*dst_pixels = m256_combine_channels(m256_blend_by_alpha(dst_chans, src_chans));
