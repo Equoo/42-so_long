@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 19:25:00 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 00:05:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ void	*mylx_img_scale(void *mlx, void *img, int scale)
 		x = 0;
 		while (x < a.img->width)
 		{
-			src_pixels = *(unsigned int *)(b.addr + (y * b.line_length + x * (b.bpp / 8)));
+			src_pixels = *(unsigned int *)(a.addr + (y * a.line_length + x * (a.bpp / 8)));
 			i = 0;
-			while (i < (int)(scale / NPIXELS * scale) && ++i)
+			while (i < (int)(scale / NPIXELS * scale))
 			{
-				dst = a.addr + ((y + i / scale) * a.line_length + (x + (i % (scale / NPIXELS) / NPIXELS)) * (a.bpp / 8));
+				dst = b.addr + ((y * scale + i / (scale / NPIXELS)) * b.line_length + (x * scale + ((i % (scale / NPIXELS)) / NPIXELS)) * (b.bpp / 8));
 				*(__m256i_u *)dst = ft_mm256_set1(src_pixels);
+				i++;
 			}
 			x++;
 		}

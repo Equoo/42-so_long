@@ -7,7 +7,7 @@
 typedef struct s_element
 {
 	t_texture	*texture;
-	t_vector2d	*pos;
+	t_float2d	*pos;
 	int			z;
 
 	void		(*draw)(t_element *self);

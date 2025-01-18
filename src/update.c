@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 18:50:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 00:33:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	tick(t_gameenv *env)
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
-	buffer = mylx_img_scale(env->mlx, lbuffer, 6);
+	buffer = mylx_img_scale(env->mlx, lbuffer, 8);
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
 	mlx_destroy_image(env->mlx, buffer);
 	

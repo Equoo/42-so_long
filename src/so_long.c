@@ -27,7 +27,7 @@ int	main()
 	if (!env.mlx)
 		return (0);
 	env.width = 1920;
-	env.height = 1800;
+	env.height = 1080;
 	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
 	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
 
