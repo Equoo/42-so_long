@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:03:25 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 17:59:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 20:11:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_m256i_rgba	m256_split_channels(__m256i_u rgba, int alpha)
 	return (chans);
 }
 
-__m256i_u		m256_combine_channels(t_m256i_rgba chans)
+__m256i_u	m256_combine_channels(t_m256i_rgba chans)
 {
 	return (ft_mm256_or(ft_mm256_or(ft_mm256_slli(chans.r, 16),
 				ft_mm256_slli(chans.g, 8)), chans.b));

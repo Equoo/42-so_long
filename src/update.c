@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 00:33:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 21:27:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,21 @@ int	tick(t_gameenv *env)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	if (!img)
 		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
+		
+	mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
 	
-	mylx_img_add((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
-	
+	//mylx_img_copy((t_iaabb){(t_int2d){56, 35}, (t_int2d){200, 100}}, (t_int2d){40, 40}, lbuffer, img);
+
 	static double sanim;
 	if (!sanim)
 		sanim = env->time;
 	double tanim = (env->time - sanim) / 0.8 * 7;
-	mylx_img_add((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, img2);
+	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, img2);
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
 	buffer = mylx_img_scale(env->mlx, lbuffer, 8);
-	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
+	mlx_put_image_to_window(env->mlx, env->win, buffer, -200, -200);
 	mlx_destroy_image(env->mlx, buffer);
 	
 	mlx_destroy_image(env->mlx, lbuffer);

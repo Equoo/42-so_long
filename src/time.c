@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:46:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/13 13:39:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 21:58:28 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ double	ft_atof(const char *str)
 	return ((double)nbr + ((double)precision / len));
 }
 
-double	uptime()
+double	uptime(void)
 {
 	int		fd;
 	int		len;

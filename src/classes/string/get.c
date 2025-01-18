@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:26:45 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/05 21:41:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:18:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,5 @@
 
 char	string_len(t_string *self)
 {
-	
-	return ft_lstsize(self->str);
+	return (ft_lstsize(self->str));
 }

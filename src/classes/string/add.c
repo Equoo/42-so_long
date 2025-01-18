@@ -6,15 +6,15 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:26:45 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/05 21:04:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:18:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/string.h"
 
-t_string *string_add(t_string *self, t_string *b)
+t_string	*string_add(t_string *self, t_string *b)
 {
-    t_list	*str;
+	t_list	*str;
 	t_list	*sstr;
 
 	str = b->str;
