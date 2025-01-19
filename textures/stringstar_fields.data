@@ -1,0 +1,78 @@
+frames 38
+64 112 80 32
+96 144 96 16
+192 144 32 16
+224 144 48 16
+128 160 32 16
+64 160 32 16
+272 144 16 16
+0 160 16 16
+16 160 16 16
+0 80 64 64
+0 144 16 16
+16 144 48 16
+96 160 32 16
+32 160 32 16
+64 80 16 16
+80 80 16 16
+96 80 16 16
+64 96 16 16
+80 96 16 16
+96 96 16 16
+160 0 128 144
+112 80 48 32
+144 128 16 16
+144 112 16 16
+16 48 16 16
+0 32 16 32
+16 32 16 16
+32 32 16 48
+16 64 16 16
+0 64 16 16
+48 48 32 32
+64 144 16 16
+80 144 16 16
+80 64 16 16
+96 64 16 16
+112 64 16 16
+128 64 16 16
+144 64 16 16
+slices 38
+large_bush 0
+ground_water 1
+ground_top_blue 2
+ground_top_red 3
+grond_mid_green_1 4
+grond_mid_red 5
+grond_mid_moss 6
+grond_corner_green_1 7
+grond_corner_green_2 8
+tree 9
+ground 10
+grond_mid_green_2 11
+grond_mid_green_3 12
+grond_mid_green_4 13
+rock 14
+corner_grass_1 15
+corner_grass_2 16
+grass_1 17
+grass_2 18
+grass_3 19
+big_tree 20
+bush 21
+flower_1 22
+flower_2 23
+moss 24
+moss_flower_2 25
+moss_flower_1 26
+moss_flower_3 27
+flower_4 28
+flower_3 29
+big_rock 30
+ground_top_green_1 31
+ground_top_green_2 32
+platform_left_end 33
+platform_left_start 34
+platform 35
+platform_right_start 36
+platform_right_end 37

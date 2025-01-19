@@ -3,20 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 22:50:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:07:14 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEXTURE_H
 # define TEXTURE_H
 # include <mlx_int.h>
+# include "vector2d.h"
+
+typedef struct s_slice
+{
+	char		*name;
+	int			animation;
+	int			from;
+	int			to;
+	int			duration;
+}				t_slice;
+
 typedef struct s_texture
 {
 	t_img		*img;
-	
+	t_iaabb		*frames;
+	t_slice		*slices;
 }				t_texture;
 
 void			float2d_add(t_texture *self, t_texture *other);
