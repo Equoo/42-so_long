@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/19 14:47:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:25:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,23 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 {
 	t_img			*dest;
 	t_int2d			pos;
-	int				i;
 	unsigned int	*src_pixels;
 
 	dest = mlx_new_image(mlx, img->width * scale, img->height * scale);
 	pos.y = -1;
-	while (pos.y < img->height && ++pos.y + 1)
+	while (pos.y < img->height * scale && ++pos.y + 1)
 	{
 		pos.x = -1;
-		while (pos.x < img->width && ++pos.x + 1)
+		while (pos.x < img->width * scale && ++pos.x + 1)
 		{
-			src_pixels = mylx_pixel_get(img, pos.x, pos.y);
-			i = 0;
-			while (i < scale * scale)
-			{
-				if (scale - i % scale >= M256_NPIXEL && (i % scale) % M256_NPIXEL
-				&& ++i)
-					continue ;
-				if (scale - i % scale >= M256_NPIXEL)
-					mylx_m256_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
-						+ i / scale, ft_mm256_set1(*src_pixels));
-				else
-					mylx_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
-						+ i / scale, *src_pixels);
-				i++;
-			}
+			if (img->width * scale - pos.x > M256_NPIXEL && pos.x % M256_NPIXEL && ++pos.x)
+				continue ;
+			__builtin_printf("Uh %i, %i;", pos.x / scale, pos.y / scale);
+			src_pixels = mylx_pixel_get(img, pos.x / scale, pos.y / scale);
+			if (img->width * scale - pos.x > M256_NPIXEL)
+				//mylx_m256_pixel_put(dest, pos.x, pos.y, (__m256i)(__v8si){src_pixels[0], src_pixels[1], src_pixels[2], src_pixels[3], src_pixels[4], src_pixels[5], src_pixels[6], src_pixels[7]});
+			//else
+				mylx_pixel_put(dest, pos.x, pos.y, *src_pixels);
 		}
 	}
 	return (dest);
