@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/19 14:07:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:11:27 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ float			float2d_dot(t_texture *self, t_texture *other);
 void			float2d_normalize(t_texture *self);
 float			float2d_length(t_texture *self);
 
-void			float2d_del(t_texture *self);
+void			texture_del(t_texture *self);
 t_texture		*ft_texture(float x, float y);
 
 #endif

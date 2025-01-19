@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   img.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 21:57:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:47:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 		{
 			src_pixels = mylx_pixel_get(img, pos.x, pos.y);
 			i = 0;
-			while (i < scale / M256_NPIXEL * scale)
+			while (i < scale * scale)
 			{
-				mylx_m256_pixel_put(dest, pos.x * scale + ((i % (scale
-								/ M256_NPIXEL)) / M256_NPIXEL), pos.y * scale
-					+ i / (scale / M256_NPIXEL), ft_mm256_set1(*src_pixels));
+				if (scale - i % scale >= M256_NPIXEL && (i % scale) % M256_NPIXEL
+				&& ++i)
+					continue ;
+				if (scale - i % scale >= M256_NPIXEL)
+					mylx_m256_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
+						+ i / scale, ft_mm256_set1(*src_pixels));
+				else
+					mylx_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
+						+ i / scale, *src_pixels);
 				i++;
 			}
 		}

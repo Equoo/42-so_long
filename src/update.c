@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 21:27:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:06:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	tick(t_gameenv *env)
 	int		img_width;
 	int		img_height;
 
-	lbuffer = mlx_new_image(env->mlx, 288/*env->width*/, 176/*env->height*/);
+	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	if (!img)
@@ -45,8 +45,8 @@ int	tick(t_gameenv *env)
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
-	buffer = mylx_img_scale(env->mlx, lbuffer, 8);
-	mlx_put_image_to_window(env->mlx, env->win, buffer, -200, -200);
+	buffer = mylx_img_scale(env->mlx, lbuffer, env->height / (16 * 12));
+	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
 	mlx_destroy_image(env->mlx, buffer);
 	
 	mlx_destroy_image(env->mlx, lbuffer);
