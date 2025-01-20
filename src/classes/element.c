@@ -17,6 +17,11 @@ static void	element_draw(t_element *self)
 {
 }
 
+void	element_del(t_element *self)
+{
+	free(self);
+}
+
 t_element	*ft_element(void)
 {
 	t_element *element;
