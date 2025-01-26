@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/19 15:25:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/25 10:46:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 		{
 			if (img->width * scale - pos.x > M256_NPIXEL && pos.x % M256_NPIXEL && ++pos.x)
 				continue ;
-			__builtin_printf("Uh %i, %i;", pos.x / scale, pos.y / scale);
 			src_pixels = mylx_pixel_get(img, pos.x / scale, pos.y / scale);
 			if (img->width * scale - pos.x > M256_NPIXEL)
-				//mylx_m256_pixel_put(dest, pos.x, pos.y, (__m256i)(__v8si){src_pixels[0], src_pixels[1], src_pixels[2], src_pixels[3], src_pixels[4], src_pixels[5], src_pixels[6], src_pixels[7]});
-			//else
+				mylx_m256_pixel_put(dest, pos.x, pos.y, (__m256i)(__v8si){src_pixels[0], src_pixels[1], src_pixels[2], src_pixels[3], src_pixels[4], src_pixels[5], src_pixels[6], src_pixels[7]});
+			else
 				mylx_pixel_put(dest, pos.x, pos.y, *src_pixels);
 		}
 	}

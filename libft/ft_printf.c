@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:10 by dderny            #+#    #+#             */
-/*   Updated: 2024/12/19 21:24:13 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/25 10:56:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static char	*convertany(va_list ap, t_pflag pt, int *len)
 	if (pt.flag == F_HEXAU)
 		tmp = converthexa((long long)va_arg(ap, __uint32_t),
 				(t_nbrbase){BASE16U, 16}, pt, len);
+	if (pt.flag == F_FLOAT)
+		tmp = convertfloat(va_arg(ap, double), pt, len);
 	return (justifytxt(tmp, pt.atributs[F_MINUS], pt.min, len));
 }
 

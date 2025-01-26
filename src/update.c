@@ -6,11 +6,12 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/19 15:06:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/26 02:06:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
+#include <ft_printf.h>
 #include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
@@ -83,7 +84,7 @@ int	update(t_gameenv *env)
 		}
 
 		tick(env);
-		__builtin_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
+		ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
 		env->lastframe = env->time;
 	}
 	return (0);

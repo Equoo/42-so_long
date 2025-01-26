@@ -51,6 +51,7 @@ SRCS = ft_isalnum.c\
 	   printf_converts.c\
 	   printf_nbrtostr.c\
 	   printf_utils.c\
+	   printf_float.c\
 	   ft_printf.c\
 	   get_next_line_utils.c\
 	   get_next_line.c

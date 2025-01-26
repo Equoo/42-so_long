@@ -1,5 +1,4 @@
 
-#include <ft_printf.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <mlx.h>

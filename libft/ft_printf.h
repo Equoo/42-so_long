@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:10 by dderny            #+#    #+#             */
-/*   Updated: 2024/12/12 17:06:15 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/25 11:07:04 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define ATRIBUTES "# 0+-"
 # define ATRIBUTESLEN 6
-# define FLAGS "cspdiuxX%q"
+# define FLAGS "cspdiuxX%fq"
 
 typedef enum e_prnt_flag
 {
@@ -39,6 +39,7 @@ typedef enum e_prnt_flag
 	F_HEXAL,
 	F_HEXAU,
 	F_PERCENT,
+	F_FLOAT,
 	F_NONE
 }				t_prnt_flag;
 
@@ -75,6 +76,7 @@ typedef struct s_pdata
 
 char			*ft_lltoa_base(long long n, t_ltoainfo info, int *strlen);
 char			*ft_ultoa_base(unsigned long n, t_ltoainfo info, int *strlen);
+char			*ft_ftoa(double nbr, t_ltoainfo info, int *strlen);
 
 char			*ft_strfreejoin(const char *s1, const char *s2, int free1,
 					int free2);
@@ -83,10 +85,11 @@ int				m_atoi(char **str);
 
 char			*convertnbr(va_list ap, t_pflag ptype, int *len);
 char			*convertpointer(va_list ap, t_pflag ptype, int *len);
-char			*converthexa(long long nbr, t_nbrbase base,
-					t_pflag ptype, int *len);
+char			*converthexa(long long nbr, t_nbrbase base, t_pflag ptype,
+					int *len);
 char			*convertchar(char c, int *len);
 char			*convertstr(va_list ap, t_pflag ptype, int *len);
+char			*convertfloat(double nbr, t_pflag ptype, int *len);
 
 int				vft_printf(const char *format, va_list ap);
 int				ft_printf(const char *format, ...);
