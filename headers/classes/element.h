@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   element.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 09:26:35 by dderny            #+#    #+#             */
+/*   Updated: 2025/01/27 09:26:36 by dderny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef ELEMENT_H
 # define ELEMENT_H
-# include "texture.h"
 # include "vector2d.h"
 
 typedef struct s_element
 {
-	t_texture	*texture;
+	char		*name;
+	int			id;
 	t_float2d	*pos;
 	int			z;
 

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/26 02:06:44 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/27 06:19:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	update(t_gameenv *env)
 {
 	static double middle = 0;
 	static double last = 0;
-	static int fps = TICK;
+	// static int fps = TICK;
 	static int count = 0;
 
 	env->time = uptime();
@@ -78,13 +78,13 @@ int	update(t_gameenv *env)
 		{
 			middle /= count;
 			count = 0;
-			fps = 1 / middle;
+			// fps = 1 / middle;
 			middle = env->frametime;
 			last = env->time;
 		}
 
 		tick(env);
-		ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
+		//ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
 		env->lastframe = env->time;
 	}
 	return (0);

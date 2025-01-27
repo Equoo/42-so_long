@@ -21,6 +21,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				mm256/bit.c\
             	render/pixel.c\
             	render/img.c\
+            	map_parser.c\
             	colors.c\
             	m256_colors.c\
             	time.c\

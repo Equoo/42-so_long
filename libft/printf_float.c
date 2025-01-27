@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:59:44 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/26 02:10:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/27 06:19:14 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,6 @@ char	*convertfloat(double nbr, t_pflag ptype, int *len)
 	return (str);
 }
 
-char	*free_join(char *a, char *b)
-{
-	char	*res;
-
-	res = ft_strjoin(a, b);
-	free(a);
-	free(b);
-	return (res);
-}
-
 char	*ft_ftoa(double nbr, t_ltoainfo info, int *strlen)
 {
 	char	*str;
@@ -70,6 +60,6 @@ char	*ft_ftoa(double nbr, t_ltoainfo info, int *strlen)
 		fractionnal -= (int)fractionnal;
 	}
 	*strlen += i;
-	str = free_join(str, strfract);
+	str = ft_strfreejoin(str, strfract, 1, 1);
 	return (str);
 }

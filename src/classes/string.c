@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 20:26:48 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 22:20:00 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/26 23:09:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_list	*from_char(char *str)
 	char	*c;
 
 	lst = ft_lstnew(NULL);
-	while (lst && str)
+	while (lst && *str)
 	{
 		c = malloc(sizeof(char));
 		if (!c)

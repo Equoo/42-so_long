@@ -16,6 +16,7 @@ int	process_close(t_gameenv *env)
 	return (0);
 }
 
+#include "map_parser.h"
 int	main()
 {
 	t_gameenv	env;
@@ -30,27 +31,17 @@ int	main()
 	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
 	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
 
-	//vars.img = &img;
-	//img.img = mlx_new_image(vars.mlx, 1920, 1080);
-	//img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-	//							&img.endian);
-
-	//int i = 0;
-	//while (i < 200)
-	//{
-	//	my_mlx_pixel_put(&img, i, 5, 0x00FF0000);
-	//	my_mlx_pixel_put(&img, i, 6, 0x0FFF0000);
-	//	my_mlx_pixel_put(&img, i, 7, 0xFFFF0000);
-	//	i++;
-	//}
-
-	//mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-
-	//mlx_destroy_image(vars.mlx, vars.img->img);
+	if (!load_map("maps/test.ber"))
+	{
+		mlx_destroy_window(env.mlx, env.win);
+		mlx_destroy_display(env.mlx);
+		free(env.mlx);		
+		return (EXIT_FAILURE);
+	}
 
 	mlx_hook(env.win, ON_DESTROY, 0, process_close, &env);
 	mlx_loop_hook(env.mlx, &update, &env);
 	mlx_loop(env.mlx);
 
-	return (0);
+	return (EXIT_SUCCESS);
 }
