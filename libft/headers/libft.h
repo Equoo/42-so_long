@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:41:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/27 06:13:19 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:04:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_stradd(char *s1, char *s2);
 
 char				*ft_strnstr(const char *str, const char *find, size_t n);
+
+void				ft_destroy2darray(void **array);
 
 int					ft_atoi(const char *str);
 long long			ft_atoll(const char *str);

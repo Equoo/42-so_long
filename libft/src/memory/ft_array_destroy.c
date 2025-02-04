@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_array_destroy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 12:00:07 by dderny            #+#    #+#             */
-/*   Updated: 2024/12/05 12:02:01 by dderny           ###   ########.fr       */
+/*   Created: 2025/01/28 16:02:18 by dderny            #+#    #+#             */
+/*   Updated: 2025/01/29 03:10:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-size_t	ft_strlen(const char *str)
+void	ft_destroy2darray(void **array)
 {
-	const char	*const_str;
+	int	i;
 
-	if (!str)
-		return (0);
-	const_str = str;
-	while (*const_str != '\0')
-		++const_str;
-	return (const_str - str);
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
 }

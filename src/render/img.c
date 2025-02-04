@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/28 13:44:22 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/28 13:51:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,31 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 {
 	t_img			*dest;
 	t_int2d			pos;
-	int				i;
+	unsigned int	pixels[M256_NPIXEL];
 	unsigned int	*src_pixels;
 
 	dest = mlx_new_image(mlx, img->width * scale, img->height * scale);
 	pos.y = -1;
-	while (pos.y < img->height && ++pos.y + 1)
+	while (pos.y < img->height * scale && ++pos.y + 1)
 	{
 		pos.x = -1;
-		while (pos.x < img->width && ++pos.x + 1)
+		while (pos.x < img->width * scale && ++pos.x + 1)
 		{
-			src_pixels = mylx_pixel_get(img, pos.x, pos.y);
-			i = 0;
-			while (i < scale * scale)
+			if (img->width * scale - pos.x >= M256_NPIXEL && pos.x % M256_NPIXEL)
+				continue ;
+			src_pixels = mylx_pixel_get(img, pos.x / scale, pos.y / scale);
+			if (img->width * scale - pos.x >= M256_NPIXEL)
 			{
-				if (scale - i % scale >= M256_NPIXEL && (i % scale) % M256_NPIXEL
-				&& ++i)
-					continue ;
-				if (scale - i % scale >= M256_NPIXEL)
-					mylx_m256_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
-						+ i / scale, ft_mm256_set1(*src_pixels));
-				else
-					mylx_pixel_put(dest, pos.x * scale + (i % scale), pos.y * scale
-						+ i / scale, *src_pixels);
-				i++;
+				int i = 0;
+				while (i < M256_NPIXEL)
+				{
+					pixels[i] = src_pixels[(pos.x % scale + i) / scale];
+					i++;
+				}
+				mylx_m256_pixel_put(dest, pos.x, pos.y, (__m256i)(__v8si){pixels[0], pixels[1], pixels[2], pixels[3], pixels[4], pixels[5], pixels[6], pixels[7]});
 			}
+			else
+				mylx_pixel_put(dest, pos.x, pos.y, *src_pixels);
 		}
 	}
 	return (dest);

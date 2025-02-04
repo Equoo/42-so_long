@@ -6,12 +6,13 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 12:53:46 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/12 15:35:43 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:27:04 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <libft.h>
+#include <errno.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -45,7 +46,10 @@ char	*gnl_strjoin(char *s1, char *s2)
 	total = s1len + s2len + 1;
 	str = malloc(sizeof(char) * total);
 	if (!str)
+	{
+		errno = ENOMEM;
 		return (free(s1), free(s2), NULL);
+	}
 	str[0] = 0;
 	ft_strlcpy(str, s1, total);
 	ft_strlcpy(str + s1len, s2, s2len + 1);
@@ -94,7 +98,10 @@ char	*gnl_strdup(const char *s, int len)
 	len++;
 	cpy = malloc(sizeof(char) * len);
 	if (!cpy)
+	{
+		errno = ENOMEM;
 		return (NULL);
+	}
 	cpy[0] = 0;
 	ft_strlcpy(cpy, s, len);
 	return (cpy);

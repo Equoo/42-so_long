@@ -17,8 +17,6 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/length.c\
 				classes/vector2d/normalize.c\
 				classes/vector2d.c\
-				mm256/math.c\
-				mm256/bit.c\
             	render/pixel.c\
             	render/img.c\
             	map_parser.c\

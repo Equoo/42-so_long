@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stradd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:39:38 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/27 06:13:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:23:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ char	*ft_stradd(char *s1, char *s2)
 	total = ft_strlen(s1) + ft_strlen(s2) + 1;
 	str = ft_calloc(total, sizeof(char));
 	if (!str)
+	{
+		free(s1);
+		free(s2);
 		return (NULL);
+	}
 	ft_strlcpy(str, s1, total);
 	ft_strlcat(str, s2, total);
 	free(s1);
