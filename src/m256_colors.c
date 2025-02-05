@@ -6,14 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:13:28 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/05 07:46:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 08:50:51 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include <stdio.h>
 
-t_m256i_rgba	m256_split_channels(t_m256i_u rgba, int alpha)
+t_m256i_rgba	m256_split_channels(__m256i_u rgba, int alpha)
 {
 	t_m256i_rgba	chans;
 
@@ -25,7 +25,7 @@ t_m256i_rgba	m256_split_channels(t_m256i_u rgba, int alpha)
 	return (chans);
 }
 
-t_m256i_u	m256_combine_channels(t_m256i_rgba chans)
+__m256i_u	m256_combine_channels(t_m256i_rgba chans)
 {
 	return (ft_mm256_or(ft_mm256_or(ft_mm256_slli(chans.r, 16),
 				ft_mm256_slli(chans.g, 8)), chans.b));
@@ -34,7 +34,7 @@ t_m256i_u	m256_combine_channels(t_m256i_rgba chans)
 t_m256i_rgba	m256_blend_by_alpha(t_m256i_rgba dst, t_m256i_rgba src)
 {
 	t_m256i_rgba	blended;
-	t_m256i_u		inv_src_a;
+	__m256i_u		inv_src_a;
 
 	inv_src_a = ft_mm256_sub(ft_mm256_set1(255), src.a);
 	blended.r = ft_mm256_div(ft_mm256_add(ft_mm256_mullo(src.r, inv_src_a),

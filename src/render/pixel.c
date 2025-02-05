@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:20:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/05 07:29:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 08:49:28 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ unsigned int	*mylx_pixel_get(t_img *img, int x, int y)
 	return ((unsigned int *)dst);
 }
 
-void	mylx_m256_pixel_put(t_img *img, int x, int y, t_m256i_u color)
+void	mylx_m256_pixel_put(t_img *img, int x, int y, __m256i_u color)
 {
 	char	*dst;
 
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
-	*(t_m256i_u *)dst = color;
+	*(__m256i_u *)dst = color;
 }
 
-t_m256i_u	*mylx_m256_pixel_get(t_img *img, int x, int y)
+__m256i_u	*mylx_m256_pixel_get(t_img *img, int x, int y)
 {
 	char	*dst;
 
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
-	return ((t_m256i_u *)dst);
+	return ((__m256i_u *)dst);
 }
