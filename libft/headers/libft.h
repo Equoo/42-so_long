@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:41:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/28 16:04:34 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/04 23:47:56 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char				*ft_stradd(char *s1, char *s2);
 
 char				*ft_strnstr(const char *str, const char *find, size_t n);
 
-void				ft_destroy2darray(void **array);
+void				ft_freearray(void **array);
 
 int					ft_atoi(const char *str);
 long long			ft_atoll(const char *str);

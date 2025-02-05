@@ -6,12 +6,12 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:00:00 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 17:22:03 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 07:02:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/vector2d.h"
-#include "libft.h"
+#include <libft.h>
 #include <stdlib.h>
 
 void	float2d_del(t_float2d *vector)

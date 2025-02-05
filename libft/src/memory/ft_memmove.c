@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:45:18 by dderny            #+#    #+#             */
-/*   Updated: 2024/11/17 12:41:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 06:23:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	const char	*c_src;
 	size_t		i;
 
-	if (!dest && !src)
-		return (dest);
 	c_dest = (char *)dest;
 	c_src = (char *)src;
 	i = -1;

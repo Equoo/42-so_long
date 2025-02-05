@@ -7,8 +7,8 @@ DIR_OBJ = obj/
 SRC_DIR = src/
 INC_DIR = headers/
 
-DBGFLAGS =
-CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(DBGFLAGS) -I $(INC_DIR) -I libft -I minilibx-linux
+ADDFLAGS =
+CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
 LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz -lbsd
 SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/dot.c\
@@ -35,15 +35,15 @@ DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 
 .PHONY: all
 all:
-	$(MAKE) -j --no-print-directory SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: debug
 debug:
-	$(MAKE) -j --no-print-directory DBGFLAGS="-g3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory ADDFLAGS="-O0 -g3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:
-	$(MAKE) --no-print-directory SOLONG_SRCS="$(SRCS_BONUS)"
+	$(MAKE) --no-print-directory ADDFLAGS="-O3" SOLONG_SRCS="$(SRCS_BONUS)"
 
 %/:
 	mkdir -p $@
@@ -51,7 +51,7 @@ bonus:
 $(DIR_OBJ)%.o: $(SRC_DIR)%.c
 	echo "Compiling $*.c"
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -O3 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 	echo "Make libft"

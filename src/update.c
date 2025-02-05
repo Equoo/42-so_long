@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/27 15:45:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 08:38:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,36 @@
 #include "so_long.h"
 #include "render.h"
 
+#include <errno.h>
+
 int	tick(t_gameenv *env)
 {
 	void	*lbuffer;
 	void	*buffer;
 
-	static void	*img;
-	static void	*img2;
+	static t_img	*img;
+	static t_img	*img2;
 	char	*relative_path = "./textures/stringstar_fields.xpm";
 	char	*relative_path2 = "./textures/cat.xpm";
 	int		img_width;
 	int		img_height;
 
+	errno = 0;
 	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	if (!img)
 		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
-		
+	
+	if (errno)
+	{
+		ft_printf("Error\n%s\n", strerror(errno));
+		mlx_destroy_window(env->mlx, env->win);
+		mlx_destroy_display(env->mlx);
+		free(env->mlx);		
+		exit(EXIT_FAILURE);
+	}
+
 	mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
 	
 	//mylx_img_copy((t_iaabb){(t_int2d){56, 35}, (t_int2d){200, 100}}, (t_int2d){40, 40}, lbuffer, img);

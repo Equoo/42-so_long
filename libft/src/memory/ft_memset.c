@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:05:30 by dderny            #+#    #+#             */
-/*   Updated: 2024/11/20 11:59:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 06:30:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*sint;
+	size_t		i;
+	char		*s_c;
 
-	sint = (char *)s;
-	while (n-- > 0)
+	i = 0;
+	s_c = (char *)s;
+	while (i < n)
 	{
-		*sint = c;
-		sint++;
+		s_c[i] = c;
+		i++;
 	}
 	return (s);
 }
