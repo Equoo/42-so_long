@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_converts_bonus.c                            :+:      :+:    :+:   */
+/*   converts.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:41:34 by dderny            #+#    #+#             */
-/*   Updated: 2024/12/07 12:18:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/06 22:08:33 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*convertnbr(va_list ap, t_pflag ptype, int *len)
 	t_ltoainfo	info;
 	long long	nbr;
 
+	nbr = 0;
 	if (ptype.flag == F_DECIMAL || ptype.flag == F_INT)
 		nbr = (long long)va_arg(ap, int);
 	if (ptype.flag == F_UNSIGNED)

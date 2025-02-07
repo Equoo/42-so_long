@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   core.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:16:10 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/25 10:56:00 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/07 01:40:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	processflag(va_list ap, char *format, t_pdata *data)
 	return (data->next);
 }
 
-int	vft_printf(const char *format, va_list ap)
+int	ft_vprintf(const char *format, va_list ap)
 {
 	int		i;
 	t_pdata	data;
@@ -115,16 +115,19 @@ int	vft_printf(const char *format, va_list ap)
 			break ;
 		if (data.next == -2)
 			continue ;
-		write(STDOUT_FILENO, format + data.last, i - data.last);
+		if (write(STDOUT_FILENO, format + data.last, i - data.last) == -1)
+			return (-1);
 		data.count += i - data.last + data.strlen;
-		write(STDOUT_FILENO, data.str, data.strlen);
+		if (write(STDOUT_FILENO, data.str, data.strlen) == -1)
+			return (-1);
 		free(data.str);
 		i = i + data.next;
 		data.last = i + 1;
 	}
 	if (data.count != -1)
 		data.count += i - data.last;
-	write(STDOUT_FILENO, format + data.last, i - data.last);
+	if (write(STDOUT_FILENO, format + data.last, i - data.last) == -1)
+		return (-1);
 	return (data.count);
 }
 
@@ -136,7 +139,7 @@ int	ft_printf(const char *format, ...)
 	if (!format)
 		return (-1);
 	va_start(ap, format);
-	count = vft_printf(format, ap);
+	count = ft_vprintf(format, ap);
 	va_end(ap);
 	return (count);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/28 16:21:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/07 01:44:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
-#include "texture.h"
+#include "classes/texture.h"
+#include "error.h"
 
 t_list	**texture_cache()
 {
@@ -22,7 +23,7 @@ t_list	**texture_cache()
 	return (&cache);
 }
 
-static void parse_texture_data(t_texture *texture, int n, char *line)
+static int parse_texture_data(t_texture *texture, int n, char *line)
 {
 	static int	startn;
 	char		**splited;
@@ -31,15 +32,21 @@ static void parse_texture_data(t_texture *texture, int n, char *line)
 	{
 		startn = n + 1;
 		texture->frames = malloc(sizeof(t_frame) * ft_atoi(line + 6));
-		return ;	
+		if (!texture->frames)
+			return (ENOMEM);
+		return (0);	
 	}
 	if (texture->frames && !texture->slices && !ft_strncmp(line, "slices", 6))
 	{
 		startn = n + 1;
 		texture->slices = malloc(sizeof(t_slice) * ft_atoi(line + 6));
-		return ;
+		if (!texture->slices)
+			return (ENOMEM);
+		return (0);	
 	}
 	splited = ft_split(line, ' ');
+	if (!splited)
+		return (ENOMEM);
 	if (texture->slices)
 		texture->slices[n - startn] = (t_slice){
 			splited[0],
@@ -54,9 +61,10 @@ static void parse_texture_data(t_texture *texture, int n, char *line)
 		};
 	if (splited)
 		ft_destroy2darray(splited);
+	return (0);	
 }
 
-static void	read_texture_data(t_texture **texture, char *path)
+static int	read_texture_data(t_texture **texture, char *path)
 {
 	int	fd;
 	char	*line;
@@ -65,12 +73,7 @@ static void	read_texture_data(t_texture **texture, char *path)
 	errno = 0;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-	{
-		printf("Error\n");
-		perror("Loading data texture");
-		*texture = NULL;
-		return ;
-	}
+		return (print_error("Loading data texture"));
 	i = 0;
 	line = (char *)1;
 	while (!errno && line)
@@ -78,13 +81,19 @@ static void	read_texture_data(t_texture **texture, char *path)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		parse_texture_data(texture, i, line);
+		errno = parse_texture_data(texture, i, line);
 		i++;
 	}
 	if (errno)
-		*texture = NULL;
+		return (errno);
+	return (0);
 }
 
+/*
+** Create a new texture
+** @param path: the path of the texture
+** @return the texture
+*/
 t_texture	*ft_texture(char *path)
 {
 	t_texture	*texture;
@@ -102,7 +111,16 @@ t_texture	*ft_texture(char *path)
 	if (!texture)
 	{
 		texture = ft_calloc(1, sizeof(t_texture));
-		read_texture_data(&texture, path);
+		if (!texture)
+			return (NULL);
+		if (read_texture_data(&texture, path))
+		{
+			if (texture->frames)
+				free(texture->frames);
+			if (texture->slices)
+				free(texture->slices);
+			free(texture);
+		}
 	}
 	return (texture);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2d.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:00:00 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/05 07:02:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/07 00:12:05 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	float2d_del(t_float2d *vector)
 		free(vector);
 }
 
+/*
+** Create a new float2d
+** @param x: the x value
+** @param y: the y value
+** @return the float2d
+*/
 t_float2d	*ft_float2d(float x, float y)
 {
 	t_float2d	*vector;
@@ -44,6 +50,12 @@ void	int2d_del(t_int2d *vector)
 		free(vector);
 }
 
+/*
+** Create a new int2d
+** @param x: the x value
+** @param y: the y value
+** @return the float2d
+*/
 t_int2d	*ft_int2d(int x, int y)
 {
 	t_int2d	*vector;

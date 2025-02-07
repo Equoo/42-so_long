@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_float.c                                     :+:      :+:    :+:   */
+/*   float.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:59:44 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/27 06:19:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/06 19:45:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ char	*convertfloat(double nbr, t_pflag ptype, int *len)
 	return (str);
 }
 
+static int testfloat(double *nbr)
+{
+	return (*(long *)nbr >> 63);
+}
+
 char	*ft_ftoa(double nbr, t_ltoainfo info, int *strlen)
 {
 	char	*str;
@@ -45,7 +50,7 @@ char	*ft_ftoa(double nbr, t_ltoainfo info, int *strlen)
 	int		i;
 
 	sign = 1;
-	if (*(long *)&nbr >> 63)
+	if (testfloat(&nbr))
 		sign = -1;
 	str = ft_lltoa_base((long)nbr * sign, (t_ltoainfo){{BASE10, 10}, info.sign,
 			0, 0, NULL}, strlen);

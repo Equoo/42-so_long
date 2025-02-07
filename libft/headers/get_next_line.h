@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:25:43 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/12 15:13:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/07 01:39:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ typedef struct s_gnl_data
 	int			fd;
 }				t_gnl_data;
 
+/**
+ * @brief Reads a line from the given file descriptor.
+ *
+ * This function reads from the file descriptor `fd` until a newline character
+ * is encountered or the end of the file is reached. It returns the line read
+ * as a null-terminated string. The newline character is included in the
+ * returned string. If there is nothing more to read or an error occurs, the
+ * function returns NULL.
+ *
+ * @param fd The file descriptor to read from.
+ * @return A pointer to the line read, or NULL if there is nothing more to read
+ *         or an error occurs.
+ */
 char			*get_next_line(int fd);
 
 char			*read_line(t_gnl_data *data, char *buffer);
