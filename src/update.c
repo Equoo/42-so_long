@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/05 08:53:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/05 09:01:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ int	tick(t_gameenv *env)
 	int		img_width;
 	int		img_height;
 
-	errno = 0;
 	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
 	if (!img2)
 		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
 	if (!img)
 		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
 	
-	/*if (errno)
+	/*if (errno) NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
 	{
 		ft_printf("Error\n%s\n", strerror(errno));
 		mlx_destroy_window(env->mlx, env->win);
