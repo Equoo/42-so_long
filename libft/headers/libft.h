@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:41:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 01:31:10 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/09 12:12:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,17 @@ void				*ft_calloc(size_t nmemb, size_t size);
 ** @param array A pointer to the array of pointers to be freed.
 */
 void				ft_freearray(void **array);
+
+/**
+** @brief Calculates the length of a NULL-terminated array.
+**
+** This function takes a pointer to a NULL-terminated array and returns the
+** number of elements in the array, excluding the NULL terminator.
+**
+** @param array A pointer to the NULL-terminated array.
+** @return The number of elements in the array, excluding the NULL terminator.
+*/
+size_t	ft_arraylen(void **array);
 
 /* ************************************************************************** */
 /*                               NUMBER FUNCTIONS                             */

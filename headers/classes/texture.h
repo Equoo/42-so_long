@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/28 16:12:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/10 04:03:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ typedef struct s_texture
 	t_img		*invert;
 	t_frame		*frames;
 	t_slice		*slices;
+	int			nb_frames;
+	int			nb_slices;
+	int 		width;
+	int			height;
 }				t_texture;
 
 t_list			**texture_cache();
-void			texture_del(t_texture *self);
-t_texture		*ft_texture(char *path);
+void			texture_del(t_texture *self, void *mlx);
+t_texture		*ft_texture(char *path, void *mlx);
 
 #endif

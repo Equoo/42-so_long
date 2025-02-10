@@ -33,6 +33,7 @@ SRCS =	string/ft_split.c\
 		char/ft_toupper.c\
 \
 		memory/ft_freearray.c\
+		memory/ft_arraylen.c\
 		memory/ft_bzero.c\
 		memory/ft_calloc.c\
 		memory/ft_memcpy.c\

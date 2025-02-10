@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 01:44:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/10 04:19:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <mlx.h>
 #include "classes/texture.h"
 #include "error.h"
 
@@ -31,7 +32,8 @@ static int parse_texture_data(t_texture *texture, int n, char *line)
 	if (!texture->frames && !ft_strncmp(line, "frames", 6))
 	{
 		startn = n + 1;
-		texture->frames = malloc(sizeof(t_frame) * ft_atoi(line + 6));
+		texture->nb_frames = ft_atoi(line + 6);
+		texture->frames = ft_calloc(texture->nb_frames, sizeof(t_frame));
 		if (!texture->frames)
 			return (ENOMEM);
 		return (0);	
@@ -39,7 +41,8 @@ static int parse_texture_data(t_texture *texture, int n, char *line)
 	if (texture->frames && !texture->slices && !ft_strncmp(line, "slices", 6))
 	{
 		startn = n + 1;
-		texture->slices = malloc(sizeof(t_slice) * ft_atoi(line + 6));
+		texture->nb_slices = ft_atoi(line + 6);
+		texture->slices = ft_calloc(texture->nb_slices, sizeof(t_slice));
 		if (!texture->slices)
 			return (ENOMEM);
 		return (0);	
@@ -59,8 +62,10 @@ static int parse_texture_data(t_texture *texture, int n, char *line)
 			(t_int2d){ft_atoi(splited[0]), ft_atoi(splited[1])},
 			(t_int2d){ft_atoi(splited[2]), ft_atoi(splited[3])}
 		};
+	if (ft_arraylen(splited) != 4)
+		return (print_cerror("Texture data parsing", "Invalid data, invalid number of arguments"));
 	if (splited)
-		ft_destroy2darray(splited);
+		ft_freearray(splited);
 	return (0);	
 }
 
@@ -70,10 +75,9 @@ static int	read_texture_data(t_texture **texture, char *path)
 	char	*line;
 	int		i;
 
-	errno = 0;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (print_error("Loading data texture"));
+		return (print_error("Texture data parsing"));
 	i = 0;
 	line = (char *)1;
 	while (!errno && line)
@@ -82,45 +86,63 @@ static int	read_texture_data(t_texture **texture, char *path)
 		if (!line)
 			break ;
 		errno = parse_texture_data(texture, i, line);
+		free(line);
 		i++;
 	}
+	if (!(*texture)->frames || !(*texture)->slices)
+		return (print_cerror("Texture data parsing", "Invalid data, missing frames or slices"));
 	if (errno)
 		return (errno);
 	return (0);
 }
 
-/*
+void	texture_del(t_texture *self, void *mlx)
+{
+	if (self->frames)
+		free(self->frames);
+	if (self->slices)
+		free(self->slices);
+	if (self->img)
+		mlx_destroy_image(mlx, self->img);
+	if (self->invert)
+		mlx_destroy_image(mlx, self->invert);
+	if (self->path)
+		free(self->path);
+	free(self);
+}
+
+/**
 ** Create a new texture
 ** @param path: the path of the texture
+** @param mlx: the mlx pointer
 ** @return the texture
 */
-t_texture	*ft_texture(char *path)
+t_texture	*ft_texture(char *path, void *mlx)
 {
-	t_texture	*texture;
+	t_texture	*tex;
 	t_list		*cache;
 
-	texture = NULL;
+	tex = NULL;
 	cache = *texture_cache();
 	while (cache)
 	{
-		texture = (t_texture *)cache->content;
-		if (!ft_strncmp(texture->path, path, ft_strlen(texture->path)))
+		tex = (t_texture *)cache->content;
+		if (!ft_strncmp(tex->path, path, ft_strlen(tex->path)))
 			break ;
 		cache = cache->next;
 	}
-	if (!texture)
+	if (!tex)
 	{
-		texture = ft_calloc(1, sizeof(t_texture));
-		if (!texture)
+		errno = 0;
+		tex = ft_calloc(1, sizeof(t_texture));
+		if (!tex)
 			return (NULL);
-		if (read_texture_data(&texture, path))
-		{
-			if (texture->frames)
-				free(texture->frames);
-			if (texture->slices)
-				free(texture->slices);
-			free(texture);
-		}
+		tex->path = ft_strdup(path);
+		tex->img = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
+		if (errno)
+			print_error("Texture data parsing");
+		if (!tex->path || !tex->img || read_texture_data(&tex, path))
+			delete_texture(tex);
 	}
-	return (texture);
+	return (tex);
 }
