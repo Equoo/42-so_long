@@ -11,10 +11,10 @@ def write_parse_sprite(data, output_file):
 			file.write(f"{tags['keys'][0]["bounds"]['x']} {tags['keys'][0]["bounds"]['y']} {tags['keys'][0]["bounds"]['w']} {tags['keys'][0]["bounds"]['h']}\n")
 		file.write(f"slices {len(data['meta']['frameTags']) + len(data['meta']['slices'])}\n")
 		for tags in data['meta']['frameTags']:
-			file.write(f"{tags['name']} {tags['from']} {tags['to']}\n")
+			file.write(f"{tags['name']} {tags['from']} {tags['to']} 1\n")
 		i = 0
 		for tags in data['meta']['slices']:
-			file.write(f"{tags['name']} {len(data['frames']) + i}\n")
+			file.write(f"{tags['name']} {len(data['frames']) + i} 0 0\n")
 			i += 1
 
 def parse_json_files(directory):

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/10 18:51:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/11 02:12:07 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,18 @@ int	tick(t_gameenv *env)
 	void	*lbuffer;
 	void	*buffer;
 
-	static t_img	*img;
-	static t_img	*img2;
-	char	*relative_path = "./textures/stringstar_fields.xpm";
-	char	*relative_path2 = "./textures/cat.xpm";
-	int		img_width;
-	int		img_height;
-
 	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
-	if (!img2)
-		img2 = mlx_xpm_file_to_image(env->mlx, relative_path2, &img_width, &img_height);
-	if (!img)
-		img = mlx_xpm_file_to_image(env->mlx, relative_path, &img_width, &img_height);
-	
-	/*if (errno) NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
+
+	if (!lbuffer) // NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
 	{
 		ft_printf("Error\n%s\n", strerror(errno));
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_display(env->mlx);
 		free(env->mlx);		
 		exit(EXIT_FAILURE);
-	}*/
+	}
 
-	mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, img);
+	mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, env->terrain->img);
 	
 	//mylx_img_copy((t_iaabb){(t_int2d){56, 35}, (t_int2d){200, 100}}, (t_int2d){40, 40}, lbuffer, img);
 
@@ -53,7 +42,7 @@ int	tick(t_gameenv *env)
 	if (!sanim)
 		sanim = env->time;
 	double tanim = (env->time - sanim) / 0.8 * 7;
-	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, img2);
+	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, env->character->img);
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 

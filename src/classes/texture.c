@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/10 19:52:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:14:05 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <mlx.h>
 #include "classes/texture.h"
+#include "render.h"
 #include "error.h"
 
 t_list	**texture_cache()
@@ -23,19 +24,23 @@ t_list	**texture_cache()
 	return (&cache);
 }
 
-void	texture_del(t_texture *self, void *mlx)
+void	texture_del(t_texture **self)
 {
-	if (self->frames)
-		free(self->frames);
-	if (self->slices)
-		free(self->slices);
-	if (self->img)
-		mlx_destroy_image(mlx, self->img);
-	if (self->invert)
-		mlx_destroy_image(mlx, self->invert);
-	if (self->path)
-		free(self->path);
-	free(self);
+	t_texture	*tex;
+
+	tex = *self;
+	if (tex->frames)
+		free(tex->frames);
+	if (tex->slices)
+		free(tex->slices);
+	if (tex->img)
+		mlx_destroy_image(tex->mlx, tex->img);
+	if (tex->invert)
+		mlx_destroy_image(tex->mlx, tex->invert);
+	if (tex->path)
+		free(tex->path);
+	free(tex);
+	*self = NULL;
 }
 
 /**
@@ -56,20 +61,24 @@ t_texture	*ft_texture(char *path, void *mlx)
 		tex = (t_texture *)cache->content;
 		if (!ft_strncmp(tex->path, path, ft_strlen(tex->path)))
 			break ;
+		tex = NULL;
 		cache = cache->next;
 	}
 	if (!tex)
 	{
 		errno = 0;
 		tex = ft_calloc(1, sizeof(t_texture));
-		if (!tex)
+		if (!tex && print_error("Texture creation"))
 			return (NULL);
+		tex->mlx = mlx;
 		tex->path = ft_strdup(path);
-		tex->img = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
+		tex->img = mylx_xpm_to_img(mlx, path, &tex->width, &tex->height);
 		if (errno)
 			print_error("Texture data parsing");
-		if (!tex->path || !tex->img || read_texture_data(&tex, path))
-			delete_texture(tex);
+		if (!tex->path || !tex->img || read_texture_data(tex, path))
+			texture_del(&tex);
+		else
+			ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	}
 	return (tex);
 }

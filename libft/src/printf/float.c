@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:59:44 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/06 19:45:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:33:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_ftoa(double nbr, t_ltoainfo info, int *strlen)
 		sign = -1;
 	str = ft_lltoa_base((long)nbr * sign, (t_ltoainfo){{BASE10, 10}, info.sign,
 			0, 0, NULL}, strlen);
-	strfract = ft_calloc(1, info.zeros + 2);
+	strfract = ft_calloc(info.zeros + 3, sizeof(char));
 	strfract[0] = '.';
 	fractionnal = nbr - (long)nbr;
 	i = 0;

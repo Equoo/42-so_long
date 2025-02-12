@@ -6,14 +6,27 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:17:39 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/11 02:35:25 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <mlx.h>
+#include <errno.h>
 #include "classes/vector2d.h"
 #include "colors.h"
 #include "render.h"
-#include <mlx.h>
+
+t_img	*mylx_xpm_to_img(void *mlx, char *path, int *width, int *height)
+{
+	t_img	*img;
+	
+	if (open(path, O_RDONLY) == -1)
+		return (NULL);
+	img = mlx_xpm_file_to_image(mlx, path, width, height);
+	if (errno == 11)
+		errno = 0;
+	return (img);
+}
 
 void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 {

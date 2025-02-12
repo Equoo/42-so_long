@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:18:03 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/11 02:34:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,18 @@ void			mylx_m256_pixel_put(t_img *img, int x, int y, __m256i_u color);
 unsigned int	*mylx_pixel_get(t_img *img, int x, int y);
 __m256i_u		*mylx_m256_pixel_get(t_img *img, int x, int y);
 
-/*
+
+/**
+** Secure way to open a xpm image
+** @param mlx: the mlx pointer
+** @param path: the image path
+** @param width: width pointer
+** @param height: height pointer
+** @return the new image
+*/
+t_img	*mylx_xpm_to_img(void *mlx, char *path, int *width, int *height);
+
+/**
 ** Copy and scale an image to a new image
 ** @param mlx: the mlx pointer
 ** @param img: the image to scale

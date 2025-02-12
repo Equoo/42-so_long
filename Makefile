@@ -17,11 +17,14 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/length.c\
 				classes/vector2d/normalize.c\
 				classes/vector2d.c\
+				classes/texture/data.c\
+				classes/texture.c\
             	render/pixel.c\
             	render/img.c\
+            	render/colors.c\
+            	render/m256_colors.c\
             	map_parser.c\
-            	colors.c\
-            	m256_colors.c\
+            	error.c\
             	time.c\
             	update.c\
             	so_long.c\

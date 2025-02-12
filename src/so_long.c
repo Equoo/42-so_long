@@ -3,7 +3,9 @@
 #include <fcntl.h>
 #include <mlx.h>
 #include <stdio.h>
+#include <errno.h>
 #include <libft.h>
+#include "classes/texture.h"
 #include "so_long.h"
 #include "render.h"
 
@@ -30,8 +32,13 @@ int	main()
 	env.height = 1080;
 	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
 	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
+	errno = 0;
 
-	if (!load_map("maps/test.ber"))
+	env.terrain = ft_texture("./textures/stringstar_fields.xpm", env.mlx);
+	if (env.terrain)
+		env.character = ft_texture("./textures/cat.xpm", env.mlx);
+
+	if (errno || !load_map("maps/test.ber"))
 	{
 		mlx_destroy_window(env.mlx, env.win);
 		mlx_destroy_display(env.mlx);
