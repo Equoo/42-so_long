@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:48:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/06 19:38:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:54:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if ((unsigned long long)nmemb * (unsigned long long)size > SIZE_MAX)
 		return (NULL);
 	array = malloc(nmemb * size);
-	if (array)
-		ft_memset(array, 0, nmemb * size);
+	if (!array)
+		return (NULL);
+	ft_memset(array, 0, nmemb * size);
 	return (array);
 }

@@ -9,7 +9,7 @@ INC_DIR = headers/
 
 ADDFLAGS =
 CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
-LIBS = -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz -lbsd
+LIBS = -Llibft -lft -Lminilibx-linux -lbsd -lmlx -lXext -lX11 -lm -lz
 SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/dot.c\
 				classes/vector2d/scale.c\
@@ -23,9 +23,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
             	render/img.c\
             	render/colors.c\
             	render/m256_colors.c\
-            	map_parser.c\
             	error.c\
-            	time.c\
             	update.c\
             	so_long.c\
 
@@ -42,7 +40,7 @@ all:
 
 .PHONY: debug
 debug:
-	$(MAKE) -j --no-print-directory ADDFLAGS="-O0 -g3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory ADDFLAGS="-O0 -g3 -D DEBUG=1" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:

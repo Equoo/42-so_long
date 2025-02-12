@@ -57,6 +57,7 @@ SRCS =	string/ft_split.c\
 		mm256/math.c\
 \
 		convert/ft_atoi.c\
+		convert/ft_atof.c\
 		convert/ft_atoll.c\
 		convert/ft_itoa.c\
 \
@@ -67,7 +68,9 @@ SRCS =	string/ft_split.c\
 		printf/core.c\
 \
 		get_next_line/utils.c\
-		get_next_line/core.c
+		get_next_line/core.c\
+\
+		time/ft_uptime.c
 
 DIR_OBJ = obj/
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SRCS)}

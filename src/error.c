@@ -3,16 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 23:58:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 02:33:04 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 14:57:31 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "error.h"
+#include <ft_printf.h>
 #include <errno.h>
 #include <string.h>
+
+static char	*str_custom_errors(int err)
+{
+	if (err == ERRMAPRECT)
+		return ("Map is not a rectangle");
+	if (err == ERRMAPCHAR)
+		return ("Invalid characters");
+	if (err == ERRMAPPLAYER)
+		return ("Double player");
+	if (err == ERRMAPEXIT)
+		return ("Double exit");
+	if (err == ERRMAPWALL)
+		return ("Not closed by walls");
+	if (err == ERRMAPPATH)
+		return ("No path availabe");
+	if (err == ERRMAPNOPE)
+		return ("No player or exit");
+
+	if (err == ERRTEXARGS)
+		return ("Invalid slices or frames arguments");
+	if (err == ERRTEXNOFS)
+		return ("No frames or slices found");
+	return ("Unknown error");
+}
 
 /*
 ** Print a custom error message
@@ -20,10 +45,21 @@
 ** @param error: the error message
 ** @return 1
 */
-int	print_cerror(char *category, char *error)
+int	print_cerror(char *category, int error)
 {
-	ft_printf("Error\n%s: %s\n", category, error);
-	return (1);
+	static int	err = 0;
+	char		*errorstr;
+
+	if (err)
+		return (error);
+	errno = error;
+	err = 1;
+	if (error > 133)
+		errorstr = str_custom_errors(error);
+	else
+		errorstr = strerror(error);
+	ft_printf("Error\n%s: %s\n", category, errorstr);
+	return (error);
 }
 
 /*
@@ -33,6 +69,6 @@ int	print_cerror(char *category, char *error)
 */
 int	print_error(char *category)
 {
-	print_cerror(category, strerror(errno));
+	print_cerror(category, errno);
 	return (errno);
 }

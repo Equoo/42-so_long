@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:35 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/28 13:48:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 14:55:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef struct s_element
 	t_float2d	pos;
 	int			z;
 
-	void		(*draw)(t_element *self);
-	void		(*del)(t_element *self);
+	void		(*draw)(struct s_element *self);
+	void		(*del)(struct s_element *self);
 }				t_element;
 
 t_element		*ft_element(void);

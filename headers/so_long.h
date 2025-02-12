@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 01:53:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 15:59:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # ifndef TICK
-#  define TICK 10000
+#  define TICK 30
 # endif
 
 # include "classes/texture.h"
@@ -40,8 +40,8 @@ typedef struct s_gameenv
 	int		width;
 	int		height;
 
-	t_texture	*terrain;	
-	t_texture	*character;	
+	t_terrain	*terrain;	
+	t_texture	*character;
 }			t_gameenv;
 
 int			update(t_gameenv *env);

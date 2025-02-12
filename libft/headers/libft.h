@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:41:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/09 12:12:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 14:27:01 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,6 +371,16 @@ size_t	ft_arraylen(void **array);
 ** @return The converted value as an int.
 */
 int					ft_atoi(const char *str);
+
+
+/**
+** @brief Converts the initial portion of the string pointed to by str to
+**	double.
+**
+** @param str The string to be converted.
+** @return The converted value as a double.
+*/
+double				ft_atof(const char *str);
 
 /**
 ** @brief Converts the initial portion of the string pointed to by str to

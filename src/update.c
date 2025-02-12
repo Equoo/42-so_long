@@ -3,26 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 02:12:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 15:56:38 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <ft_printf.h>
+#include <ft_time.h>
 #include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
-
 #include <errno.h>
+
+void printticks(t_gameenv *env)
+{
+	static double last = 0;
+	static double middle = 0;
+	static int fps = TICK;
+	static int count = 0;
+
+	middle = middle + env->frametime;
+	count++;
+	if (env->time - last >= 1)
+	{
+		middle /= count;
+		count = 0;
+		fps = 1 / middle;
+		middle = env->frametime;
+		last = env->time;
+	}
+	ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->frametime, (int)(1 / env->frametime), fps);
+}
 
 int	tick(t_gameenv *env)
 {
 	void	*lbuffer;
 	void	*buffer;
 
+#ifdef DEBUG
+	printticks(env);
+#endif
 	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
 
 	if (!lbuffer) // NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
@@ -56,36 +79,22 @@ int	tick(t_gameenv *env)
 
 int	update(t_gameenv *env)
 {
-	static double middle = 0;
-	static double last = 0;
-	static int fps = TICK;
-	static int count = 0;
+	static double lastrealtime = 0;
+	static double elapsed = 0;
 
-	env->time = uptime();
+	env->time = ft_uptime();
 	if (!env->lastframe)
 		env->lastframe = env->time;
-
-	if (!last)
-		last = env->time;
-
-	if (env->time - env->lastframe >= 1.f / ((double)TICK))
+	if (!lastrealtime)
+		lastrealtime = env->time;
+	elapsed += env->time - lastrealtime;
+	if (elapsed >= 1.f / ((double)TICK))
 	{
+		elapsed -= 1.f / ((double)TICK);
 		env->frametime = (env->time - env->lastframe);
-		
-		middle = middle + env->frametime;
-		count++;
-		if (env->time - last >= 1)
-		{
-			middle /= count;
-			count = 0;
-			fps = 1 / middle;
-			middle = env->frametime;
-			last = env->time;
-		}
-
 		tick(env);
-		ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->time - env->lastframe, (int)(1 / (env->time - env->lastframe)), fps);
 		env->lastframe = env->time;
 	}
+	lastrealtime = env->time;
 	return (0);
 }

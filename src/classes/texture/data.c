@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 14:04:34 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 14:54:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 			ft_atoi(splited[1])}, (t_int2d){ft_atoi(splited[2]),
 			ft_atoi(splited[3])}};
 	else
-		errno = print_cerror("Texture data parsing",
-				"Invalid data, invalid number of arguments");
+		print_cerror("Texture data parsing", ERRTEXARGS);
 	if (splited)
 		ft_freearray((void **)splited);
 	return (errno);
@@ -102,8 +101,7 @@ int	read_texture_data(t_texture *tex, char *path)
 		i++;
 	}
 	if (!errno && (!tex->frames || !tex->slices))
-		errno = print_cerror("Texture data parsing",
-				"Invalid data, missing frames or slices");
+		print_cerror("Texture data parsing", ERRTEXNOFS);
 	free(path);
 	return (errno);
 }
