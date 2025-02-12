@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 14:15:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 18:30:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,4 @@ void	terrain_load(t_terrain *map, char *path)
 	close(fd);
 	if (check_access(map) && print_cerror(MAPERR_CATEGORY, ERRMAPPATH))
 		return ;
-	return (map);
 }

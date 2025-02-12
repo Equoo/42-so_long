@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 10:13:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 18:31:14 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_texture
 	int			height;
 }			t_texture;
 
+void			texture_draw_slice(t_texture *self, t_img *buffer, t_int2d pos, char *slice);
+t_frame			texture_get_frame(t_texture *self, char *slice);
 int				read_texture_data(t_texture *texture, char *path);
 
 t_list			**texture_cache();

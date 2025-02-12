@@ -6,17 +6,18 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 15:56:38 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 20:05:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <ft_printf.h>
+#include <errno.h>
 #include <ft_time.h>
 #include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
-#include <errno.h>
+#include "seed.h"
 
 void printticks(t_gameenv *env)
 {
@@ -46,7 +47,9 @@ int	tick(t_gameenv *env)
 #ifdef DEBUG
 	printticks(env);
 #endif
-	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 13.f), 16 * 13);
+	*getseed() = env->seed;
+
+	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 14.f), 16 * 14);
 
 	if (!lbuffer) // NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
 	{
@@ -57,7 +60,9 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, env->terrain->img);
+	env->terrain->base->draw(env->terrain->base, lbuffer);
+
+	//mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, env->terrain->img);
 	
 	//mylx_img_copy((t_iaabb){(t_int2d){56, 35}, (t_int2d){200, 100}}, (t_int2d){40, 40}, lbuffer, img);
 

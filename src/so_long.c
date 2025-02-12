@@ -6,16 +6,15 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 15:59:33 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 20:05:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include <ft_printf.h>
-
 #include <stdlib.h>
 #include <mlx.h>
 #include <stdio.h>
+#include <ft_time.h>
 #include <errno.h>
 #include "classes/texture.h"
 #include "classes/terrain.h"
@@ -42,9 +41,10 @@ int	process_close(t_gameenv *env)
 
 void	game_init(t_gameenv *env, char *mappath)
 {
-	env->terrain = ft_terrain(mappath, "./textures/stringstar_fields.xpm", env->mlx);
+	env->terrain = ft_terrain(mappath, "./textures/stringstar_fields.xpm", env);
 	if (env->terrain)
 		env->character = ft_texture("./textures/cat.xpm", env->mlx);
+	env->seed = ft_uptime();
 	mlx_hook(env->win, ON_DESTROY, 0, process_close, env);
 	mlx_loop_hook(env->mlx, &update, env);
 }
@@ -53,13 +53,13 @@ int	main(int argc, char **argv)
 {
 	t_gameenv	env;
 
-	if (argc != 1)
+	(void)argv;
+	env = (t_gameenv){};
+	if (argc != 2)
 	{
 		errno = EINVAL;
 		return (process_close(&env));
 	}
-	(void)argv;
-	env = (t_gameenv){};
 	env.mlx = mlx_init();
 	if (!env.mlx)
 		return (process_close(&env));

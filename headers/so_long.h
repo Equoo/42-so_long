@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 15:59:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 20:04:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # endif
 
 # include "classes/texture.h"
+# include "classes/terrain.h"
 
 enum
 {
@@ -39,8 +40,9 @@ typedef struct s_gameenv
 	double	frametime;
 	int		width;
 	int		height;
+	int		seed;
 
-	t_terrain	*terrain;	
+	t_terrain	*terrain;
 	t_texture	*character;
 }			t_gameenv;
 

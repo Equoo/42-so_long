@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   img.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 02:35:25 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 19:32:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 	void	*src_pixels;
 
 	i.y = sqr.a.y;
-	while (i.y < sqr.b.y)
+	while (pos.y + sqr.a.y - i.y < dest->height && i.y < sqr.b.y)
 	{
 		i.x = sqr.a.x;
-		while (i.x < sqr.b.x)
+		while (pos.x + sqr.a.x - i.x < dest->width && i.x < sqr.b.x)
 		{
 			if (sqr.b.x - i.x >= M256_NPIXEL && (i.x - sqr.b.x) % M256_NPIXEL
 				&& ++i.x)

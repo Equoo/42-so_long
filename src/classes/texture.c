@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 15:31:49 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 18:54:06 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	texture_del(t_texture **self)
 	if (tex->frames)
 		free(tex->frames);
 	if (tex->slices)
-		free(tex->slices);
+	{
+		while (tex->nb_slices--)
+			free(tex->slices[tex->nb_slices].name);
+		free(tex->slices);		
+	}
 	if (tex->img)
 		mlx_destroy_image(tex->mlx, tex->img);
 	if (tex->invert)

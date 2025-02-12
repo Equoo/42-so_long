@@ -18,12 +18,20 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/normalize.c\
 				classes/vector2d.c\
 				classes/texture/data.c\
+				classes/texture/draw_slice.c\
+				classes/texture/get_frame.c\
 				classes/texture.c\
+				classes/terrain/draw.c\
+				classes/terrain/load.c\
+				classes/terrain/findpath.c\
+				classes/terrain.c\
+				classes/element.c\
             	render/pixel.c\
             	render/img.c\
             	render/colors.c\
             	render/m256_colors.c\
             	error.c\
+            	seed.c\
             	update.c\
             	so_long.c\
 

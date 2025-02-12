@@ -6,14 +6,15 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 14:55:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/12 18:31:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TERRAIN_H
 # define TERRAIN_H
+# include <mlx_int.h>
+# include "classes/element.h"
 # include "classes/vector2d.h"
-# include "element.h"
 # include "classes/texture.h"
 
 # define MAP_CHARS "01CEP"
@@ -26,6 +27,7 @@
 
 typedef struct s_terrain
 {
+	void		*env;
 	t_element	*base;
 	t_texture	*texture;
 	char		*grid;
@@ -35,16 +37,16 @@ typedef struct s_terrain
 	int			exit;
 	int			*coins;
 
-	void		(*del)(struct s_terrain *self);
+	void		*(*del)(struct s_terrain *self);
 	int			(*collide)(struct s_terrain *self, t_float2d pos);
 }				t_terrain;
 
 void		terrain_load(t_terrain *self, char *path);
 int			terrain_findpath(t_terrain *self, int *checkedmap, t_int2d pos, t_int2d last);
-void		terrain_draw(t_terrain *self);
+void		terrain_draw(t_element *self, t_img *buffer);
 int			terrain_collide(t_terrain *self, t_float2d pos);
 
-t_terrain	*ft_terrain(char *mappath, char *texpath, void *mlx);
+t_terrain	*ft_terrain(char *mappath, char *texpath, void *env);
 
 void		*terrain_del(t_terrain *self);
 
