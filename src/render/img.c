@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 19:32:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:56:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,21 @@ void	*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 	t_int2d	i;
 	void	*src_pixels;
 
+	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
+		sqr.b.x = sqr.b.x - ((pos.x + sqr.b.x - sqr.a.x) - dest->width);
 	i.y = sqr.a.y;
 	while (pos.y + sqr.a.y - i.y < dest->height && i.y < sqr.b.y)
 	{
 		i.x = sqr.a.x;
-		while (pos.x + sqr.a.x - i.x < dest->width && i.x < sqr.b.x)
+		while (i.x < sqr.b.x)
 		{
-			if (sqr.b.x - i.x >= M256_NPIXEL && (i.x - sqr.b.x) % M256_NPIXEL
-				&& ++i.x)
-				continue ;
 			src_pixels = mylx_pixel_get(src, i.x, i.y);
 			if (sqr.b.x - i.x >= M256_NPIXEL)
+			{
 				mylx_m256_pixel_put(dest, i.x + pos.x - sqr.a.x, i.y + pos.y
 					- sqr.a.y, *(__m256i_u *)src_pixels);
+				i.x += M256_NPIXEL - 1;
+			}
 			else
 				mylx_pixel_put(dest, i.x + pos.x - sqr.a.x, i.y + pos.y
 					- sqr.a.y, *(unsigned int *)src_pixels);
@@ -98,6 +100,8 @@ void	*mylx_img_blend(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 	t_m256i_rgba	src_chans;
 	t_m256i_rgba	dst_chans;
 
+	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
+		sqr.b.x = sqr.b.x - ((pos.x + sqr.b.x - sqr.a.x) - dest->width);
 	i.y = sqr.a.y;
 	while (i.y < sqr.b.y)
 	{

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 20:05:03 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 12:49:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void	game_init(t_gameenv *env, char *mappath)
 	env->terrain = ft_terrain(mappath, "./textures/stringstar_fields.xpm", env);
 	if (env->terrain)
 		env->character = ft_texture("./textures/cat.xpm", env->mlx);
+	if (env->character)
+		env->back0 = ft_texture("./textures/background0.xpm", env->mlx);
+	if (env->back0)
+		env->back1 = ft_texture("./textures/background1.xpm", env->mlx);
+	if (env->back1)
+		env->back2 = ft_texture("./textures/background2.xpm", env->mlx);
 	env->seed = ft_uptime();
 	mlx_hook(env->win, ON_DESTROY, 0, process_close, env);
 	mlx_loop_hook(env->mlx, &update, env);

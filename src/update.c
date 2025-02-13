@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 20:05:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 19:01:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,21 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	env->terrain->base->draw(env->terrain->base, lbuffer);
+	texture_draw_slice(env->back0, lbuffer, (t_int2d){0, 16}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_int2d){0, 16 * 9}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_int2d){0, 16 * 9 + 8}, "all");
 
-	//mylx_img_blend((t_iaabb){(t_int2d){0, 0}, (t_int2d){288, 176}}, (t_int2d){0, 0}, lbuffer, env->terrain->img);
-	
-	//mylx_img_copy((t_iaabb){(t_int2d){56, 35}, (t_int2d){200, 100}}, (t_int2d){40, 40}, lbuffer, img);
+	texture_draw_slice(env->back0, lbuffer, (t_int2d){288, 16}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_int2d){288, 16 * 9}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_int2d){288, 16 * 9 + 8}, "all");
+
+	env->terrain->base->draw(env->terrain->base, lbuffer);
 
 	static double sanim;
 	if (!sanim)
 		sanim = env->time;
 	double tanim = (env->time - sanim) / 0.8 * 7;
-	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){70, 112}, lbuffer, env->character->img);
+	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){86, 160}, lbuffer, env->character->img);
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
@@ -79,6 +83,10 @@ int	tick(t_gameenv *env)
 	mlx_destroy_image(env->mlx, buffer);
 	
 	mlx_destroy_image(env->mlx, lbuffer);
+
+
+	
+	
 	return (0);
 }
 

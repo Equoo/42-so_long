@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 20:04:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 12:48:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_gameenv
 
 	t_terrain	*terrain;
 	t_texture	*character;
+	t_texture	*back0;
+	t_texture	*back1;
+	t_texture	*back2;
 }			t_gameenv;
 
 int			update(t_gameenv *env);

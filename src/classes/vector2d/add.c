@@ -6,20 +6,22 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:49:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/17 15:59:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:29:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/vector2d.h"
 
-void	float2d_add(t_float2d *self, t_float2d *other)
+t_float2d	float2d_add(t_float2d self, t_float2d other)
 {
-	self->x += other->x;
-	self->y += other->y;
+	self.x += other.x;
+	self.y += other.y;
+	return (self);
 }
 
-void	int2d_add(t_int2d *self, t_int2d *other)
+t_int2d		int2d_add(t_int2d self, t_int2d other)
 {
-	self->x += other->x;
-	self->y += other->y;
+	self.x += other.x;
+	self.y += other.y;
+	return (self);
 }

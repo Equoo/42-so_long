@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 18:31:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/13 15:55:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # define MAP_EXIT 'E'
 # define MAP_WALL '1'
 # define MAP_VOID '0'
-# define FOUR_2D_DIRS {{0, -1}, {-1, 0}, {1, 0}, {0, 1}}
 
 typedef struct s_terrain
 {
