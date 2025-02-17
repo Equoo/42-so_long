@@ -6,7 +6,8 @@ DIR_OBJ = obj/
 SRC_DIR = src/
 INC_DIR = headers/
 
-CFLAGS = -Wall -Wextra -Werror -MMD -O3 -mavx2 -I $(INC_DIR)
+ADDFLAGS =
+CFLAGS = -Wall -Wextra -Werror -MMD -O3 -mavx2 $(ADDFLAGS) -I $(INC_DIR)
 SRCS =	string/ft_split.c\
 		string/ft_strchr.c\
 		string/ft_strchrpos.c\
@@ -78,8 +79,13 @@ OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SRCS)}
 DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SRCS_ALL)}
 -include $(DEPS)
 
+
 .PHONY: all
 all: $(NAME)
+
+.PHONY: debug
+debug:
+	$(MAKE) -j --no-print-directory ADDFLAGS="-D DEBUG=1" $(NAME)
 
 %/:
 	mkdir -p $@

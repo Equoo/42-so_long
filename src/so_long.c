@@ -16,16 +16,27 @@
 #include <stdio.h>
 #include <ft_time.h>
 #include <errno.h>
+#include <libft.h>
 #include "classes/texture.h"
 #include "classes/terrain.h"
 #include "so_long.h"
 #include "render.h"
 #include "error.h"
 
+static void texturecache_del(void *content)
+{
+  t_texture *tex;
+
+  tex = (t_texture *)content;
+	__builtin_printf("Clear texture %p\n", tex);
+  texture_del(&tex);
+}
+
 int	process_close(t_gameenv *env)
 {
-	if (env->character)
-		texture_del(&env->character);
+  //if (env->terrain)
+  //  terrain_del(env->terrain);
+  ft_lstclear(texture_cache(), &texturecache_del);
 	if (env->win)
 		mlx_destroy_window(env->mlx, env->win);
 	if (env->mlx)
@@ -35,7 +46,8 @@ int	process_close(t_gameenv *env)
 	}
 	if (errno != 11 && errno && print_error("Initialization"))
 		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+	__builtin_printf("EXIT_SUCCESS\n");
+  exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
 

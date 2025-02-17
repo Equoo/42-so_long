@@ -48,7 +48,7 @@ all:
 
 .PHONY: debug
 debug:
-	$(MAKE) -j --no-print-directory ADDFLAGS="-O0 -g3 -D DEBUG=1" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory LIBFTTARGET="debug" ADDFLAGS="-O0 -g3 -D DEBUG=1" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:
@@ -62,14 +62,16 @@ $(DIR_OBJ)%.o: $(SRC_DIR)%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
+LIBFTTARGET = all
+.PHONY: libft
+libft:
 	echo "Make libft"
-	$(MAKE) -s -j -C ./libft
+	$(MAKE) -s -j -C ./libft $(LIBFTTARGET)
 
 $(MLX):
 	$(MAKE) -s -j -C ./minilibx-linux
 
-$(NAME): $(MLX) $(LIBFT) $(DIR_OBJ) $(OBJS) Makefile
+$(NAME): $(MLX) libft $(DIR_OBJ) $(OBJS) Makefile
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 .PHONY: clean

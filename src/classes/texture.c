@@ -34,8 +34,8 @@ void	texture_del(t_texture **self)
 	if (tex->slices)
 	{
 		while (tex->nb_slices--)
-			free(tex->slices[tex->nb_slices].name);
-		free(tex->slices);		
+      free(tex->slices[tex->nb_slices].name);
+    free(tex->slices);
 	}
 	if (tex->img)
 		mlx_destroy_image(tex->mlx, tex->img);
@@ -84,5 +84,6 @@ t_texture	*ft_texture(char *path, void *mlx)
 		else
 			ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	}
+  __builtin_printf("Create texture %p\n", tex);
 	return (tex);
 }

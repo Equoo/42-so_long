@@ -15,6 +15,24 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef DEBUG
+# include <time.h>
+#endif
+
+static double	fix_time(double time)
+{
+  static double last = 0;
+
+#ifdef DEBUG
+  time = (double)clock() / CLOCKS_PER_SEC;
+#endif
+  if (time < last)
+    time = last;
+  last = time;
+  if (time < 0)
+    return (0);
+  return (time);
+}
 
 double	ft_uptime(void)
 {
@@ -30,9 +48,9 @@ double	ft_uptime(void)
 		return (-1);
 	len = read(fd, line, 255);
 	close(fd);
-	line[len] = 0;
 	if (len == -1)
 		return (-1);
+	line[len] = 0;
 	timestr = ft_strnstr(line, TIME_PARSE, len);
 	if (timestr)
 	{
@@ -40,5 +58,7 @@ double	ft_uptime(void)
 			timestr++;
 		time = ft_atof((const char *)(timestr)) / 1000;
 	}
-	return (time);
+	return (fix_time(time));
+  return (time);
 }
+

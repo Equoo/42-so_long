@@ -27,15 +27,16 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 		return (print_error("Texture data parsing"));
 	if (ft_arraylen((void **)splited) != 4)
 		return (print_cerror("Texture data parsing", ERRTEXARGS));
-	name = ft_strdup(splited[0]);
-	if (!errno && tex->slices)
+	if (tex->slices)
+	  name = ft_strdup(splited[0]);
+	if (!errno && name && tex->slices)
 		tex->slices[n - startn] = (t_slice){name, ft_atoi(splited[1]),
 			ft_atoi(splited[2]), ft_atoi(splited[3])};
 	else if (!errno && tex->frames)
 		tex->frames[n - startn] = (t_frame){(t_int2d){ft_atoi(splited[0]),
 			ft_atoi(splited[1])}, (t_int2d){ft_atoi(splited[2]),
 			ft_atoi(splited[3])}};
-	ft_freearray((void **)splited);
+  ft_freearray((void **)splited);
 	return (errno);
 }
 

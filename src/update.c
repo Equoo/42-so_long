@@ -23,7 +23,7 @@ void printticks(t_gameenv *env)
 {
 	static double last = 0;
 	static double middle = 0;
-	static int fps = TICK;
+	//static int fps = TICK;
 	static int count = 0;
 
 	middle = middle + env->frametime;
@@ -32,11 +32,11 @@ void printticks(t_gameenv *env)
 	{
 		middle /= count;
 		count = 0;
-		fps = 1 / middle;
+		//fps = 1 / middle;
 		middle = env->frametime;
 		last = env->time;
 	}
-	ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->frametime, (int)(1 / env->frametime), fps);
+	//ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->frametime, (int)(1 / env->frametime), fps);
 }
 
 int	tick(t_gameenv *env)
@@ -83,20 +83,22 @@ int	tick(t_gameenv *env)
 	mlx_destroy_image(env->mlx, buffer);
 	
 	mlx_destroy_image(env->mlx, lbuffer);
-
-
-	
 	
 	return (0);
 }
 
+#include <time.h>
 int	update(t_gameenv *env)
 {
 	static double lastrealtime = 0;
 	static double elapsed = 0;
 
 	env->time = ft_uptime();
-	if (!env->lastframe)
+	
+  double REALtime = (double)clock() / CLOCKS_PER_SEC;
+
+  ft_printf("REALTIME: %f, Time: %f s; Frame time: %f; TICK: %i;\n", REALtime, env->time, env->frametime, (int)(1 / env->frametime));
+  if (!env->lastframe)
 		env->lastframe = env->time;
 	if (!lastrealtime)
 		lastrealtime = env->time;
