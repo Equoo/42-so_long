@@ -23,7 +23,7 @@ void printticks(t_gameenv *env)
 {
 	static double last = 0;
 	static double middle = 0;
-	//static int fps = TICK;
+	static int fps = TICK;
 	static int count = 0;
 
 	middle = middle + env->frametime;
@@ -32,11 +32,11 @@ void printticks(t_gameenv *env)
 	{
 		middle /= count;
 		count = 0;
-		//fps = 1 / middle;
+		fps = 1 / middle;
 		middle = env->frametime;
 		last = env->time;
 	}
-	//ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->frametime, (int)(1 / env->frametime), fps);
+	ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time, env->frametime, (int)(1 / env->frametime), fps);
 }
 
 int	tick(t_gameenv *env)
@@ -87,7 +87,13 @@ int	tick(t_gameenv *env)
 	return (0);
 }
 
-#include <time.h>
+//pacat --rate=8000 --format=u8 --channels=1
+	//static int fd;
+	//char line[180];
+	//if (!fd)
+		//fd = open("music.raw", O_RDONLY);
+	//read(fd, line, 180);
+	//write(1, line, 180);
 int	update(t_gameenv *env)
 {
 	static double lastrealtime = 0;
@@ -95,10 +101,7 @@ int	update(t_gameenv *env)
 
 	env->time = ft_uptime();
 	
-  double REALtime = (double)clock() / CLOCKS_PER_SEC;
-
-  ft_printf("REALTIME: %f, Time: %f s; Frame time: %f; TICK: %i;\n", REALtime, env->time, env->frametime, (int)(1 / env->frametime));
-  if (!env->lastframe)
+	if (!env->lastframe)
 		env->lastframe = env->time;
 	if (!lastrealtime)
 		lastrealtime = env->time;

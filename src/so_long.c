@@ -28,7 +28,6 @@ static void texturecache_del(void *content)
   t_texture *tex;
 
   tex = (t_texture *)content;
-	__builtin_printf("Clear texture %p\n", tex);
   texture_del(&tex);
 }
 
@@ -46,7 +45,6 @@ int	process_close(t_gameenv *env)
 	}
 	if (errno != 11 && errno && print_error("Initialization"))
 		exit(EXIT_FAILURE);
-	__builtin_printf("EXIT_SUCCESS\n");
   exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

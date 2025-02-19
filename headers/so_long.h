@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # ifndef TICK
-#  define TICK 30
+#  define TICK 120
 # endif
 
 # include "classes/texture.h"

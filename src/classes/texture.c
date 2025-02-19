@@ -84,6 +84,5 @@ t_texture	*ft_texture(char *path, void *mlx)
 		else
 			ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	}
-  __builtin_printf("Create texture %p\n", tex);
 	return (tex);
 }
