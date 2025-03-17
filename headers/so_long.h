@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 12:48:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:55:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # ifndef TICK
-#  define TICK 120
+#  define TICK 240
 # endif
 
 # include "classes/texture.h"

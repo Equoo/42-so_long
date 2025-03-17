@@ -44,7 +44,7 @@ DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 
 .PHONY: all
 all:
-	$(MAKE) -j --no-print-directory ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory LIBFTTARGET="all" ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: debug
 debug:

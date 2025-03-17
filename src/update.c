@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 19:01:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/17 17:33:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	tick(t_gameenv *env)
 		ft_printf("Error\n%s\n", strerror(errno));
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_display(env->mlx);
-		free(env->mlx);		
+		free(env->mlx);
 		exit(EXIT_FAILURE);
 	}
 
@@ -81,9 +81,9 @@ int	tick(t_gameenv *env)
 	buffer = mylx_img_scale(env->mlx, lbuffer, env->height / (16 * 12));
 	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
 	mlx_destroy_image(env->mlx, buffer);
-	
+
 	mlx_destroy_image(env->mlx, lbuffer);
-	
+
 	return (0);
 }
 
@@ -100,7 +100,6 @@ int	update(t_gameenv *env)
 	static double elapsed = 0;
 
 	env->time = ft_uptime();
-	
 	if (!env->lastframe)
 		env->lastframe = env->time;
 	if (!lastrealtime)
