@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/27 20:22:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:40:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,32 @@ void	*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 				mylx_pixel_put(dest, i.x + pos.x - sqr.a.x, i.y + pos.y
 					- sqr.a.y, *(unsigned int *)src_pixels);
 			i.x++;
+		}
+		i.y++;
+	}
+	return (dest);
+}
+
+// Horizontal flip
+void	*mylx_img_copy_invert(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
+{
+	t_int2d	i;
+	int		bxorigin;
+	void	*src_pixels;
+
+	bxorigin = sqr.b.x;
+	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
+		sqr.b.x = sqr.b.x - ((pos.x + sqr.b.x - sqr.a.x) - dest->width);
+	i.y = sqr.a.y;
+	while (pos.y + sqr.a.y - i.y < dest->height && i.y < sqr.b.y)
+	{
+		i.x = bxorigin;
+		while (bxorigin - i.x < sqr.b.x - sqr.a.x)
+		{
+			src_pixels = mylx_pixel_get(src, i.x, i.y);
+			mylx_pixel_put(dest, pos.x + bxorigin - i.x, i.y + pos.y
+				- sqr.a.y, *(unsigned int *)src_pixels);
+			i.x--;
 		}
 		i.y++;
 	}
