@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/17 19:40:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/19 19:36:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <errno.h>
 #include "classes/vector2d.h"
 #include "colors.h"
+#include "mlx_int.h"
 #include "render.h"
 
 t_img	*mylx_xpm_to_img(void *mlx, char *path, int *width, int *height)
@@ -102,6 +103,36 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 	return (dest);
 }
 
+/*void	*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
+{
+	t_int2d	i;
+	void	*src_pixels;
+
+	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
+		sqr.b.x = sqr.b.x - ((pos.x + sqr.b.x - sqr.a.x) - dest->width);
+	i.y = sqr.a.y;
+	while (pos.y + sqr.a.y - i.y < dest->height && i.y < sqr.b.y)
+	{
+		i.x = sqr.a.x;
+		while (i.x < sqr.b.x)
+		{
+			src_pixels = mylx_pixel_get(src, i.x, i.y);
+			if (sqr.b.x - i.x >= M256_NPIXEL)
+			{
+				mylx_m256_pixel_put(dest, i.x + pos.x - sqr.a.x, i.y + pos.y
+					- sqr.a.y, *(__m256i_u *)src_pixels);
+				i.x += M256_NPIXEL - 1;
+			}
+			else
+				mylx_pixel_put(dest, i.x + pos.x - sqr.a.x, i.y + pos.y
+					- sqr.a.y, *(unsigned int *)src_pixels);
+			i.x++;
+		}
+		i.y++;
+	}
+	return (dest);
+}*/
+
 void	*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 {
 	t_int2d	i;
@@ -156,6 +187,57 @@ void	*mylx_img_copy_invert(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 		i.y++;
 	}
 	return (dest);
+}
+
+typedef enum e_imgflip
+{
+	FLIP_NONE,
+	FLIP_HORIZ,
+	FLIP_VERT
+}	t_imgflip;
+
+typedef struct s_copyimg
+{
+	t_int2d		from_a;
+	t_int2d		from_b;
+	t_int2d		to;
+	t_img		src;
+	t_img		dest;
+	t_imgflip	flip;
+	int			angle;
+
+	int			width;
+	int			height;
+	int			x;
+	int			y;
+}		t_copyimg;
+
+static void internal_copy(t_copyimg *data)
+{
+	
+}
+
+void	*mylx_img_copy(t_copyimg data)
+{
+	int		i;
+
+	i = 0;
+	data.width = data.from_b.x - data.from_a.x;
+	data.height = data.from_b.y - data.from_a.y;
+	while (i < data.height * data.width)
+	{
+		if (data.angle % 180)
+			data.x %= data.width;
+		else
+			data.x %= data.height;
+		if (data.angle % 180)
+			data.y /= data.width;
+		else
+			data.y /= data.height;
+		internal_copy(&data);
+		i++;
+	}
+	return (data.dest);
 }
 
 void	*mylx_img_blend(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
