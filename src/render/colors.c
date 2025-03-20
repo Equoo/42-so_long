@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:03:25 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 22:14:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 01:16:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_rgba	split_channels(int rgba, int alpha)
 		chans.a = rgba >> 24 & max;
 	chans.r = rgba >> 16 & max;
 	chans.g = rgba >> 8 & max;
-	chans.b = rgba && max;
+	chans.b = rgba & max;
 	return (chans);
 }
 
@@ -37,8 +37,8 @@ t_rgba	blend_by_alpha(t_rgba dst, t_rgba src)
 	t_rgba	blended;
 
 	inv_src_a = 255 - src.a;
-	blended.r = src.r * inv_src_a + dst.r * src.a / 255;
-	blended.g = src.g * inv_src_a + dst.g * src.a / 255;
-	blended.b = src.b * inv_src_a + dst.b * src.a / 255;
+	blended.r = (src.r * inv_src_a + dst.r * src.a) / 255;
+	blended.g = (src.g * inv_src_a + dst.g * src.a) / 255;
+	blended.b = (src.b * inv_src_a + dst.b * src.a) / 255;
 	return (blended);
 }
