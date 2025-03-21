@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/26 03:49:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 20:16:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,17 @@ int	tick(t_gameenv *env)
 		ft_printf("Error\n%s\n", strerror(errno));
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_display(env->mlx);
-		free(env->mlx);		
+		free(env->mlx);
 		exit(EXIT_FAILURE);
 	}
 
-	texture_draw_slice(env->back0, lbuffer, (t_int2d){0, 16}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_int2d){0, 16 * 9}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_int2d){0, 16 * 9 + 8}, "all");
+	texture_draw_slice(env->back0, lbuffer, (t_transform){{0, 16}, {0}, 0}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_transform){{0, 16 * 9}, {0}, 0}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_transform){{0, 16 * 9 + 8}, {0}, 0}, "all");
 
-	texture_draw_slice(env->back0, lbuffer, (t_int2d){288, 16}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_int2d){288, 16 * 9}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_int2d){288, 16 * 9 + 8}, "all");
+	texture_draw_slice(env->back0, lbuffer, (t_transform){{288, 16}, {0}, 0}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_transform){{288, 16 * 9}, {0}, 0}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_transform){{288, 16 * 9 + 8}, {0}, 0}, "all");
 
 	env->terrain->base->draw(env->terrain->base, lbuffer);
 
@@ -74,7 +74,14 @@ int	tick(t_gameenv *env)
 	if (!sanim)
 		sanim = env->time;
 	double tanim = (env->time - sanim) / 0.8 * 7;
-	mylx_img_blend((t_iaabb){(t_int2d){32 * (int)tanim, 0}, (t_int2d){32 * ((int)tanim + 1), 32}}, (t_int2d){86, 160}, lbuffer, env->character->img);
+	mylx_img_blend((t_copyimg){
+		(t_int2d){32 * (int)tanim, 0},
+		(t_int2d){32, 32},
+		(t_int2d){90, 160},
+		env->character->img,
+		lbuffer,
+		FLIP_HORIZ,
+		0});
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
@@ -82,9 +89,9 @@ int	tick(t_gameenv *env)
 	buffer = mylx_img_scale(env->mlx, lbuffer, scale);
 	mlx_put_image_to_window(env->mlx, env->win, buffer, -8 * scale, -8 * scale);
 	mlx_destroy_image(env->mlx, buffer);
-	
+
 	mlx_destroy_image(env->mlx, lbuffer);
-	
+
 	return (0);
 }
 
@@ -101,7 +108,6 @@ int	update(t_gameenv *env)
 	static double elapsed = 0;
 
 	env->time = ft_uptime();
-	
 	if (!env->lastframe)
 		env->lastframe = env->time;
 	if (!lastrealtime)

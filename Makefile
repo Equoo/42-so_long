@@ -27,6 +27,10 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/terrain.c\
 				classes/element.c\
             	render/pixel.c\
+            	render/copy.c\
+            	render/fast_copy.c\
+            	render/blend.c\
+            	render/fast_blend.c\
             	render/img.c\
             	render/colors.c\
             	render/m256_colors.c\
@@ -44,7 +48,7 @@ DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 
 .PHONY: all
 all:
-	$(MAKE) -j --no-print-directory ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j --no-print-directory LIBFTTARGET="all" ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: debug
 debug:

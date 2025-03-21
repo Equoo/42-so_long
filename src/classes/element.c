@@ -6,29 +6,32 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 18:38:04 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 16:56:56 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
 #include <libft.h>
 
-void	element_draw(t_element *self, t_img *buffer)
+void	element_del(t_element **self)
 {
-	(void)self;
-	(void)buffer;
+	free(*self);
+	*self = NULL;
 }
 
-void	element_del(t_element *self)
+t_element	*ft_element(t_scene *scene)
 {
-	free(self);
-}
-
-t_element	*ft_element(void)
-{
+	static int  elements_count = 0;
 	t_element *element;
 
 	element = ft_calloc(1, sizeof(t_element));
-	element->draw = &element_draw;
+	if (!element)
+		return (NULL);
+	elements_count++;
+	*element = (t_element){0};
+	element->class = CLASS_ELEMENT;
+	element->scene = scene;
+	element->del = element_del;
+	element->id = elements_count;
 	return (element);
 }

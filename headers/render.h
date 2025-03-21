@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/11 02:34:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/19 22:01:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,25 @@ typedef struct s_data
 	int			endian;
 }				t_data;
 
-void			mylx_pixel_put(t_img *img, int x, int y, int color);
+typedef enum e_imgflip
+{
+	FLIP_NONE,
+	FLIP_HORIZ,
+	FLIP_VERT
+}				t_imgflip;
+
+typedef struct s_copyimg
+{
+	t_int2d		from;
+	t_int2d		size;
+	t_int2d		to;
+	t_img		*src;
+	t_img		*dest;
+	t_imgflip	flip;
+	int			angle;
+}				t_copyimg;
+
+void			mylx_pixel_put(t_img *img, int x, int y, unsigned int color);
 void			mylx_m256_pixel_put(t_img *img, int x, int y, __m256i_u color);
 unsigned int	*mylx_pixel_get(t_img *img, int x, int y);
 __m256i_u		*mylx_m256_pixel_get(t_img *img, int x, int y);
@@ -61,8 +79,10 @@ void			*mylx_img_scale(void *mlx, t_img *img, int scale);
 ** @param src: the source image
 ** @return the destination image
 */
-void			*mylx_img_blend(t_iaabb sqr, t_int2d pos, t_img *dest,
+void			*mylx_img_fast_blend(t_iaabb sqr, t_int2d pos, t_img *dest,
 					t_img *src);
+
+void			*mylx_img_blend(t_copyimg data);
 
 /*
 ** Blend an image to a new image with alpha channel
@@ -72,7 +92,9 @@ void			*mylx_img_blend(t_iaabb sqr, t_int2d pos, t_img *dest,
 ** @param src: the source image
 ** @return the destination image
 */
-void			*mylx_img_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
+void			*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
 					t_img *src);
+
+void			*mylx_img_copy(t_copyimg data);
 
 #endif

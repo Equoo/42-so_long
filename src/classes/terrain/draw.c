@@ -6,11 +6,12 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 16:57:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 00:11:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
+#include "classes/vector2d.h"
 #include "seed.h"
 
 typedef struct s_prob {
@@ -37,7 +38,7 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 	t_int2d		pos;
 	t_int2d		offset;
 	char		*tex;
-	
+
 	offset = (t_int2d){0, 0};
 
 	self = (t_terrain *)self_element->parent;
@@ -47,7 +48,8 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 		if (self->grid[i] != MAP_WALL)
 			continue;
 		pos = (t_int2d){i % self->w, i / self->w};
-		
+
+		int		angle = 0;
 		if (getindir(self, pos, DIR_TOP) != MAP_WALL // PLATFORMS
 			&& getindir(self, pos, DIR_BOTTOM) != MAP_WALL)
 		{
@@ -67,15 +69,27 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 		{
 			if (getindir(self, pos, DIR_LEFT) != MAP_WALL
 				|| getindir(self, pos, DIR_RIGHT) != MAP_WALL)
+			{
+				angle = getindir(self, pos, DIR_RIGHT) != MAP_WALL ? (getindir(self, pos, DIR_BOTTOM) != MAP_WALL ? 180 : -90) : (getindir(self, pos, DIR_BOTTOM) != MAP_WALL ? 90 : 0);
 				tex = (char *)corner_ground_slices[rand_int() % 2];
+			}
 			else
+			{
+				angle = getindir(self, pos, DIR_TOP) != MAP_WALL ? 0 : 180;
 				tex = (char *)top_ground_slices[rand_int() % 2];
+			}
+		}
+		else if (getindir(self, pos, DIR_LEFT) != MAP_WALL // GROUNDS FACING AIR
+			|| getindir(self, pos, DIR_RIGHT) != MAP_WALL)
+		{
+			angle = getindir(self, pos, DIR_LEFT) != MAP_WALL ? 90 : -90;
+			tex = (char *)top_ground_slices[rand_int() % 2];
 		}
 		else // GROUND
 			tex = "ground";
-
-		texture_blend_slice(self->texture, buffer,
-			(t_int2d){offset.x + pos.x * 16, offset.y + pos.y * 16}, tex);
+		texture_draw_slice(self->texture, buffer, (t_transform){(t_int2d){
+				offset.x + pos.x * 16, offset.y + pos.y * 16},
+				.angle = angle}, tex);
 	}
 
 	i = -1;
@@ -93,7 +107,7 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 		else
 			continue;
 
-		texture_draw_slice(self->texture, buffer,
-			(t_int2d){offset.x + pos.x * 16, offset.y + pos.y * 16}, tex);
+		texture_draw_slice(self->texture, buffer,(t_transform){
+			{offset.x + pos.x * 16, offset.y + pos.y * 16}, {0}, 0}, tex);
 	}
 }

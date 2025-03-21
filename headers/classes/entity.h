@@ -3,30 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/27 14:28:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 16:16:14 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENTITY_H
 # define ENTITY_H
+
 # include "element.h"
 # include "vector2d.h"
+
+# include <ft_bool.h>
+# include <unistd.h>
 
 typedef struct s_entity
 {
 	t_element	*base;
+	void		*parent;
 	t_float2d	velocity;
 	t_faabb		hull;
+	t_bool		nocollision;
+	t_bool		nogravity;
 
-	void		(*collide)(t_entity *self, t_element *element);
-	void		(*del)(t_entity *self);
+	void		(*custom_physic)(struct s_entity *self);
+	void		(*collide)(struct s_entity *self, struct s_entity *element);
 }				t_entity;
 
-t_entity		*ft_entity(void);
-
-void			entity_del(void);
+t_entity		*ft_entity(t_scene *scene);
 
 #endif

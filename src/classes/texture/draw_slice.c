@@ -6,49 +6,74 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:36:19 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 11:59:38 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 02:45:22 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/texture.h"
+#include "classes/vector2d.h"
 #include "render.h"
 
-void	texture_draw_slice(t_texture *self, t_img *buffer, t_int2d pos, char *slice)
+void	texture_draw_slice(t_texture *self, t_img *buffer,
+					t_transform data, char *slice)
 {
 	t_frame	frame;
 
 	frame = texture_get_frame(self, slice);
-	mylx_img_copy((t_iaabb){frame.a,
-		(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
-		pos, buffer, self->img);
+	if (data.angle != 0)
+		mylx_img_copy((t_copyimg){frame.a, frame.b,
+				data.pos, self->img, buffer,
+				FLIP_NONE, data.angle});
+	else
+		mylx_img_fast_copy((t_iaabb){frame.a,
+			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
+			data.pos, buffer, self->img);
 }
 
-void	texture_draw_anim(t_texture *self, t_img *buffer, t_int2d pos, char *slice, double cycle)
+void	texture_draw_anim(t_texture *self, t_img *buffer,
+					t_transform data, char *slice, double cycle)
 {
 	t_frame	frame;
 
 	frame = texture_get_cycle_frame(self, slice, cycle);
-	mylx_img_copy((t_iaabb){frame.a,
-		(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
-		pos, buffer, self->img);
+	if (data.angle != 0)
+		mylx_img_copy((t_copyimg){frame.a, frame.b,
+				data.pos, self->img, buffer,
+				FLIP_NONE, data.angle});
+	else
+		mylx_img_fast_copy((t_iaabb){frame.a,
+			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
+			data.pos, buffer, self->img);
 }
 
-void	texture_blend_slice(t_texture *self, t_img *buffer, t_int2d pos, char *slice)
+void	texture_blend_slice(t_texture *self, t_img *buffer,
+					t_transform data, char *slice)
 {
 	t_frame	frame;
 
 	frame = texture_get_frame(self, slice);
-	mylx_img_blend((t_iaabb){frame.a,
-		(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
-		pos, buffer, self->img);
+	if (data.angle != 0)
+		mylx_img_blend((t_copyimg){frame.a, frame.b,
+				data.pos, self->img, buffer,
+				FLIP_NONE, data.angle});
+	else
+		mylx_img_fast_blend((t_iaabb){frame.a,
+			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
+			data.pos, buffer, self->img);
 }
 
-void	texture_blend_anim(t_texture *self, t_img *buffer, t_int2d pos, char *slice, double cycle)
+void	texture_blend_anim(t_texture *self, t_img *buffer,
+					t_transform data, char *slice, double cycle)
 {
 	t_frame	frame;
 
 	frame = texture_get_cycle_frame(self, slice, cycle);
-	mylx_img_blend((t_iaabb){frame.a,
-		(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
-		pos, buffer, self->img);
+	if (data.angle != 0)
+		mylx_img_blend((t_copyimg){frame.a, frame.b,
+				data.pos, self->img, buffer,
+				FLIP_NONE, data.angle});
+	else
+		mylx_img_fast_blend((t_iaabb){frame.a,
+			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
+			data.pos, buffer, self->img);
 }

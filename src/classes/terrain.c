@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 18:30:44 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 17:19:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "classes/texture.h"
 #include "classes/terrain.h"
 
-void	*terrain_del(t_terrain *self)
+void	*terrain_del(t_terrain **self)
 {
 	if (self->texture)
 		texture_del(&self->texture);
@@ -31,7 +31,7 @@ int	terrain_collide(t_terrain *self, t_float2d pos)
 {
 	(void)self;
 	(void)pos;
-	return (0);	
+	return (0);
 }
 
 t_terrain	*ft_terrain(char *mappath, char *texpath, void *env)
@@ -40,7 +40,7 @@ t_terrain	*ft_terrain(char *mappath, char *texpath, void *env)
 
 	terrain = (t_terrain *)ft_calloc(1, sizeof(t_terrain));
 	if (terrain)
-		terrain->base = ft_element();
+		terrain->base = ft_element("terrain");
 	if (terrain && terrain->base)
 		terrain->texture = ft_texture(texpath, ((t_gameenv *)env)->mlx);
 	if (terrain && terrain->texture)

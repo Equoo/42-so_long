@@ -42,15 +42,22 @@
 *.idb
 *.pdb
 *.txt
+compile_commands.json
 
 # Kernel Module Compile Results
 *.mod*
 *.cmd
 .tmp_versions/
 .vscode/
+.cache/
 modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Local files
+.state.tmp
+.debug
+.serverpid
 
 so_long

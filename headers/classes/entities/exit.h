@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   exit.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 12:07:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/04 23:16:37 by dderny           ###   ########.fr       */
+/*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
+/*   Updated: 2025/03/21 16:38:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include "libft.h"
+#ifndef EXIT_H
+# define EXIT_H
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
+# include "classes/entity.h"
 
-	i = 0;
-	while (src[i] && i + 1 < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	if (n)
-		dest[i] = 0;
-	return ((size_t)ft_strlen(src));
-}
+typedef struct s_entity t_exit;
+
+t_exit			*ft_exit(void);
+
+void			exit_del(void);
+
+#endif

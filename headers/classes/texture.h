@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 11:52:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 02:37:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_texture
 	int			height;
 }			t_texture;
 
-void			texture_draw_slice(t_texture *self, t_img *buffer, t_int2d pos, char *slice);
-void			texture_draw_anim(t_texture *self, t_img *buffer, t_int2d pos, char *slice, double cycle);
-void			texture_blend_slice(t_texture *self, t_img *buffer, t_int2d pos, char *slice);
-void			texture_blend_anim(t_texture *self, t_img *buffer, t_int2d pos, char *slice, double cycle);
+void			texture_draw_slice(t_texture *self, t_img *buffer, t_transform data, char *slice);
+void			texture_draw_anim(t_texture *self, t_img *buffer, t_transform data, char *slice, double cycle);
+void			texture_blend_slice(t_texture *self, t_img *buffer, t_transform data, char *slice);
+void			texture_blend_anim(t_texture *self, t_img *buffer, t_transform data, char *slice, double cycle);
 t_frame			texture_get_frame(t_texture *self, char *slice);
 t_frame			texture_get_cycle_frame(t_texture *self, char *slice, double cycle);
 int				read_texture_data(t_texture *texture, char *path);

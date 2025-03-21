@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 20:20:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/05 08:49:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/19 21:06:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "render.h"
 #include <mlx_int.h>
 
-void	mylx_pixel_put(t_img *img, int x, int y, int color)
+void	mylx_pixel_put(t_img *img, int x, int y, unsigned int color)
 {
 	char	*dst;
 
