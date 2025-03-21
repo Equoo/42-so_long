@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:28:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 15:00:16 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/26 02:55:04 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ static double	fix_time(double time)
   static double last = 0;
 
 #ifdef DEBUG
-  time = (double)clock() / CLOCKS_PER_SEC;
+  	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+    time = ts.tv_sec + ts.tv_nsec / 1e9;
 #endif
-  if (time < last)
-    time = last;
-  last = time;
-  if (time < 0)
-    return (0);
-  return (time);
+	if (time < last)
+		time = last;
+	last = time;
+	if (time < 0)
+		return (0);
+	return (time);
 }
 
 double	ft_uptime(void)

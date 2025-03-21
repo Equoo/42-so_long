@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 19:01:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/26 03:49:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	tick(t_gameenv *env)
 	void	*lbuffer;
 	void	*buffer;
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	printticks(env);
-#endif
+//#endif
 	*getseed() = env->seed;
 
-	lbuffer = mlx_new_image(env->mlx, (int)((double)env->width / (double)env->height * 16.f * 14.f), 16 * 14);
+	lbuffer = mlx_new_image(env->mlx, 398, 224);
 
 	if (!lbuffer) // NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
 	{
@@ -78,8 +78,9 @@ int	tick(t_gameenv *env)
 	if (env->time - sanim > 0.8)
 		sanim = env->time;
 
-	buffer = mylx_img_scale(env->mlx, lbuffer, env->height / (16 * 12));
-	mlx_put_image_to_window(env->mlx, env->win, buffer, 0, 0);
+	int scale = env->height / 360 + 2;
+	buffer = mylx_img_scale(env->mlx, lbuffer, scale);
+	mlx_put_image_to_window(env->mlx, env->win, buffer, -8 * scale, -8 * scale);
 	mlx_destroy_image(env->mlx, buffer);
 	
 	mlx_destroy_image(env->mlx, lbuffer);

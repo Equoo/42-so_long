@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 19:00:05 by dderny           ###   ########.fr       */
+/*   Updated: 2025/02/26 03:51:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 	char	*name;
 
 	splited = ft_split(line, ' ');
+	name = NULL;
 	if (!splited)
 		return (print_error("Texture data parsing"));
 	if (ft_arraylen((void **)splited) != 4)
@@ -36,7 +37,7 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 		tex->frames[n - startn] = (t_frame){(t_int2d){ft_atoi(splited[0]),
 			ft_atoi(splited[1])}, (t_int2d){ft_atoi(splited[2]),
 			ft_atoi(splited[3])}};
-  ft_freearray((void **)splited);
+	ft_freearray((void **)splited);
 	return (errno);
 }
 
