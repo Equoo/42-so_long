@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:44:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 00:54:22 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 03:16:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void internal_copy(t_copyimg *data, t_int2d real_size, int *i)
 	{
 		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
 		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + data->size.x - pos.x;
+			src_pos.x = data->from.x + data->size.x - pos.x - 1;
 		else
 			src_pos.x = data->from.x + pos.x;
 		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + data->size.y - pos.y;
+			src_pos.y = data->from.y + data->size.y - pos.y - 1;
 		else
 			src_pos.y = data->from.y + pos.y;
 		pos = int2d_add(pos, data->to);
@@ -49,9 +49,9 @@ static void internal_copy_90(t_copyimg *data, t_int2d real_size, int *i)
 		if (data->flip & FLIP_HORIZ)
 			src_pos.x = data->from.x + pos.y;
 		else
-			src_pos.x = data->from.x + data->size.x - pos.y;
+			src_pos.x = data->from.x + data->size.x - pos.y - 1;
 		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + data->size.y - pos.x;
+			src_pos.y = data->from.y + data->size.y - pos.x - 1;
 		else
 			src_pos.y = data->from.y + pos.x;
 		pos = int2d_add(pos, data->to);
@@ -70,13 +70,13 @@ static void internal_copy_minus90(t_copyimg *data, t_int2d real_size, int *i)
 	{
 		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
 		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + data->size.x - pos.y;
+			src_pos.x = data->from.x + data->size.x - pos.y - 1;
 		else
 			src_pos.x = data->from.x + pos.y;
 		if (data->flip & FLIP_VERT)
 			src_pos.y = data->from.y + pos.x;
 		else
-			src_pos.y = data->from.y + data->size.y - pos.x;
+			src_pos.y = data->from.y + data->size.y - pos.x - 1;
 		pos = int2d_add(pos, data->to);
 		mylx_pixel_put(data->dest, pos.x, pos.y,
 				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));
@@ -95,11 +95,11 @@ static void internal_copy_180(t_copyimg *data, t_int2d real_size, int *i)
 		if (data->flip & FLIP_HORIZ)
 			src_pos.x = data->from.x + pos.x;
 		else
-			src_pos.x = data->from.x + data->size.x - pos.x;
+			src_pos.x = data->from.x + data->size.x - pos.x - 1;
 		if (data->flip & FLIP_VERT)
 			src_pos.y = data->from.y + pos.y;
 		else
-			src_pos.y = data->from.y + data->size.y - pos.y;
+			src_pos.y = data->from.y + data->size.y - pos.y - 1;
 		pos = int2d_add(pos, data->to);
 		mylx_pixel_put(data->dest, pos.x, pos.y,
 				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));

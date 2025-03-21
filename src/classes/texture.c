@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/12 18:54:06 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/21 00:09:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ void	texture_del(t_texture **self)
 	*self = NULL;
 }
 
+static t_texture	*get_from_cache(char *path)
+{
+	t_list	*cache;
+	t_texture	*tex;
+
+	cache = *texture_cache();
+	while (cache)
+	{
+		tex = (t_texture *)cache->content;
+		if (!ft_strcmp(tex->path, path))
+			return (tex);
+		cache = cache->next;
+	}
+	return (NULL);
+}
+
 /**
 ** Create a new texture
 ** @param path: the path of the texture
@@ -56,33 +72,22 @@ void	texture_del(t_texture **self)
 t_texture	*ft_texture(char *path, void *mlx)
 {
 	t_texture	*tex;
-	t_list		*cache;
 
-	tex = NULL;
-	cache = *texture_cache();
-	while (cache)
-	{
-		tex = (t_texture *)cache->content;
-		if (!ft_strncmp(tex->path, path, ft_strlen(tex->path)))
-			break ;
-		tex = NULL;
-		cache = cache->next;
-	}
-	if (!tex)
-	{
-		errno = 0;
-		tex = ft_calloc(1, sizeof(t_texture));
-		if (!tex && print_error("Texture creation"))
-			return (NULL);
-		tex->mlx = mlx;
-		tex->path = ft_strdup(path);
-		tex->img = mylx_xpm_to_img(mlx, path, &tex->width, &tex->height);
-		if (errno)
-			print_error("Texture data parsing");
-		if (!tex->path || !tex->img || read_texture_data(tex, path))
-			texture_del(&tex);
-		else
-			ft_lstadd_front(texture_cache(), ft_lstnew(tex));
-	}
+	tex = get_from_cache(path);
+	if (tex)
+		return (tex);
+	errno = 0;
+	tex = ft_calloc(1, sizeof(t_texture));
+	if (!tex && print_error("Texture creation"))
+		return (NULL);
+	tex->mlx = mlx;
+	tex->path = ft_strdup(path);
+	tex->img = mylx_xpm_to_img(mlx, path, &tex->width, &tex->height);
+	if (errno)
+		print_error("Texture data parsing");
+	if (!tex->path || !tex->img || read_texture_data(tex, path))
+		texture_del(&tex);
+	else
+		ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	return (tex);
 }

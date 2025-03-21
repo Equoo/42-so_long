@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:59:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 01:12:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 03:17:33 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static void internal_blend(t_copyimg *data, t_int2d real_size, int *i)
 	{
 		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
 		if (data->flip & FLIP_HORIZ)
-			srcpos.x = data->from.x + data->size.x - pos.x;
+			srcpos.x = data->from.x + data->size.x - pos.x - 1;
 		else
 			srcpos.x = data->from.x + pos.x;
 		if (data->flip & FLIP_VERT)
-			srcpos.y = data->from.y + data->size.y - pos.y;
+			srcpos.y = data->from.y + data->size.y - pos.y - 1;
 		else
 			srcpos.y = data->from.y + pos.y;
 		pos = int2d_add(pos, data->to);
@@ -53,9 +53,9 @@ static void internal_blend_90(t_copyimg *data, t_int2d real_size, int *i)
 		if (data->flip & FLIP_HORIZ)
 			srcpos.x = data->from.x + pos.y;
 		else
-			srcpos.x = data->from.x + data->size.x - pos.y;
+			srcpos.x = data->from.x + data->size.x - pos.y - 1;
 		if (data->flip & FLIP_VERT)
-			srcpos.y = data->from.y + data->size.y - pos.x;
+			srcpos.y = data->from.y + data->size.y - pos.x - 1;
 		else
 			srcpos.y = data->from.y + pos.x;
 		pos = int2d_add(pos, data->to);
@@ -77,13 +77,13 @@ static void internal_blend_minus90(t_copyimg *data, t_int2d real_size, int *i)
 	{
 		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
 		if (data->flip & FLIP_HORIZ)
-			srcpos.x = data->from.x + data->size.x - pos.y;
+			srcpos.x = data->from.x + data->size.x - pos.y - 1;
 		else
 			srcpos.x = data->from.x + pos.y;
 		if (data->flip & FLIP_VERT)
 			srcpos.y = data->from.y + pos.x;
 		else
-			srcpos.y = data->from.y + data->size.y - pos.x;
+			srcpos.y = data->from.y + data->size.y - pos.x - 1;
 		pos = int2d_add(pos, data->to);
 		mylx_pixel_put(data->dest, pos.x, pos.y,
 			combine_channels(blend_by_alpha(
@@ -105,11 +105,11 @@ static void internal_blend_180(t_copyimg *data, t_int2d real_size, int *i)
 		if (data->flip & FLIP_HORIZ)
 			srcpos.x = data->from.x + pos.x;
 		else
-			srcpos.x = data->from.x + data->size.x - pos.x;
+			srcpos.x = data->from.x + data->size.x - pos.x - 1;
 		if (data->flip & FLIP_VERT)
 			srcpos.y = data->from.y + pos.y;
 		else
-			srcpos.y = data->from.y + data->size.y - pos.y;
+			srcpos.y = data->from.y + data->size.y - pos.y - 1;
 		pos = int2d_add(pos, data->to);
 		mylx_pixel_put(data->dest, pos.x, pos.y,
 			combine_channels(blend_by_alpha(

@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy.c                                             :+:      :+:    :+:   */
+/*   actor.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 20:26:45 by dderny            #+#    #+#             */
-/*   Updated: 2025/01/18 22:18:27 by dderny           ###   ########.fr       */
+/*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
+/*   Updated: 2025/03/21 16:38:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/string.h"
+#ifndef ACTOR_H
+# define ACTOR_H
 
-t_string	*string_copy(t_string *self)
+# include "classes/entity.h"
+
+typedef struct s_actor
 {
-	t_list	*str;
-	t_list	*newlist;
-	t_list	*new;
+	t_element	*base;
+	t_entity	*entity;
+	void		*parent;
+	int			health;
+	int			anim_cycle;
 
-	str = self->str;
-	newlist = NULL;
-	new = NULL;
-	while (str)
-	{
-		new = ft_lstnew(str->content);
-		if (!new)
-			break ;
-		if (!newlist)
-			newlist = new;
-		str = str->next;
-	}
-	if (str)
-		ft_lstclear(&newlist, &self->strdel);
-	return (newlist);
-}
+	char		*(*anim_couroutine)(struct s_actor *self);
+	void		(*movement)(struct s_actor *self);
+}				t_actor;
+
+t_actor		*ft_actor(t_scene *scene);
+
+#endif

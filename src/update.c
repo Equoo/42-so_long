@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 01:18:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 02:50:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	texture_draw_slice(env->back0, lbuffer, (t_int2d){0, 16}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_int2d){0, 16 * 9}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_int2d){0, 16 * 9 + 8}, "all");
+	texture_draw_slice(env->back0, lbuffer, (t_transform){{0, 16}, {0}, 0}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_transform){{0, 16 * 9}, {0}, 0}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_transform){{0, 16 * 9 + 8}, {0}, 0}, "all");
 
-	texture_draw_slice(env->back0, lbuffer, (t_int2d){288, 16}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_int2d){288, 16 * 9}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_int2d){288, 16 * 9 + 8}, "all");
+	texture_draw_slice(env->back0, lbuffer, (t_transform){{288, 16}, {0}, 0}, "all");
+	texture_blend_slice(env->back1, lbuffer, (t_transform){{288, 16 * 9}, {0}, 0}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_transform){{288, 16 * 9 + 8}, {0}, 0}, "all");
 
 	env->terrain->base->draw(env->terrain->base, lbuffer);
 

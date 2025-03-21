@@ -6,12 +6,11 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:13:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 11:58:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/20 23:51:06 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <math.h>
 #include "classes/texture.h"
 
 t_frame	texture_get_frame(t_texture *self, char *slice)
