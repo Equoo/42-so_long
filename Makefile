@@ -21,11 +21,14 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/texture/draw_slice.c\
 				classes/texture/get_frame.c\
 				classes/texture.c\
+				classes/element.c\
 				classes/terrain/draw.c\
 				classes/terrain/load.c\
 				classes/terrain/findpath.c\
 				classes/terrain.c\
-				classes/element.c\
+				classes/entity.c\
+				classes/scene.c\
+				classes/actor.c\
             	render/pixel.c\
             	render/copy.c\
             	render/fast_copy.c\

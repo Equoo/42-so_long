@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 16:39:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 04:45:01 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_gameenv
 	int			height;
 	int			seed;
 
-	int			scene;
+	t_scene		*scene;
 	t_list		*scenes_lst;
 
 	t_texture	*back0;

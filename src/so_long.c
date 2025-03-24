@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 03:15:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 04:54:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,19 @@ int	load_map(t_gameenv *env, char *path)
 	scene = ft_scene(env, path);
 	if (!scene)
 		return (1);
-	scene->terrain = ft_terrain(path, "./textures/stringstar_fields.xpm", env);
+	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm", env);
 	if (scene->terrain)
 		lst_scene = ft_lstnew(scene);
 	if (!scene->terrain || !lst_scene)
 	{
+		if (lst_scene)
+			free(lst_scene);
 		scene_del(&scene);
 		return (1);
 	}
 	ft_lstadd_front(&env->scenes_lst, lst_scene);
+	ft_lstadd_front(&env->scenes_lst, lst_scene);
+	env->scene = scene;
 	return (0);
 }
 

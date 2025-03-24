@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 20:16:35 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 04:45:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft_printf.h>
 #include <errno.h>
 #include <ft_time.h>
+#include "classes/terrain.h"
 #include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
@@ -60,30 +61,31 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	texture_draw_slice(env->back0, lbuffer, (t_transform){{0, 16}, {0}, 0}, "all");
+	/*texture_draw_slice(env->back0, lbuffer, (t_transform){{0, 16}, {0}, 0}, "all");
 	texture_blend_slice(env->back1, lbuffer, (t_transform){{0, 16 * 9}, {0}, 0}, "all");
 	texture_blend_slice(env->back2, lbuffer, (t_transform){{0, 16 * 9 + 8}, {0}, 0}, "all");
 
 	texture_draw_slice(env->back0, lbuffer, (t_transform){{288, 16}, {0}, 0}, "all");
 	texture_blend_slice(env->back1, lbuffer, (t_transform){{288, 16 * 9}, {0}, 0}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_transform){{288, 16 * 9 + 8}, {0}, 0}, "all");
+	texture_blend_slice(env->back2, lbuffer, (t_transform){{288, 16 * 9 + 8}, {0}, 0}, "all");*/
 
-	env->terrain->base->draw(env->terrain->base, lbuffer);
+	t_terrain *terrain = (t_terrain *)env->scene->terrain;
+	terrain->base->draw(terrain->base, lbuffer);
 
-	static double sanim;
-	if (!sanim)
-		sanim = env->time;
-	double tanim = (env->time - sanim) / 0.8 * 7;
-	mylx_img_blend((t_copyimg){
-		(t_int2d){32 * (int)tanim, 0},
-		(t_int2d){32, 32},
-		(t_int2d){90, 160},
-		env->character->img,
-		lbuffer,
-		FLIP_HORIZ,
-		0});
-	if (env->time - sanim > 0.8)
-		sanim = env->time;
+	//static double sanim;
+	//if (!sanim)
+	//	sanim = env->time;
+	//double tanim = (env->time - sanim) / 0.8 * 7;
+	//mylx_img_blend((t_copyimg){
+	//	(t_int2d){32 * (int)tanim, 0},
+	//	(t_int2d){32, 32},
+	//	(t_int2d){90, 160},
+	//	env->character->img,
+	//	lbuffer,
+	//	FLIP_HORIZ,
+	//	0});
+	//if (env->time - sanim > 0.8)
+	//	sanim = env->time;
 
 	int scale = env->height / 360 + 2;
 	buffer = mylx_img_scale(env->mlx, lbuffer, scale);

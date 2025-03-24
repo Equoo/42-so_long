@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 00:09:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 04:49:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_texture	*get_from_cache(char *path)
 	while (cache)
 	{
 		tex = (t_texture *)cache->content;
-		if (!ft_strcmp(tex->path, path))
+		if (!ft_strncmp(tex->path, path, ft_strlen(tex->path) + 1))
 			return (tex);
 		cache = cache->next;
 	}
