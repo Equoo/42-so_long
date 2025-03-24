@@ -6,13 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 03:17:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
+#include "classes/vector2d.h"
 #include "ft_vector.h"
 
 enum e_scene
@@ -37,6 +38,7 @@ typedef struct s_scene
 {
 	char		*name;
 	void		*env;
+	t_int2d		cam_pos;
 	void		*terrain;
 	t_vector	elements;
 
@@ -45,5 +47,7 @@ typedef struct s_scene
 
 void	scene_del(void *self);
 t_scene	*ft_scene(void *env, char *name);
+
+void	scene_add(t_scene *self, void *element);
 
 #endif

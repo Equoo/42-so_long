@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 02:57:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:23:15 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ t_actor	*cast_actor(void *actor)
 {
 	if (!actor)
 		return (NULL);
-	return ((t_actor *)(((uint64_t *)actor))[2]);
+	return ((t_actor *)(((uintptr_t *)actor))[2]);
 }

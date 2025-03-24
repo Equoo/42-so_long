@@ -6,14 +6,13 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 02:25:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:18:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <X11/X.h>
 #include <stdlib.h>
 #include "so_long.h"
-#include "classes/texture.h"
 #include "classes/terrain.h"
 
 void	terrain_del(t_element **self)
@@ -25,8 +24,6 @@ void	terrain_del(t_element **self)
 		terrain = (t_terrain *)(*self)->parent;
 		if (terrain->grid)
 			free(terrain->grid);
-		if (terrain->texture)
-			texture_del(&terrain->texture);
 		free(terrain);
 		(*self)->parent = NULL;
 	}
@@ -40,7 +37,7 @@ int	terrain_collide(t_terrain *self, t_float2d pos)
 	return (0);
 }
 
-t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath, void *env)
+t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 {
 	t_terrain	*terrain;
 
@@ -49,18 +46,18 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath, void *env)
 		return (NULL);
 	terrain->base = ft_element(scene);
 	if (terrain->base)
-		terrain->texture = ft_texture(texpath, ((t_gameenv *)env)->mlx);
-	if (terrain->texture)
+		terrain->base->texture = ft_texture(texpath, ((t_gameenv *)scene->env)->mlx);
+	if (terrain->base && terrain->base->texture)
 		terrain_load(terrain, mappath);
-	if (!terrain->base || !terrain->texture || !terrain->grid)
+	if (!terrain->base || !terrain->base->texture || !terrain->grid)
 	{
 		terrain->base->del(&terrain->base);
 		return (NULL);
 	}
 	terrain->base->parent = terrain;
-	terrain->env = env;
 	terrain->collide = &terrain_collide;
 	terrain->base->del = &terrain_del;
 	terrain->base->draw = &terrain_draw;
+	terrain->base->zindex = 1;
 	return (terrain);
 }

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 04:45:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:21:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <errno.h>
 #include <ft_time.h>
 #include "classes/terrain.h"
-#include "classes/vector2d.h"
 #include "so_long.h"
 #include "render.h"
 #include "seed.h"
@@ -51,8 +50,7 @@ int	tick(t_gameenv *env)
 	*getseed() = env->seed;
 
 	lbuffer = mlx_new_image(env->mlx, 398, 224);
-
-	if (!lbuffer) // NEW_IMAGE RETURN 11 ???????? WHY ????? WHY ?????
+	if (!lbuffer)
 	{
 		ft_printf("Error\n%s\n", strerror(errno));
 		mlx_destroy_window(env->mlx, env->win);
@@ -61,31 +59,15 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	/*texture_draw_slice(env->back0, lbuffer, (t_transform){{0, 16}, {0}, 0}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_transform){{0, 16 * 9}, {0}, 0}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_transform){{0, 16 * 9 + 8}, {0}, 0}, "all");
-
-	texture_draw_slice(env->back0, lbuffer, (t_transform){{288, 16}, {0}, 0}, "all");
-	texture_blend_slice(env->back1, lbuffer, (t_transform){{288, 16 * 9}, {0}, 0}, "all");
-	texture_blend_slice(env->back2, lbuffer, (t_transform){{288, 16 * 9 + 8}, {0}, 0}, "all");*/
-
-	t_terrain *terrain = (t_terrain *)env->scene->terrain;
-	terrain->base->draw(terrain->base, lbuffer);
-
-	//static double sanim;
-	//if (!sanim)
-	//	sanim = env->time;
-	//double tanim = (env->time - sanim) / 0.8 * 7;
-	//mylx_img_blend((t_copyimg){
-	//	(t_int2d){32 * (int)tanim, 0},
-	//	(t_int2d){32, 32},
-	//	(t_int2d){90, 160},
-	//	env->character->img,
-	//	lbuffer,
-	//	FLIP_HORIZ,
-	//	0});
-	//if (env->time - sanim > 0.8)
-	//	sanim = env->time;
+	int i = 0;
+	while (i < env->scene->elements.actual_size)
+	{
+		t_element *elem = (t_element *)vec_get(&env->scene->elements, i);
+		__builtin_printf("Element %p\n", elem);
+		if (elem->draw)
+			elem->draw(elem, lbuffer);
+		i++;
+	}
 
 	int scale = env->height / 360 + 2;
 	buffer = mylx_img_scale(env->mlx, lbuffer, scale);
@@ -98,12 +80,12 @@ int	tick(t_gameenv *env)
 }
 
 //pacat --rate=8000 --format=u8 --channels=1
-	//static int fd;
-	//char line[180];
-	//if (!fd)
-		//fd = open("music.raw", O_RDONLY);
-	//read(fd, line, 180);
-	//write(1, line, 180);
+//static int fd;
+//char line[180];
+//if (!fd)
+	//fd = open("music.raw", O_RDONLY);
+//read(fd, line, 180);
+//write(1, line, 180);
 int	update(t_gameenv *env)
 {
 	static double lastrealtime = 0;

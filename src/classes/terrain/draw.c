@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 00:11:43 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:10:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 		}
 		else // GROUND
 			tex = "ground";
-		texture_draw_slice(self->texture, buffer, (t_transform){(t_int2d){
+		texture_draw_slice(self->base->texture, buffer, (t_transform){(t_int2d){
 				offset.x + pos.x * 16, offset.y + pos.y * 16},
 				.angle = angle}, tex);
 	}
@@ -107,7 +107,7 @@ void	terrain_draw(t_element *self_element, t_img *buffer)
 		else
 			continue;
 
-		texture_draw_slice(self->texture, buffer,(t_transform){
+		texture_draw_slice(self->base->texture, buffer,(t_transform){
 			{offset.x + pos.x * 16, offset.y + pos.y * 16}, {0}, 0}, tex);
 	}
 }

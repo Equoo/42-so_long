@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 02:57:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:23:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ t_entity	*cast_entity(void *entity)
 {
 	if (!entity)
 		return (NULL);
-	return ((t_entity *)(((uint64_t *)entity))[1]);
+	return ((t_entity *)(((uintptr_t *)entity))[1]);
 }

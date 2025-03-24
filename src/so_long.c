@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 04:54:44 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:08:20 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <libft.h>
 #include <ft_vector.h>
+#include "classes/background.h"
 #include "classes/scene.h"
 #include "classes/texture.h"
 #include "classes/terrain.h"
@@ -25,15 +26,20 @@
 
 static void texturecache_del(void *content)
 {
-  t_texture *tex;
+	t_texture *tex;
 
-  tex = (t_texture *)content;
-  texture_del(&tex);
+	tex = (t_texture *)content;
+	texture_del(&tex);
+}
+
+static void scenes_del(void *content)
+{
+	scene_del(content);
 }
 
 int	process_close(t_gameenv *env)
 {
-	ft_lstclear(&env->scenes_lst, &scene_del);
+	ft_lstclear(&env->scenes_lst, &scenes_del);
 	ft_lstclear(texture_cache(), &texturecache_del);
 	if (env->win)
 		mlx_destroy_window(env->mlx, env->win);
@@ -57,9 +63,12 @@ int	load_map(t_gameenv *env, char *path)
 	scene = ft_scene(env, path);
 	if (!scene)
 		return (1);
-	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm", env);
+	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm");
 	if (scene->terrain)
+	{
+		scene_add(scene, scene->terrain);
 		lst_scene = ft_lstnew(scene);
+	}
 	if (!scene->terrain || !lst_scene)
 	{
 		if (lst_scene)
@@ -68,7 +77,6 @@ int	load_map(t_gameenv *env, char *path)
 		return (1);
 	}
 	ft_lstadd_front(&env->scenes_lst, lst_scene);
-	ft_lstadd_front(&env->scenes_lst, lst_scene);
 	env->scene = scene;
 	return (0);
 }
@@ -76,22 +84,15 @@ int	load_map(t_gameenv *env, char *path)
 
 void	game_init(t_gameenv *env, char *mappath)
 {
-	//env->terrain = ft_terrain(mappath, "./textures/stringstar_fields.xpm", env);
-	//if (errno)
-	//	return ;
-	//if (env->terrain)
-	//	env->character = ft_actor();
 	//if (env->character)
 	//	env->character->base->texture = ft_texture("./textures/cat.xpm", env->mlx);
-	//if (env->character)
-	//	env->back0 = ft_texture("./textures/background0.xpm", env->mlx);
-	//if (env->back0)
-	//	env->back1 = ft_texture("./textures/background1.xpm", env->mlx);
-	//if (env->back1)
-	//	env->back2 = ft_texture("./textures/background2.xpm", env->mlx);
 
 	load_map(env, mappath);
-
+	if (errno)
+		return ;
+	scene_add(env->scene, ft_background(env->scene));
+	if (errno)
+		return ;
 
 	env->seed = ft_uptime();
 	mlx_hook(env->win, ON_DESTROY, 0, process_close, env);

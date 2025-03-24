@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 00:10:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:29:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ int				int2d_length(t_int2d *self);
 
 void			int2d_del(t_int2d *self);
 t_int2d			*ft_int2d(int x, int y);
+
+t_transform		t_from_pos(t_int2d pos);
 
 #endif

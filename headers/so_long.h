@@ -6,21 +6,19 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 04:45:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:18:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "classes/scene.h"
+# include "classes/scene.h"
+# include <libft.h>
+
 # ifndef TICK
 #  define TICK 240
 # endif
-
-# include "classes/texture.h"
-# include "classes/entities/actor.h"
-# include "classes/terrain.h"
 
 enum
 {
@@ -46,10 +44,6 @@ typedef struct s_gameenv
 
 	t_scene		*scene;
 	t_list		*scenes_lst;
-
-	t_texture	*back0;
-	t_texture	*back1;
-	t_texture	*back2;
 }			t_gameenv;
 
 int			update(t_gameenv *env);

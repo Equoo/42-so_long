@@ -6,13 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 03:16:47 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:10:01 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/scene.h"
 #include "classes/element.h"
 
+#include <X11/X.h>
 #include <ft_vector.h>
 #include <libft.h>
 
@@ -60,9 +61,12 @@ t_scene	*ft_scene(void *env, char *name)
 	return (scene);
 }
 
-t_scene	*cast_scene(void *scene)
+void	scene_add(t_scene *self, void *element)
 {
-	if (!scene)
-		return (NULL);
-	return ((t_scene *)(((uint64_t *)scene))[1]);
+	t_element	*elem;
+
+	elem = cast_element(element);
+	if (!elem)
+		return ;
+	vec_append(&self->elements, &elem);
 }

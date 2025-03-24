@@ -6,16 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 02:12:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:17:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TERRAIN_H
 # define TERRAIN_H
-# include <mlx_int.h>
 # include "classes/element.h"
 # include "classes/vector2d.h"
-# include "classes/texture.h"
 
 # define MAP_CHARS "01CEP"
 # define MAP_COIN 'C'
@@ -26,9 +24,7 @@
 
 typedef struct s_terrain
 {
-	void		*env;
 	t_element	*base;
-	t_texture	*texture;
 	char		*grid;
 	int			w;
 	int			h;
@@ -36,7 +32,6 @@ typedef struct s_terrain
 	int			exit;
 	int			*coins;
 
-	void		*(*del)(struct s_terrain *self);
 	int			(*collide)(struct s_terrain *self, t_float2d pos);
 }				t_terrain;
 
@@ -45,7 +40,7 @@ int			terrain_findpath(t_terrain *self, int *checkedmap, t_int2d pos, t_int2d la
 void		terrain_draw(t_element *self, t_img *buffer);
 int			terrain_collide(t_terrain *self, t_float2d pos);
 
-t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath, void *env);
+t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath);
 
 void		terrain_del(t_element **self);
 
