@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 17:22:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 03:17:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SCENE_H
 
 #include "ft_vector.h"
+
 enum e_scene
 {
 	SCENE_GAME,
@@ -42,7 +43,7 @@ typedef struct s_scene
 	void		(*update)(struct s_scene *self);
 }	t_scene;
 
-void	scene_del(t_scene **self);
+void	scene_del(void *self);
 t_scene	*ft_scene(void *env, char *name);
 
 #endif

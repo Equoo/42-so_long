@@ -6,25 +6,31 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 17:19:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 02:25:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <X11/X.h>
 #include <stdlib.h>
 #include "so_long.h"
 #include "classes/texture.h"
 #include "classes/terrain.h"
 
-void	*terrain_del(t_terrain **self)
+void	terrain_del(t_element **self)
 {
-	if (self->texture)
-		texture_del(&self->texture);
-	if (self->grid)
-		free(self->grid);
-	if (self->base)
-		self->base->del(self->base);
-	free(self);
-	return (NULL);
+	t_terrain	*terrain;
+
+	if ((*self)->parent)
+	{
+		terrain = (t_terrain *)(*self)->parent;
+		if (terrain->grid)
+			free(terrain->grid);
+		if (terrain->texture)
+			texture_del(&terrain->texture);
+		free(terrain);
+		(*self)->parent = NULL;
+	}
+	element_del(self);
 }
 
 int	terrain_collide(t_terrain *self, t_float2d pos)
@@ -34,23 +40,27 @@ int	terrain_collide(t_terrain *self, t_float2d pos)
 	return (0);
 }
 
-t_terrain	*ft_terrain(char *mappath, char *texpath, void *env)
+t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath, void *env)
 {
 	t_terrain	*terrain;
 
 	terrain = (t_terrain *)ft_calloc(1, sizeof(t_terrain));
-	if (terrain)
-		terrain->base = ft_element("terrain");
-	if (terrain && terrain->base)
+	if (!terrain)
+		return (NULL);
+	terrain->base = ft_element(scene);
+	if (terrain->base)
 		terrain->texture = ft_texture(texpath, ((t_gameenv *)env)->mlx);
-	if (terrain && terrain->texture)
+	if (terrain->texture)
 		terrain_load(terrain, mappath);
-	if (!terrain || !terrain->base || !terrain->texture || !terrain->grid)
-		return (terrain_del(terrain));
+	if (!terrain->base || !terrain->texture || !terrain->grid)
+	{
+		terrain->base->del(&terrain->base);
+		return (NULL);
+	}
 	terrain->base->parent = terrain;
 	terrain->env = env;
-	terrain->del = &terrain_del;
 	terrain->collide = &terrain_collide;
+	terrain->base->del = &terrain_del;
 	terrain->base->draw = &terrain_draw;
 	return (terrain);
 }

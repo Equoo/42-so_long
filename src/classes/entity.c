@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 16:57:58 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 02:57:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 
 void	entity_del(t_element **self)
 {
-	if ((*self)->parent)
-		free((*self)->parent);
-	free(*self);
-	*self = NULL;
+	t_entity *entity;
+
+	entity = cast_entity((*self)->parent);
+	element_del(self);
+	if (entity)
+		free(entity);
 }
 
 t_entity	*ft_entity(t_scene *scene)
@@ -38,8 +40,16 @@ t_entity	*ft_entity(t_scene *scene)
 	}
 	*entity = (t_entity){0};
 	entity->base = base;
+	entity->entity = entity;
 	entity->base->parent = entity;
 	entity->base->class = CLASS_ENTITY;
 	entity->base->del = entity_del;
 	return (entity);
+}
+
+t_entity	*cast_entity(void *entity)
+{
+	if (!entity)
+		return (NULL);
+	return ((t_entity *)(((uint64_t *)entity))[1]);
 }

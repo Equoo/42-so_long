@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 17:35:27 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 03:15:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static void texturecache_del(void *content)
 
 int	process_close(t_gameenv *env)
 {
-	//if (env->terrain)
-		//terrain_del(env->terrain);
+	ft_lstclear(&env->scenes_lst, &scene_del);
 	ft_lstclear(texture_cache(), &texturecache_del);
 	if (env->win)
 		mlx_destroy_window(env->mlx, env->win);
@@ -88,6 +87,8 @@ void	game_init(t_gameenv *env, char *mappath)
 	//	env->back2 = ft_texture("./textures/background2.xpm", env->mlx);
 
 	load_map(env, mappath);
+
+
 	env->seed = ft_uptime();
 	mlx_hook(env->win, ON_DESTROY, 0, process_close, env);
 	mlx_loop_hook(env->mlx, &update, env);

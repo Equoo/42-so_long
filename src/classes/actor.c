@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 16:59:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/24 02:57:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,12 @@
 
 void	actor_del(t_element **self)
 {
-	t_entity *entity;
+	t_actor	*actor;
 
-	if ((*self)->parent)
-	{
-		entity = ((t_actor *)(*self))->entity;
-		if (entity->parent)
-			free((*self)->parent);
-		free(entity);
-	}
-	free(*self);
-	*self = NULL;
+	actor = cast_actor((*self)->parent);
+	entity_del(self);
+	if (actor)
+		free(actor);
 }
 
 t_actor	*ft_actor(t_scene *scene)
@@ -46,9 +41,17 @@ t_actor	*ft_actor(t_scene *scene)
 	}
 	*actor = (t_actor){0};
 	actor->entity = entity;
+	actor->actor = actor;
 	actor->base = entity->base;
 	actor->base->class = CLASS_ACTOR;
 	actor->base->del = actor_del;
 	actor->entity->base = actor->base;
 	return (actor);
+}
+
+t_actor	*cast_actor(void *actor)
+{
+	if (!actor)
+		return (NULL);
+	return ((t_actor *)(((uint64_t *)actor))[2]);
 }
