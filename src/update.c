@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:21:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:11:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <ft_printf.h>
 #include <errno.h>
 #include <ft_time.h>
-#include "classes/terrain.h"
+#include "classes/element.h"
+#include "libft.h"
 #include "so_long.h"
 #include "render.h"
 #include "seed.h"
@@ -59,14 +60,13 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
-	int i = 0;
-	while (i < env->scene->elements.actual_size)
+	t_list	*node = env->scene->elements;
+	while (node)
 	{
-		t_element *elem = (t_element *)vec_get(&env->scene->elements, i);
-		__builtin_printf("Element %p\n", elem);
+		t_element *elem = (t_element *)node->content;
 		if (elem->draw)
 			elem->draw(elem, lbuffer);
-		i++;
+		node = node->next;
 	}
 
 	int scale = env->height / 360 + 2;

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:23:15 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:09:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "classes/entity.h"
 #include "classes/scene.h"
 #include <stdlib.h>
+#include <stdint.h>
 
 void	actor_del(t_element **self)
 {

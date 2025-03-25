@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:10:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:08:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 #include <ft_vector.h>
 #include <libft.h>
 
+static void	element_lst_del(void *self)
+{
+	t_element	*elem;
+
+	elem = (t_element *)self;
+	elem->del((t_element **)&element_lst_del);
+}
+
 void	scene_del(void *self)
 {
 	t_scene		*scene;
 	t_element	*terrain;
-	int 		i;
 
 	scene = (t_scene *)self;
-	i = 0;
-	while (scene->elements.data && i < scene->elements.size)
-	{
-		((t_element *)scene->elements.data + i * sizeof(t_element *))->del(
-				(void *)scene->elements.data + i * sizeof(t_element *));
-		i++;
-	}
-	if (scene->elements.data)
-		vec_destroy(&scene->elements);
+	if (scene->elements)
+		ft_lstclear(&scene->elements, element_lst_del);
 	terrain = cast_element(scene->terrain);
 	if (terrain)
 		terrain->del(&terrain);
@@ -51,9 +51,7 @@ t_scene	*ft_scene(void *env, char *name)
 	*scene = (t_scene){0};
 	scene->env = env;
 	scene->name = ft_strdup(name);
-	if (scene->name)
-		scene->elements = vec_new(128, sizeof(t_element));
-	if (!scene->name || !scene->elements.data)
+	if (!scene->name)
 	{
 		scene_del(scene);
 		return (NULL);
@@ -61,12 +59,29 @@ t_scene	*ft_scene(void *env, char *name)
 	return (scene);
 }
 
-void	scene_add(t_scene *self, void *element)
+int	scene_add(t_scene *self, void *element)
 {
 	t_element	*elem;
+	t_list		*node;
+	t_list		*tmp;
 
 	elem = cast_element(element);
 	if (!elem)
-		return ;
-	vec_append(&self->elements, &elem);
+		return (1);
+	node = ft_lstnew(elem);
+	if (!node)
+		return (1);
+	if (!self->elements
+		|| ((t_element *)self->elements->content)->zindex > elem->zindex)
+		ft_lstadd_front(&self->elements, node);
+	else if (self->elements)
+	{
+		tmp = self->elements;
+		while (tmp->next && ((t_element *)tmp->next->content)->zindex <= elem->zindex)
+			tmp = tmp->next;
+		ft_lstadd_front(&tmp->next, node);
+	}
+	else
+		ft_lstadd_back(&self->elements, node);	
+	return (0);
 }

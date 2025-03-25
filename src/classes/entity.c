@@ -6,13 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:23:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:09:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entity.h"
 #include "classes/scene.h"
 #include <libft.h>
+#include <stdint.h>
 
 void	entity_del(t_element **self)
 {

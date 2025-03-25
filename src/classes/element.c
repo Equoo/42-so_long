@@ -6,12 +6,11 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:26:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 02:09:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
-#include "classes/terrain.h"
 #include <libft.h>
 #include <stdint.h>
 
@@ -43,7 +42,5 @@ t_element	*cast_element(void *element)
 {
 	if (!element)
 		return (NULL);
-	ft_print_memory(element, sizeof(t_terrain));
-	__builtin_printf("%d\n", ((t_element *)(*(uintptr_t *)element))->id);
 	return ((t_element *)(*(uintptr_t *)element));
 }
