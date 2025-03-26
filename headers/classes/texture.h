@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 02:37:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 03:54:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_slice
 	char		*name;
 	int			from;
 	int			to;
-	int			duration;
+	int			framerate;
 }				t_slice;
 
 typedef struct s_texture
@@ -47,6 +47,8 @@ void			texture_blend_anim(t_texture *self, t_img *buffer, t_transform data, char
 t_frame			texture_get_frame(t_texture *self, char *slice);
 t_frame			texture_get_cycle_frame(t_texture *self, char *slice, double cycle);
 int				read_texture_data(t_texture *texture, char *path);
+
+double			texture_slice_time(t_texture *texture, char *slice);
 
 t_list			**texture_cache();
 void			texture_del(t_texture **self);

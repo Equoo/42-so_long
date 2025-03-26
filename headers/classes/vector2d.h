@@ -6,14 +6,13 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 02:39:35 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 05:26:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR2D_H
 # define VECTOR2D_H
 
-# define FOUR_2D_DIRS {{0, -1}, {-1, 0}, {1, 0}, {0, 1}}
 # define DIR_BOTTOM 3
 # define DIR_LEFT 1
 # define DIR_RIGHT 2
@@ -51,7 +50,8 @@ typedef struct s_transform
 }				t_transform;
 
 t_float2d		float2d_add(t_float2d self, t_float2d other);
-void			float2d_sub(t_float2d *self, t_float2d *other);
+void			float2d_sub(t_float2d *self, t_float2d other);
+t_float2d		float2d_scaled(t_float2d self, float factor);
 void			float2d_scale(t_float2d *self, float factor);
 float			float2d_dot(t_float2d *self, t_float2d *other);
 void			float2d_normalize(t_float2d *self);
@@ -61,7 +61,8 @@ void			float2d_del(t_float2d *self);
 t_float2d		*ft_float2d(float x, float y);
 
 t_int2d			int2d_add(t_int2d self, t_int2d other);
-void			int2d_sub(t_int2d *self, t_int2d *other);
+void			int2d_sub(t_int2d *self, t_int2d other);
+t_int2d			int2d_scaled(t_int2d self, float factor);
 void			int2d_scale(t_int2d *self, int factor);
 int				int2d_dot(t_int2d *self, t_int2d *other);
 void			int2d_normalize(t_int2d *self);

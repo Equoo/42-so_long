@@ -13,6 +13,7 @@
 #include "classes/entities/player.h"
 #include "classes/scene.h"
 #include "classes/texture.h"
+#include "libft.h"
 #include "so_long.h"
 #include <stdlib.h>
 #include <stdint.h>
@@ -47,6 +48,7 @@ t_player	*ft_player(t_scene *scene)
 	player->base->class = CLASS_PLAYER;
 	player->base->parent = player;
 	player->base->del = &player_del;
+	player->base->anim = ft_strdup("Idle_2");
 	player->base->texture = ft_texture("./textures/cat.xpm", ((t_gameenv *)scene->env)->mlx);
 	if (!player->base->texture)
 		player->base->del(&player->base);

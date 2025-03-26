@@ -16,18 +16,22 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/sub.c\
 				classes/vector2d/length.c\
 				classes/vector2d/normalize.c\
+				classes/vector2d/scaled.c\
 				classes/vector2d/convert.c\
 				classes/vector2d/transform.c\
 				classes/vector2d.c\
 				classes/texture/data.c\
 				classes/texture/draw_slice.c\
 				classes/texture/get_frame.c\
+				classes/texture/texture_slice_time.c\
 				classes/texture.c\
 				classes/element.c\
 				classes/terrain/draw.c\
 				classes/terrain/load.c\
+				classes/terrain/collide.c\
 				classes/terrain/findpath.c\
 				classes/terrain.c\
+				classes/entity/physic.c\
 				classes/entity.c\
 				classes/player.c\
 				classes/scene.c\

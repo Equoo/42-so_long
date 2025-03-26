@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:35 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 03:24:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:04:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ typedef struct s_element
 	t_scene		*scene;
 	t_float2d	pos;
 	int			zindex;
+	char		*anim;
+	double		last_anim_time;
+	double		cycle;
 	t_texture	*texture;
 
 	void		(*update)(struct s_element *self);
@@ -36,7 +39,7 @@ typedef struct s_element
 	void		(*del)(struct s_element **self);
 }				t_element;
 
-t_list			**element_list();
+void			element_update(t_element *self);
 
 t_element		*ft_element(t_scene *scene);
 t_element		*cast_element(void *element);

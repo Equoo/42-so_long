@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 02:52:13 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:35:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_entity
 }				t_entity;
 
 void			entity_del(t_element **self);
+
+void			entity_physic(t_element *self);
 
 t_entity		*ft_entity(t_scene *scene);
 t_entity		*cast_entity(void *entity);

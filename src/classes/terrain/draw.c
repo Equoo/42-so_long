@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:10:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 05:26:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_prob {
 
 char	getindir(t_terrain *self, t_int2d pos, int dir)
 {
-	int dirs[][2] = FOUR_2D_DIRS;
+	int dirs[][2] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
 	if (pos.x + dirs[dir][0] < 0 || pos.x + dirs[dir][0] >= self->w
 		|| pos.y + dirs[dir][1] < 0 || pos.y + dirs[dir][1] >= self->h)
 		return (MAP_WALL);

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:46:39 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 23:50:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 05:26:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	terrain_findpath(t_terrain *map, int *checkedmap, t_int2d pos, t_int2d last)
 {
-	const int	dir[4][2] = FOUR_2D_DIRS;
+	const int	dir[4][2] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
 	int			i;
 	int			x;
 	int			y;

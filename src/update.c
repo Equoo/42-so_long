@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:11:26 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:19:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	tick(t_gameenv *env)
 	while (node)
 	{
 		t_element *elem = (t_element *)node->content;
+		if (elem->update)
+			elem->update(elem);
 		if (elem->draw)
 			elem->draw(elem, lbuffer);
 		node = node->next;

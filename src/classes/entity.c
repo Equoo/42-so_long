@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 02:42:33 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 06:12:21 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_entity	*ft_entity(t_scene *scene)
 	}
 	entity->base = base;
 	entity->entity = entity;
-	entity->hull = (t_faabb){{-16, 32}, {16, 0}};
+	entity->hull = (t_faabb){{-16, -32}, {16, 0}};
+	entity->base->update = &entity_physic;
 	entity->base->parent = entity;
 	entity->base->class = CLASS_ENTITY;
 	entity->base->del = &entity_del;

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 02:23:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 06:33:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ void	terrain_del(t_element **self)
 		(*self)->parent = NULL;
 	}
 	element_del(self);
-}
-
-int	terrain_collide(t_terrain *self, t_float2d pos)
-{
-	(void)self;
-	(void)pos;
-	return (0);
 }
 
 t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)

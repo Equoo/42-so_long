@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:14:06 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:52:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 ** @param self: the first vector
 ** @param other: the second vector
 */
-void	float2d_sub(t_float2d *self, t_float2d *other)
+void	float2d_sub(t_float2d *self, t_float2d other)
 {
-	self->x -= other->x;
-	self->y -= other->y;
+	self->x -= other.x;
+	self->y -= other.y;
 }
 
 /*
@@ -28,8 +28,8 @@ void	float2d_sub(t_float2d *self, t_float2d *other)
 ** @param self: the first vector
 ** @param other: the second vector
 */
-void	int2d_sub(t_int2d *self, t_int2d *other)
+void	int2d_sub(t_int2d *self, t_int2d other)
 {
-	self->x -= other->x;
-	self->y -= other->y;
+	self->x -= other.x;
+	self->y -= other.y;
 }
