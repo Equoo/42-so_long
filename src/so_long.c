@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 07:25:03 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 07:31:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ int	load_map(t_gameenv *env, char *path)
 int	down_key(int keycode, t_gameenv *env)
 {
 	__builtin_printf("Key, %d\n", keycode);
-	if (keycode == 119)
+	if (keycode == 'w')
 		env->ply->actor->move(env->ply->actor, 2);
-	if (keycode == 97)
+	if (keycode == 'a')
 		env->ply->actor->move(env->ply->actor, 0);
-	if (keycode == 115)
+	if (keycode == 's')
 		env->ply->actor->move(env->ply->actor, 3);
-	if (keycode == 100)
+	if (keycode == 'd')
 		env->ply->actor->move(env->ply->actor, 1);
 	if (keycode == XK_Escape)
 		process_close(env);
@@ -120,7 +120,7 @@ void	game_init(t_gameenv *env, char *mappath)
 
 	env->seed = ft_uptime();
 	mlx_hook(env->win, ON_DESTROY, 0, &process_close, env);
-	mlx_key_hook(env->win, &down_key, env);
+	mlx_hook(env->win, KeyPress, KeyPressMask, &down_key, env);
 	mlx_loop_hook(env->mlx, &update, env);
 }
 
