@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 17:45:19 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:29:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,44 @@ void	background_del(t_element **self)
 	element_del(self);
 }
 
-t_background	*ft_background(t_scene *scene)
+static void	init_background(t_scene *scene, t_background *background)
 {
-	t_background	*background;
-
-	background = (t_background *)ft_calloc(1, sizeof(t_background));
-	if (!background)
-		return (NULL);
-	background->base = ft_element(scene);
-	if (background->base)
-		background->base->texture = ft_texture("./textures/background0.xpm",
-					((t_gameenv *)scene->env)->mlx);
-	if (background->base && background->base->texture)
+	background->base->class = CLASS_BACKGROUND;
+	background->base->del = &background_del;
+	background->base->draw = &background_draw;
+	background->base->texture = ft_texture("./textures/background0.xpm",
+		((t_gameenv *)scene->env)->mlx);
+	if (background->base->texture)
 		background->back_1 = ft_texture("./textures/background1.xpm",
 			((t_gameenv *)scene->env)->mlx);
 	if (background->back_1)
 		background->back_2 = ft_texture("./textures/background2.xpm",
 			((t_gameenv *)scene->env)->mlx);
-	if (!background->base || !background->base->texture
-			|| !background->back_1 || !background->back_2)
+	if (!background->base->texture || !background->back_1
+		|| !background->back_2)
 	{
 		background->base->del(&background->base);
+		return ;
+	}
+}
+
+t_background	*ft_background(t_scene *scene)
+{
+	t_element		*base;
+	t_background	*background;
+
+	base = ft_element(scene);
+	if (!base)
+		return (NULL);
+	background = (t_background *)ft_calloc(1, sizeof(t_background));
+	if (!background)
+	{
+		base->del(&base);
 		return (NULL);
 	}
+	background->base = base;
 	background->base->parent = background;
-	background->base->del = &background_del;
-	background->base->draw = &background_draw;
+	init_background(scene, background);
 	return (background);
 }
 

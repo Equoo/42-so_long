@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:08:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:58:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_scene	*ft_scene(void *env, char *name)
 	scene = (t_scene *)ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (NULL);
-	*scene = (t_scene){0};
 	scene->env = env;
 	scene->name = ft_strdup(name);
 	if (!scene->name)
@@ -82,6 +81,6 @@ int	scene_add(t_scene *self, void *element)
 		ft_lstadd_front(&tmp->next, node);
 	}
 	else
-		ft_lstadd_back(&self->elements, node);	
+		ft_lstadd_back(&self->elements, node);
 	return (0);
 }

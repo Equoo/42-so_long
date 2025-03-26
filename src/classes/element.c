@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:09:26 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:23:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ t_element	*ft_element(t_scene *scene)
 	if (!element)
 		return (NULL);
 	elements_count++;
-	*element = (t_element){0};
 	element->base = element;
 	element->class = CLASS_ELEMENT;
 	element->scene = scene;
-	element->del = element_del;
+	element->del = &element_del;
 	element->id = elements_count;
 	return (element);
 }

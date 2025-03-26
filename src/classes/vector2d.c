@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2d.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:00:00 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:12:05 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:59:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ t_float2d	*ft_float2d(float x, float y)
 		return (NULL);
 	vector->x = x;
 	vector->y = y;
-	//vector->add = &float2d_add;
-	//vector->sub = &float2d_sub;
-	//vector->scale = &float2d_scale;
-	//vector->dot = &float2d_dot;
-	//vector->normalize = &float2d_normalize;
-	//vector->length = &float2d_length;
 	return (vector);
 }
 
@@ -65,11 +59,5 @@ t_int2d	*ft_int2d(int x, int y)
 		return (NULL);
 	vector->x = x;
 	vector->y = y;
-	//vector->add = &int2d_add;
-	//vector->sub = &int2d_sub;
-	//vector->scale = &int2d_scale;
-	//vector->dot = &int2d_dot;
-	//vector->normalize = &int2d_normalize;
-	//vector->length = &int2d_length;
 	return (vector);
 }

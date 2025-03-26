@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:36:19 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 02:45:22 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:55:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@
 void	texture_draw_slice(t_texture *self, t_img *buffer,
 					t_transform data, char *slice)
 {
-	t_frame	frame;
+	t_frame		frame;
+	t_imgflip	flip;
 
+	flip = 0;
+	if (data.scale.x == -1)
+		flip |= FLIP_HORIZ;
+	if (data.scale.y == -1)
+		flip |= FLIP_VERT;
 	frame = texture_get_frame(self, slice);
-	if (data.angle != 0)
+	if (data.angle != 0 || flip)
 		mylx_img_copy((t_copyimg){frame.a, frame.b,
 				data.pos, self->img, buffer,
-				FLIP_NONE, data.angle});
+				flip, data.angle});
 	else
 		mylx_img_fast_copy((t_iaabb){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
@@ -33,13 +39,19 @@ void	texture_draw_slice(t_texture *self, t_img *buffer,
 void	texture_draw_anim(t_texture *self, t_img *buffer,
 					t_transform data, char *slice, double cycle)
 {
-	t_frame	frame;
+	t_frame		frame;
+	t_imgflip	flip;
 
+	flip = 0;
+	if (data.scale.x == -1)
+		flip |= FLIP_HORIZ;
+	if (data.scale.y == -1)
+		flip |= FLIP_VERT;
 	frame = texture_get_cycle_frame(self, slice, cycle);
-	if (data.angle != 0)
+	if (data.angle != 0 || flip)
 		mylx_img_copy((t_copyimg){frame.a, frame.b,
 				data.pos, self->img, buffer,
-				FLIP_NONE, data.angle});
+				flip, data.angle});
 	else
 		mylx_img_fast_copy((t_iaabb){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
@@ -49,13 +61,19 @@ void	texture_draw_anim(t_texture *self, t_img *buffer,
 void	texture_blend_slice(t_texture *self, t_img *buffer,
 					t_transform data, char *slice)
 {
-	t_frame	frame;
+	t_frame		frame;
+	t_imgflip	flip;
 
+	flip = 0;
+	if (data.scale.x == -1)
+		flip |= FLIP_HORIZ;
+	if (data.scale.y == -1)
+		flip |= FLIP_VERT;
 	frame = texture_get_frame(self, slice);
-	if (data.angle != 0)
+	if (data.angle != 0 || flip)
 		mylx_img_blend((t_copyimg){frame.a, frame.b,
 				data.pos, self->img, buffer,
-				FLIP_NONE, data.angle});
+				flip, data.angle});
 	else
 		mylx_img_fast_blend((t_iaabb){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
@@ -65,13 +83,19 @@ void	texture_blend_slice(t_texture *self, t_img *buffer,
 void	texture_blend_anim(t_texture *self, t_img *buffer,
 					t_transform data, char *slice, double cycle)
 {
-	t_frame	frame;
+	t_frame		frame;
+	t_imgflip	flip;
 
+	flip = 0;
+	if (data.scale.x == -1)
+		flip |= FLIP_HORIZ;
+	if (data.scale.y == -1)
+		flip |= FLIP_VERT;
 	frame = texture_get_cycle_frame(self, slice, cycle);
-	if (data.angle != 0)
+	if (data.angle != 0 || flip)
 		mylx_img_blend((t_copyimg){frame.a, frame.b,
 				data.pos, self->img, buffer,
-				FLIP_NONE, data.angle});
+				flip, data.angle});
 	else
 		mylx_img_fast_blend((t_iaabb){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},

@@ -6,12 +6,13 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:09:10 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 02:42:33 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entity.h"
 #include "classes/scene.h"
+#include "classes/vector2d.h"
 #include <libft.h>
 #include <stdint.h>
 
@@ -39,12 +40,12 @@ t_entity	*ft_entity(t_scene *scene)
 		base->del(&base);
 		return (NULL);
 	}
-	*entity = (t_entity){0};
 	entity->base = base;
 	entity->entity = entity;
+	entity->hull = (t_faabb){{-16, 32}, {16, 0}};
 	entity->base->parent = entity;
 	entity->base->class = CLASS_ENTITY;
-	entity->base->del = entity_del;
+	entity->base->del = &entity_del;
 	return (entity);
 }
 

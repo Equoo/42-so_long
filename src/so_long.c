@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:08:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 03:20:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 #include "classes/scene.h"
 #include "classes/texture.h"
 #include "classes/terrain.h"
+#include "classes/entities/player.h"
 #include "so_long.h"
+#include "classes/vector2d.h"
 #include "error.h"
 
 static void texturecache_del(void *content)
@@ -71,7 +73,7 @@ int	load_map(t_gameenv *env, char *path)
 	}
 	if (!scene->terrain || !lst_scene)
 	{
-		if (lst_scene)
+		if (scene->terrain && lst_scene)
 			free(lst_scene);
 		scene_del(&scene);
 		return (1);
@@ -91,6 +93,9 @@ void	game_init(t_gameenv *env, char *mappath)
 	if (errno)
 		return ;
 	scene_add(env->scene, ft_background(env->scene));
+	t_player	*player = ft_player(env->scene);
+	scene_add(env->scene, player);
+	player->base->pos = (t_float2d){50, 50};
 	if (errno)
 		return ;
 

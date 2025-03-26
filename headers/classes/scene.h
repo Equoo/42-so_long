@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:07:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/25 17:02:20 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef enum e_class
 	CLASS_ENEMY,
 	CLASS_ITEM,
 	CLASS_HUD,
-	CLASS_TERRAIN
+	CLASS_TERRAIN,
+	CLASS_BACKGROUND
 }	t_class;
 
 typedef struct s_scene
