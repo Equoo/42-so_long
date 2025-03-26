@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 02:59:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 07:02:16 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_actor	*ft_actor(t_scene *scene)
 	}
 	actor->entity = entity;
 	actor->actor = actor;
+	actor->move = &actor_move;
 	actor->direction = 1;
 	actor->base = entity->base;
 	actor->base->zindex = 10;

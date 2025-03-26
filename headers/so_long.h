@@ -6,13 +6,14 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 18:18:44 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 07:03:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+#include "classes/entities/player.h"
 # include "classes/scene.h"
 # include <libft.h>
 
@@ -41,6 +42,8 @@ typedef struct s_gameenv
 	int			width;
 	int			height;
 	int			seed;
+
+	t_player	*ply;
 
 	t_scene		*scene;
 	t_list		*scenes_lst;
