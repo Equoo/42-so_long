@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 01:52:33 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:03:16 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	tick(t_gameenv *env)
 		node = node->next;
 	}
 
-	int scale = env->height / 360 + 2;
+	int scale = (int)((double)(env->height / 224) * 1.3);
 	if (scale)
 	{
 		buffer = mylx_img_scale(env->mlx, lbuffer, scale);

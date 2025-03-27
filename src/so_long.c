@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 02:04:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:04:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	game_init(t_gameenv *env, char *mappath)
 	scene_add(env->scene, ft_background(env->scene));
 	t_player	*player = ft_player(env->scene);
 	scene_add(env->scene, player);
-	player->base->pos = (t_float2d){50, 50};
+	player->base->pos = (t_float2d){80, 60};
 	env->ply = player;
 	if (errno)
 		return ;

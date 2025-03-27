@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 21:42:10 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:04:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,17 @@ void			entity_physic(t_element *self)
 	//if (!ent->nogravity)
 		//ent->velocity.y -= GRAVITY;
 
+	t_float2d	new_pos = float2d_add(self->pos,
+		float2d_scaled(ent->velocity, env->frametime));
+
 	terrain = self->scene->terrain;
 	if (terrain)
-		self->pos = terrain->collide(terrain, ent,
+		new_pos = terrain->collide(terrain, ent,
 				float2d_scaled(ent->velocity, env->frametime),
 				float2d_add(self->pos, float2d_scaled(ent->velocity, env->frametime)));
-	else
-		self->pos = float2d_add(self->pos,
-		float2d_scaled(ent->velocity, env->frametime));
+
+	ent->velocity = float2d_scale_dived(float2d_sub(new_pos, self->pos), env->frametime);
+	self->pos = new_pos;
 
 	ent->velocity = float2d_scaled(ent->velocity, 1 - (3 * frametime));
 }

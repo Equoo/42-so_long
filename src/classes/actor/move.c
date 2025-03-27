@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 06:58:02 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 15:31:04 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 15:02:38 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@
 void	actor_move(struct s_actor *self, int dir)
 {
 	if (dir == 0)
-		self->base->pos.x -= 100 * ((t_gameenv *)self->base->scene->env)->frametime;
+	{
+		self->entity->velocity.x -= 10;
+		self->direction = -1;
+	}
 	else if (dir == 1)
-		self->base->pos.x += 100 * ((t_gameenv *)self->base->scene->env)->frametime;
+	{
+		self->entity->velocity.x += 10;
+		self->direction = 1;
+	}
 	else if (dir == 2)
-		self->base->pos.y -= 100 * ((t_gameenv *)self->base->scene->env)->frametime;
+		self->entity->velocity.y -= 80;
 	else if (dir == 3)
-		self->base->pos.y += 100 * ((t_gameenv *)self->base->scene->env)->frametime;
+		self->entity->velocity.y += 10;
 }
