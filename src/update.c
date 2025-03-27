@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 04:19:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 01:52:33 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ int	tick(t_gameenv *env)
 	}
 
 	int scale = env->height / 360 + 2;
-	buffer = mylx_img_scale(env->mlx, lbuffer, scale);
-	mlx_put_image_to_window(env->mlx, env->win, buffer, -8 * scale, -8 * scale);
-	mlx_destroy_image(env->mlx, buffer);
-
+	if (scale)
+	{
+		buffer = mylx_img_scale(env->mlx, lbuffer, scale);
+		mlx_put_image_to_window(env->mlx, env->win, buffer, -8 * scale, -8 * scale);
+		mlx_destroy_image(env->mlx, buffer);
+	}
 	mlx_destroy_image(env->mlx, lbuffer);
 
 	return (0);
