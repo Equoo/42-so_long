@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 04:52:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 16:17:25 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 ** @param self: the first vector
 ** @param other: the second vector
 */
-void	float2d_sub(t_float2d *self, t_float2d other)
+t_float2d	float2d_sub(t_float2d self, t_float2d other)
 {
-	self->x -= other.x;
-	self->y -= other.y;
+	t_float2d	result;
+
+	result.x = self.x - other.x;
+	result.y = self.y - other.y;
+	return (result);
 }
 
 /*
@@ -28,8 +31,11 @@ void	float2d_sub(t_float2d *self, t_float2d other)
 ** @param self: the first vector
 ** @param other: the second vector
 */
-void	int2d_sub(t_int2d *self, t_int2d other)
+t_int2d	int2d_sub(t_int2d self, t_int2d other)
 {
-	self->x -= other.x;
-	self->y -= other.y;
+	t_int2d	result;
+
+	result.x = self.x - other.x;
+	result.y = self.y - other.y;
+	return (result);
 }

@@ -6,73 +6,80 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 05:17:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 07:16:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:12:25 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
 #include "classes/vector2d.h"
-#include <float.h>
+#include <X11/Xutil.h>
+#include <libft.h>
+#include <math.h>
 
+#define GRID_SIZE 16
 
-double	float_abs(double nbr)
+int swept_aabb_grid(t_float2d start, t_float2d end, t_terrain *terrain, t_float2d *res)
 {
-	if (nbr < 0)
-		return (nbr * -1);
-	return (nbr);
+	t_float2d pos0 = float2d_scale_dived(start, GRID_SIZE);
+	t_float2d pos1 = float2d_scale_dived(end, GRID_SIZE);
+
+	t_float2d	delta = float2d_sub(pos1, pos0);
+	delta.x = ft_fabs(delta.x);
+	delta.y = ft_fabs(delta.y);
+
+	t_int2d	step = (t_int2d){1, 1};
+	if (pos0.x >= pos1.x)
+		step.x = -1;
+	if (pos0.y >= pos1.y)
+		step.y = -1;
+	
+    double err = delta.x - delta.y;
+
+    while (1) {
+        // Check if current grid cell is a wall
+		__builtin_printf("Checking: %f %f\n", pos0.x, pos0.y);
+        if (pos0.x >= 0 && pos0.x < terrain->w && pos0.y >= 0 && pos0.y < terrain->h
+			&& terrain->grid[(int)floor(pos0.y) * terrain->w + (int)floor(pos0.x)] == MAP_WALL)
+		{
+            *res = float2d_scaled(pos0, GRID_SIZE);  // Convert back to world coordinates
+            return 1;  // Collision detected
+        }
+
+        if (ft_fabs(pos0.x - pos1.x) < 1e-6 && ft_fabs(pos0.y - pos1.y) < 1e-6)
+            break; // Reached the destination
+
+        double e2 = 2 * err;
+        if (e2 > -delta.y)
+		{
+            err -= delta.y;
+            pos0.x += step.x * 0.01;
+        }
+        if (e2 < delta.x)
+		{
+            err += delta.x;
+            pos0.y += step.y * 0.01;
+        }
+    }
+
+    return 0; // No collision
 }
 
 t_float2d	terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel, t_float2d newpos)
 {
-	t_int2d		start_pos;
-	t_int2d		end_pos;
+	t_float2d	res;
+	(void)vel;
+	(void)ent;
+	(void)self;
+	(void)res;
 
-	t_float2d g_apos = float2d_add(ent->base->pos, ent->hull.a);
-	g_apos.x /= 16;
-	g_apos.y /= 16;
-	t_float2d g_bpos = float2d_add(ent->base->pos, ent->hull.b);
-	(void)g_bpos;
+	res = (t_float2d){0, 0};
+	//if (swept_aabb_grid(ent->base->pos, newpos, self, &res))
+		//(void)newpos;
+		//newpos = res;
 
-	start_pos = to_int2d(g_apos);
-	end_pos = to_int2d(float2d_add(g_apos, vel));
+	__builtin_printf("Collision: %f %f\n", res.x, res.y);
 
-	t_int2d		step = (t_int2d){-1, -1};
-	if (vel.x > 0)
-		step.x = 1;
-	if (vel.y > 0)
-		step.y = 1;
-
-	t_float2d t_max = (t_float2d){DBL_MAX, DBL_MAX};
-	if (vel.x != 0)
-		t_max.x = ((double)(start_pos.x + step.x) - g_apos.x) / vel.x;
-	if (vel.y != 0)
-		t_max.y = ((double)(start_pos.y + step.y) - g_apos.y) / vel.y;
-
-	t_float2d t_delta = (t_float2d){DBL_MAX, DBL_MAX};
-	if (vel.x != 0)
-		t_delta.x = float_abs(1 / vel.x);
-	if (vel.y != 0)
-		t_delta.y = float_abs(1 / vel.y);
-
-
-	t_int2d	current = start_pos;
-	while (current.x < end_pos.x || current.y < end_pos.y)
-	{
-		if (0 <= current.x && current.x < self->w
-				&& 0 <= current.y && current.y < self->h
-				&& self->grid[current.y * self->w + current.x] == MAP_WALL)
-			return (ent->base->pos);
-
-		if (t_max.x < t_max.y)
-		{
-			t_max.x += t_delta.x;
-			current.x += step.x;
-		}
-		else
-		{
-			t_max.y += t_delta.y;
-			current.y += step.y;
-		}
-	}
+	//newpos = ent->base->pos;
+	
 	return (newpos);
 }

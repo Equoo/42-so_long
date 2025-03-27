@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 15:58:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:24:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,21 @@
 #include <ft_vector.h>
 #include <libft.h>
 
-static void	element_lst_del(void *self)
+void	element_lst_del(void *self)
 {
 	t_element	*elem;
 
 	elem = (t_element *)self;
-	elem->del((t_element **)&element_lst_del);
+	elem->del((t_element **)&self);
 }
 
 void	scene_del(void *self)
 {
 	t_scene		*scene;
-	t_element	*terrain;
 
 	scene = (t_scene *)self;
 	if (scene->elements)
-		ft_lstclear(&scene->elements, element_lst_del);
-	terrain = cast_element(scene->terrain);
-	if (terrain)
-		terrain->del(&terrain);
+		ft_lstclear(&scene->elements, &element_lst_del);
 	if (scene->name)
 		free(scene->name);
 	free(scene);

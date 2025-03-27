@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 02:29:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:41:58 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	background_del(t_element **self)
 	if ((*self)->parent)
 	{
 		background = (t_background *)(*self)->parent;
-		if (background->back_1)
-			texture_del(&background->back_1);
-		if (background->back_2)
-			texture_del(&background->back_2);
+		//if (background->back_1)
+		//	texture_del(&background->back_1);
+		//if (background->back_2)
+		//	texture_del(&background->back_2);
 		free(background);
 		(*self)->parent = NULL;
 	}

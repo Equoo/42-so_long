@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 07:31:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 00:27:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,10 @@
 #include <X11/keysym.h>
 #include <X11/X.h>
 
-static void texturecache_del(void *content)
-{
-	t_texture *tex;
-
-	tex = (t_texture *)content;
-	texture_del(&tex);
-}
-
-static void scenes_del(void *content)
-{
-	scene_del(content);
-}
-
 int	process_close(t_gameenv *env)
 {
-	ft_lstclear(&env->scenes_lst, &scenes_del);
-	ft_lstclear(texture_cache(), &texturecache_del);
+	ft_lstclear(&env->scenes_lst, &scene_del);
+	ft_lstclear(texture_cache(), &texture_del);
 	if (env->win)
 		mlx_destroy_window(env->mlx, env->win);
 	if (env->mlx)
@@ -80,7 +67,7 @@ int	load_map(t_gameenv *env, char *path)
 	{
 		if (scene->terrain && lst_scene)
 			free(lst_scene);
-		scene_del(&scene);
+		scene_del(scene);
 		return (1);
 	}
 	ft_lstadd_front(&env->scenes_lst, lst_scene);
@@ -144,6 +131,7 @@ int	main(int argc, char **argv)
 	env.height = 1080;
 	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
 	errno = 0;
+	env.win = NULL;
 	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
 	if (!env.win)
 		return (process_close(&env));

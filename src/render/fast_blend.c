@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:56:53 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/19 21:57:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:44:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	*mylx_img_fast_blend(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
 		sqr.b.x = sqr.b.x - ((pos.x + sqr.b.x - sqr.a.x) - dest->width);
 	i.y = sqr.a.y;
-	while (i.y < sqr.b.y)
+	while (i.y < sqr.b.y && i.y + pos.y - sqr.a.y < dest->height && i.y + pos.y - sqr.a.y >= 0)
 	{
 		i.x = sqr.a.x / M256_NPIXEL;
-		while (i.x < sqr.b.x / M256_NPIXEL)
+		while (i.x < sqr.b.x / M256_NPIXEL && i.x * M256_NPIXEL + pos.x
+			- sqr.a.x < dest->width && i.x * M256_NPIXEL + pos.x
+			- sqr.a.x >= 0)
 		{
 			src_pixels = mylx_m256_pixel_get(src, i.x * M256_NPIXEL, i.y);
 			dst_pixels = mylx_m256_pixel_get(dest, i.x++ * M256_NPIXEL + pos.x

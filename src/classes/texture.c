@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 04:49:19 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 00:15:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,24 @@ t_list	**texture_cache()
 	return (&cache);
 }
 
-void	texture_del(t_texture **self)
+void	texture_del(void *self)
 {
 	t_texture	*tex;
 
-	tex = *self;
+	tex = (t_texture *)self;
 	if (tex->frames)
 		free(tex->frames);
 	if (tex->slices)
 	{
-		while (tex->nb_slices--)
-      free(tex->slices[tex->nb_slices].name);
-    free(tex->slices);
+		while (tex->nb_slices-- > 0)
+			free(tex->slices[tex->nb_slices].name);
+		free(tex->slices);
 	}
 	if (tex->img)
 		mlx_destroy_image(tex->mlx, tex->img);
-	if (tex->invert)
-		mlx_destroy_image(tex->mlx, tex->invert);
 	if (tex->path)
 		free(tex->path);
 	free(tex);
-	*self = NULL;
 }
 
 static t_texture	*get_from_cache(char *path)
@@ -86,7 +83,7 @@ t_texture	*ft_texture(char *path, void *mlx)
 	if (errno)
 		print_error("Texture data parsing");
 	if (!tex->path || !tex->img || read_texture_data(tex, path))
-		texture_del(&tex);
+		texture_del(tex);
 	else
 		ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	return (tex);

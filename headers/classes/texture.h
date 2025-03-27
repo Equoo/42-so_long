@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 03:54:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:43:28 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_texture
 	char		*path;
 	void		*mlx;
 	t_img		*img;
-	t_img		*invert;
 	t_frame		*frames;
 	t_slice		*slices;
 	int			nb_frames;
@@ -51,7 +50,7 @@ int				read_texture_data(t_texture *texture, char *path);
 double			texture_slice_time(t_texture *texture, char *slice);
 
 t_list			**texture_cache();
-void			texture_del(t_texture **self);
+void			texture_del(void *self);
 t_texture		*ft_texture(char *path, void *mlx);
 
 #endif

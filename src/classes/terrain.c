@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 06:33:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 00:30:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 	if (!terrain->base || !terrain->base->texture || !terrain->grid)
 	{
 		terrain->base->del(&terrain->base);
+		free(terrain);
 		return (NULL);
 	}
 	terrain->base->parent = terrain;

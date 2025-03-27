@@ -40,6 +40,9 @@
 *.dSYM/
 *.su
 *.idb
+callgrind.out.*
+cachegrind.out.*
+vgcore.*
 *.pdb
 *.txt
 compile_commands.json

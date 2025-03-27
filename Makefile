@@ -9,14 +9,17 @@ INC_DIR = headers/
 
 ADDFLAGS =
 CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
-LIBS = -Llibft -lft -Lminilibx-linux -lbsd -lmlx -lXext -lX11 -lm -lz
+LIBS = -Llibft -lft -Lminilibx-linux -lmlx -L/usr/X11/lib -lXext -lX11 -lm
 SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/dot.c\
 				classes/vector2d/scale.c\
 				classes/vector2d/sub.c\
 				classes/vector2d/length.c\
 				classes/vector2d/normalize.c\
+				classes/vector2d/multiply.c\
+				classes/vector2d/divide.c\
 				classes/vector2d/scaled.c\
+				classes/vector2d/scale_divided.c\
 				classes/vector2d/convert.c\
 				classes/vector2d/transform.c\
 				classes/vector2d.c\
@@ -70,6 +73,14 @@ debug:
 .PHONY: bonus
 bonus:
 	$(MAKE) --no-print-directory ADDFLAGS="-O3" SOLONG_SRCS="$(SRCS_BONUS)"
+
+.PHONY: cachegrind
+cachegrind:
+	valgrind --tool=cachegrind ./$(NAME) $(MAP)
+
+.PHONY: cachegrind
+callgrind:
+	valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./$(NAME) $(MAP)
 
 %/:
 	mkdir -p $@
