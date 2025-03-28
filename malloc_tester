@@ -9,8 +9,31 @@ find -name "*.c" -exec sed -i -e 's/\bmalloc\b/__tester_malloc/g' {} \;
 find -name "*.c" -exec sed -i -e 's/\bcalloc\b/__tester_calloc/g' {} \;
 find -name "*.c" -exec sed -i -e 's/\brealloc\b/__tester_realloc/g' {} \;
 
-#make -n | grep -oP '(?<=cc ).*(?= -o)' | xargs -I {} cc -shared -fPIC -o {}.so {}.c
-make -n | grep -oP '(?<=cc ).*(?= -o)' | echo \-I {} cc \-shared \-fPIC \-o {}.so {}.c
+echo "
+#ifndef MALLOC_TESTER_H
+#define MALLOC_TESTER_H
+void *__tester_malloc(size_t size);
+void *__tester_calloc(size_t nmemb, size_t size);
+void *__tester_realloc(void *ptr, size_t size);
+#endif
+" > malloc_tester.h
+
+echo "
+#include \"malloc_tester.h\"
+#include <stdlib.h>
+void *__tester_malloc(size_t size) {
+	return malloc(size);
+}
+void *__tester_calloc(size_t nmemb, size_t size) {
+	return calloc(nmemb, size);
+}
+void *__tester_realloc(void *ptr, size_t size) {
+	return realloc(ptr, size);
+}
+" > malloc_tester.c
+
+make -n | grep -oP '(?<=cc ).*(?= -o)' | xargs {} -include "/tmp/malloc_tester/malloc_tester.h"
+make -n | grep -oP '(?<=cc ).*(= -o)'
 
 cd $OLDPATH
 rm -rf /tmp/malloc_tester
