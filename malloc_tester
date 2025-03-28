@@ -1,0 +1,16 @@
+#! /bin/bash
+
+OLDPATH=$(pwd)
+
+cp -r . /tmp/malloc_tester
+cd /tmp/malloc_tester
+
+find -name "*.c" -exec sed -i -e 's/\bmalloc\b/__tester_malloc/g' {} \;
+find -name "*.c" -exec sed -i -e 's/\bcalloc\b/__tester_calloc/g' {} \;
+find -name "*.c" -exec sed -i -e 's/\brealloc\b/__tester_realloc/g' {} \;
+
+#make -n | grep -oP '(?<=cc ).*(?= -o)' | xargs -I {} cc -shared -fPIC -o {}.so {}.c
+make -n | grep -oP '(?<=cc ).*(?= -o)' | echo \-I {} cc \-shared \-fPIC \-o {}.so {}.c
+
+cd $OLDPATH
+rm -rf /tmp/malloc_tester
