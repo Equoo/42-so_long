@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 17:04:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:22:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void			entity_physic(t_element *self)
 	if (frametime > 0.5)
 		frametime = 0.5;
 	ent = cast_entity(self->parent);
-	//if (!ent->nogravity)
-		//ent->velocity.y -= GRAVITY;
+	if (!ent->nogravity)
+		ent->velocity.y -= GRAVITY;
 
 	t_float2d	new_pos = float2d_add(self->pos,
 		float2d_scaled(ent->velocity, env->frametime));

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 14:03:16 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:45:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <ft_printf.h>
 #include <errno.h>
 #include <ft_time.h>
+#include <sys/types.h>
 #include "classes/element.h"
 #include "libft.h"
 #include "so_long.h"
@@ -90,8 +91,39 @@ int	tick(t_gameenv *env)
 	//fd = open("music.raw", O_RDONLY);
 //read(fd, line, 180);
 //write(1, line, 180);
+
+int	last_keys_states[256] = {0};
+int	keys_states[256] = {0};
+
+int	down_key(int keycode, t_gameenv *env)
+{
+	if (keycode == XK_Escape)
+		process_close(env);
+	if (keycode < 256)
+		keys_states[keycode] = 1;
+	return (0);
+}
+
+int	up_key(int keycode, t_gameenv *env)
+{
+	if (keycode < 256)
+		keys_states[keycode] = 0;
+	if (keycode == XK_Escape)
+		process_close(env);
+	return (0);
+}
+
 int	update(t_gameenv *env)
 {
+	__builtin_printf("W state: %d, %d\n", keys_states[(u_int8_t)('w')], last_keys_states[(u_int8_t)('w')]);
+	if (keys_states[(u_int8_t)('w')] && !last_keys_states[(u_int8_t)('w')])
+		env->ply->actor->move(env->ply->actor, 2);
+	if (keys_states[(u_int8_t)('a')])
+		env->ply->actor->move(env->ply->actor, 0);
+	if (keys_states[(u_int8_t)('d')])
+		env->ply->actor->move(env->ply->actor, 1);
+	ft_memcpy(&last_keys_states, &keys_states, sizeof(int) * 256);
+
 	static double lastrealtime = 0;
 	static double elapsed = 0;
 

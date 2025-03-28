@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 07:03:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:31:01 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ typedef struct s_gameenv
 	t_scene		*scene;
 	t_list		*scenes_lst;
 }			t_gameenv;
+
+
+int			process_close(t_gameenv *env);
+int			up_key(int keycode, t_gameenv *env);
+int			down_key(int keycode, t_gameenv *env);
 
 int			update(t_gameenv *env);
 

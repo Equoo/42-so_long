@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 06:58:02 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 15:02:38 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:23:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	actor_move(struct s_actor *self, int dir)
 {
 	if (dir == 0)
 	{
-		self->entity->velocity.x -= 10;
+		self->entity->velocity.x -= 50;
 		self->direction = -1;
 	}
 	else if (dir == 1)
 	{
-		self->entity->velocity.x += 10;
+		self->entity->velocity.x += 50;
 		self->direction = 1;
 	}
 	else if (dir == 2)
-		self->entity->velocity.y -= 80;
+		self->entity->velocity.y -= 200;
 	else if (dir == 3)
 		self->entity->velocity.y += 10;
 }
