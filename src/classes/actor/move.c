@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 06:58:02 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 15:00:22 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/28 17:49:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	actor_move(struct s_actor *self, int dir)
 		self->direction = 1;
 	}
 	else if (dir == 2 && self->entity->b_isground)
-		self->entity->velocity.y -= 400 * frametime;
+		self->entity->velocity.y -= 450 * frametime;
 	//else if (dir == 3)
 		//self->entity->velocity.y += 10;
 }

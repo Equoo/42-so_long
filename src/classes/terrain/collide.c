@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 05:17:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 13:43:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/28 17:13:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_float2d	terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel, t_float
 	(void)res;
 
 	res = (t_float2d){0, 0};
-	if (trace_grid(ent->base->pos, newpos, self, &res))
+	if (swept_aabb_grid((t_faabb){ent->base->pos, newpos}, ent->hull, self, &res))
 		//(void)newpos;
 		newpos = res;
 

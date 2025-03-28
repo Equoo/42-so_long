@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 17:45:19 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/28 17:59:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int	up_key(int keycode, t_gameenv *env)
 
 int	update(t_gameenv *env)
 {
-	__builtin_printf("W state: %d, %d\n", keys_states[(u_int8_t)('w')], last_keys_states[(u_int8_t)('w')]);
 	if (keys_states[(u_int8_t)('w')] && !last_keys_states[(u_int8_t)('w')])
 		env->ply->actor->move(env->ply->actor, 2);
 	if (keys_states[(u_int8_t)('a')])

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:39:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 15:50:16 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:46:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,13 @@ int	trace_grid(t_float2d start, t_float2d end, t_terrain *terrain,
 		if (ft_fabs(start.x - end.x) < TR_STEP_SIZE && ft_fabs(start.y
 				- end.y) < TR_STEP_SIZE)
 		{
+			a.last_pos = start;
 			start = end;
-			a.gpos = float2d_scale_dived(start, TR_STEP_SIZE);
+			a.gpos = float2d_scale_dived(start, TR_GRID_SIZE);
 			continue ;
 		}
 		bresenham_algorithm(&a, &start);
 	}
 	return (0);
 }
+

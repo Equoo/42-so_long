@@ -51,6 +51,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
             	render/colors.c\
             	render/m256_colors.c\
 				collisions/trace_grid.c\
+				collisions/swept_aabb_grid.c\
             	error.c\
             	seed.c\
             	update.c\

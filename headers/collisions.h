@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:40:06 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 15:37:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:48:51 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ typedef struct s__trace
 	double		err;
 }	t__trace;
 
-int trace_grid(t_float2d start, t_float2d end, t_terrain *terrain, t_float2d *res);
+int trace_grid(t_float2d start, t_float2d end, t_terrain *terrain,
+	t_float2d *res);
+int	swept_aabb_grid(t_faabb from_to, t_faabb hull, t_terrain *terrain,
+	t_float2d *res);
 
 #endif

@@ -51,6 +51,7 @@ t_player	*ft_player(t_scene *scene)
 	player->base->anim = ft_strdup("Idle_2");
 	player->base->texture = ft_texture("./textures/cat.xpm", ((t_gameenv *)scene->env)->mlx);
 	player->base->txt_off_pos = (t_float2d){-16, -31};
+	player->entity->hull = (t_faabb){{-8, -14}, {8, 0}};
 	if (!player->base->texture)
 		player->base->del(&player->base);
 	return (player);
