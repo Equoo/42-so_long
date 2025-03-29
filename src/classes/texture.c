@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 00:15:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/29 21:33:31 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ t_texture	*ft_texture(char *path, void *mlx)
 	if (errno)
 		print_error("Texture data parsing");
 	if (!tex->path || !tex->img || read_texture_data(tex, path))
+	{
 		texture_del(tex);
+		return (NULL);
+	}
 	else
 		ft_lstadd_front(texture_cache(), ft_lstnew(tex));
 	return (tex);

@@ -78,7 +78,7 @@ bonus:
 cachegrind:
 	valgrind --tool=cachegrind ./$(NAME) $(MAP)
 
-.PHONY: cachegrind
+.PHONY: callgrind
 callgrind:
 	valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./$(NAME) $(MAP)
 
