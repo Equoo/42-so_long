@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 17:25:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/29 06:47:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	load_map(t_gameenv *env, char *path)
 
 void	game_init(t_gameenv *env, char *mappath)
 {
-	load_map(env, mappath);
-	if (errno)
+	if (load_map(env, mappath) || errno)
 		return ;
+	__builtin_printf("Map loaded %d\n", errno);
 	scene_add(env->scene, ft_background(env->scene));
 	t_player	*player = ft_player(env->scene);
 	scene_add(env->scene, player);
