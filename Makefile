@@ -1,7 +1,5 @@
 NAME = so_long
 CC = cc
-LIBFT = libft/libft.a
-MLX = minilibx-linux/libmlx.a
 
 DIR_OBJ = obj/
 SRC_DIR = src/
@@ -66,11 +64,11 @@ DEPS= ${patsubst %.c,$(DIR_OBJ)%.d, $(SOLONG_SRCS)}
 
 .PHONY: all
 all:
-	$(MAKE) -j --no-print-directory LIBFTTARGET="all" ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j $(nproc) --no-print-directory LIBFTTARGET="all" ADDFLAGS="-O3" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: debug
 debug:
-	$(MAKE) -j --no-print-directory LIBFTTARGET="debug" ADDFLAGS="-O0 -g3 -D DEBUG=1" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
+	$(MAKE) -j $(nproc) --no-print-directory LIBFTTARGET="debug" ADDFLAGS="-O0 -g3 -D DEBUG=1" SOLONG_SRCS="$(SOLONG_SRCS)" $(NAME)
 
 .PHONY: bonus
 bonus:
@@ -96,28 +94,29 @@ LIBFTTARGET = all
 .PHONY: libft
 libft:
 	echo "Make libft"
-	$(MAKE) -s -j -C ./libft $(LIBFTTARGET)
+	$(MAKE) -s -j $(nproc) -C ./libft $(LIBFTTARGET)
 
-$(MLX):
-	$(MAKE) -s -j -C ./minilibx-linux
+.PHONY: mlx
+mlx:
+	$(MAKE) -s -j $(nproc) -C ./minilibx-linux
 
-$(NAME): $(MLX) libft $(DIR_OBJ) $(OBJS) Makefile
+$(NAME): mlx libft $(DIR_OBJ) $(OBJS) Makefile
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:
-	$(MAKE) -j clean --no-print-directory -C ./minilibx-linux
-	$(MAKE) -j clean --no-print-directory -C ./libft
+	$(MAKE) -j $(nproc) clean --no-print-directory -C ./minilibx-linux
+	$(MAKE) -j $(nproc) clean --no-print-directory -C ./libft
 	rm -Rf $(DIR_OBJ)
 
 .PHONY: fclean
 fclean: clean
-	$(MAKE) -j fclean --no-print-directory -C ./libft
+	$(MAKE) -j $(nproc) fclean --no-print-directory -C ./libft
 	rm -f $(NAME)
 
 .PHONY: re
 re:
-	$(MAKE) -j --no-print-directory fclean
+	$(MAKE) -j $(nproc) --no-print-directory fclean
 	$(MAKE) --no-print-directory all
 
 .DEFAULT_GOAL = all

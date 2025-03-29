@@ -1,17 +1,59 @@
 #! /bin/bash
 
+commands_to_exec=$@
+
+if [ -p /dev/stdin ]; then
+    while read -r cmd; do
+        commands_to_exec="$user_commands$cmd"
+    done
+elif [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <command> or \`echo 'cmd' | $0\`"
+    exit 1
+fi
+
 OLDPATH=$(pwd)
 
-cp -r . /tmp/malloc_tester
+rsync -av --exclude='.git' --exclude='*.o' --exclude='*.d' . /tmp/malloc_tester > /dev/null
 cd /tmp/malloc_tester
 
 find -name "*.c" -exec sed -i -e 's/\bmalloc\b/__tester_malloc/g' {} \;
 find -name "*.c" -exec sed -i -e 's/\bcalloc\b/__tester_calloc/g' {} \;
 find -name "*.c" -exec sed -i -e 's/\brealloc\b/__tester_realloc/g' {} \;
 
+find \(\
+	-name "*.mak"\
+	-o -name "*.mk"\
+	-o -name "GNUmakefile"\
+	-o -name "makefile"\
+	-o -name "makefile.*"\
+	-o -name "Makefile"\
+	-o -name "Makefile.*"\
+	\) -exec sed -i -e 's/--no-print-directory//g' {} \;
+
+find \(\
+	-name "*.mak"\
+	-o -name "*.mk"\
+	-o -name "GNUmakefile"\
+	-o -name "makefile"\
+	-o -name "makefile.*"\
+	-o -name "Makefile"\
+	-o -name "Makefile.*"\
+	\) -exec sed -i -e 's/\([Mm][Aa][Kk][Ee]\b)[^\n]*\)\(-C\|--directory\)/\1 --no-silent \2/g' {} \;
+
+find \(\
+	-name "*.mak"\
+	-o -name "*.mk"\
+	-o -name "GNUmakefile"\
+	-o -name "makefile"\
+	-o -name "makefile.*"\
+	-o -name "Makefile"\
+	-o -name "Makefile.*"\
+	\) -exec sed -i -e 's/\([Mm][Aa][Kk][Ee]\b)[^\n]*\)\( -j\| --jobs=\)\s*\([0-9]*|$(.*)\)/\1 /g' {} \;
+
 echo "
 #ifndef MALLOC_TESTER_H
 #define MALLOC_TESTER_H
+#include <stdlib.h>
 void *__tester_malloc(size_t size);
 void *__tester_calloc(size_t nmemb, size_t size);
 void *__tester_realloc(void *ptr, size_t size);
@@ -21,19 +63,74 @@ void *__tester_realloc(void *ptr, size_t size);
 echo "
 #include \"malloc_tester.h\"
 #include <stdlib.h>
+static void *fail_at(void *ptr) {
+	static int count = 0;
+	char	*env;
+
+	if (ptr)
+		count++;
+	env = getenv(\"MALLOC_FAIL_AT\");
+	if (env && atoi(env) != 0)
+	{
+		if (count == atoi(env))
+		{
+			free(ptr);
+			return (NULL);
+		}
+	}
+	return ptr;
+}
+
 void *__tester_malloc(size_t size) {
-	return malloc(size);
+	return fail_at(malloc(size));
 }
 void *__tester_calloc(size_t nmemb, size_t size) {
-	return calloc(nmemb, size);
+	return fail_at(calloc(nmemb, size));
 }
 void *__tester_realloc(void *ptr, size_t size) {
-	return realloc(ptr, size);
+	return fail_at(realloc(ptr, size));
 }
 " > malloc_tester.c
 
-make -n | grep -oP '(?<=cc ).*(?= -o)' | xargs {} -include "/tmp/malloc_tester/malloc_tester.h"
-make -n | grep -oP '(?<=cc ).*(= -o)'
+cc -c malloc_tester.c -o malloc_tester.o
+
+all_last_pos=()
+compile_jobs=()
+end_compiles=()
+
+echo "Compiling with malloc tester"
+
+while read -r cm; do
+    if [[ $(echo $cm | grep -oP '(?<=cc ).*') ]]; then
+		if [[ $(echo $cm | grep -oP '\.c') ]]; then
+			compile_jobs+=("cd $(pwd) && cc -include '/tmp/malloc_tester/malloc_tester.h' $(echo "$cm" | grep -oP '(?<=cc ).*')")
+		else
+			end_compiles+=("cd $(pwd) && cc $(echo $cm | grep -oP '(?<=cc ).*\.o') /tmp/malloc_tester/malloc_tester.o $(echo $cm | sed 's/.*\.o//')")
+		fi
+    elif [[ $(echo $cm | grep -oP '(?<=ar ).*') ]]; then
+		end_compiles+=("cd $(pwd) && ar $(echo $cm | grep -oP '(?<=ar ).*') /tmp/malloc_tester/malloc_tester.o")
+	elif [[ $(echo $cm | grep -oP '^rm|mkdir') ]]; then
+		bash -c "$cm"
+	elif [[ $(echo $cm | grep -E "Entering directory '.*'") ]]; then
+		new_dir=$(echo $cm | grep -oP "(?<=directory ')[^']*")
+		all_last_pos+=($(pwd))
+		cd $new_dir
+	elif [[ $(echo $cm | grep -E "Leaving directory '.*'") ]]; then
+		last_pos=${all_last_pos[-1]}
+		unset all_last_pos[-1]
+		cd $last_pos
+	fi
+	echo -n "."
+done < <(make re -n)
+
+echo -e "\n"
+
+printf "%s\n" "${compile_jobs[@]}" | xargs -I {} -P $(nproc) bash -x -c "{}"
+printf "%s\n" "${end_compiles[@]}" | xargs -I {} bash -x -c "{}"
+
+echo -e "\n"
+
+bash -c "$commands_to_exec"
 
 cd $OLDPATH
 rm -rf /tmp/malloc_tester
