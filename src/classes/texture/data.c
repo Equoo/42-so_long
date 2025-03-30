@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/21 20:19:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/30 23:54:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <get_next_line.h>
 #include <libft.h>
+#include <stdlib.h>
 
 static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 {
@@ -88,6 +89,8 @@ int	read_texture_data(t_texture *tex, char *path)
 	path = get_data_path(path);
 	if (path)
 		fd = open(path, O_RDONLY);
+	if (path && fd == -1)
+		free(path);
 	if (!path || fd == -1)
 		return (print_error("Texture data parsing"));
 	i = 0;
@@ -97,9 +100,8 @@ int	read_texture_data(t_texture *tex, char *path)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		errno = parse_data_line(tex, i, line);
+		errno = parse_data_line(tex, i++, line);
 		free(line);
-		i++;
 	}
 	if (!errno && (!tex->frames || !tex->slices))
 		print_cerror("Texture data parsing", ERRTEXNOFS);

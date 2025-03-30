@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 23:41:58 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/30 23:05:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,13 @@ void	background_del(t_element **self)
 {
 	t_background	*background;
 
-	if ((*self)->parent)
-	{
-		background = (t_background *)(*self)->parent;
-		//if (background->back_1)
-		//	texture_del(&background->back_1);
-		//if (background->back_2)
-		//	texture_del(&background->back_2);
-		free(background);
-		(*self)->parent = NULL;
-	}
+	background = (t_background *)(*self)->parent;
 	element_del(self);
+	if (background)
+		free(background);
 }
 
-static void	init_background(t_scene *scene, t_background *background)
+static void	*init_background(t_scene *scene, t_background *background)
 {
 	background->base->class = CLASS_BACKGROUND;
 	background->base->del = &background_del;
@@ -51,8 +44,9 @@ static void	init_background(t_scene *scene, t_background *background)
 		|| !background->back_2)
 	{
 		background->base->del(&background->base);
-		return ;
+		return (NULL);
 	}
+	return (background);
 }
 
 t_background	*ft_background(t_scene *scene)
@@ -71,8 +65,7 @@ t_background	*ft_background(t_scene *scene)
 	}
 	background->base = base;
 	background->base->parent = background;
-	init_background(scene, background);
-	return (background);
+	return (init_background(scene, background));
 }
 
 void	background_draw(t_element *self_element, t_img *buffer)

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/29 06:47:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/30 23:42:20 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	process_close(t_gameenv *env)
 		free(env->mlx);
 	}
 	if (errno != 11 && errno && print_error("Initialization"))
-		exit(EXIT_FAILURE);
+		exit(errno);
 	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
@@ -78,18 +78,22 @@ int	load_map(t_gameenv *env, char *path)
 
 void	game_init(t_gameenv *env, char *mappath)
 {
+	void		*element;
+	t_player	*player;
+
 	if (load_map(env, mappath) || errno)
 		return ;
-	__builtin_printf("Map loaded %d\n", errno);
-	scene_add(env->scene, ft_background(env->scene));
-	t_player	*player = ft_player(env->scene);
-	scene_add(env->scene, player);
+	element = ft_background(env->scene);
+	if (scene_add(env->scene, element) && print_error("Background"))
+		process_close(env);
+	player = ft_player(env->scene);
+	if (scene_add(env->scene, player) && print_error("Player"))
+		process_close(env);
 	player->base->pos = (t_float2d){80, 60};
 	env->ply = player;
-	if (errno)
-		return ;
-
 	env->seed = ft_uptime();
+	if (env->seed == -1 && print_error("Seed"))
+		process_close(env);
 	mlx_hook(env->win, ON_DESTROY, 0, &process_close, env);
 	mlx_hook(env->win, KeyPress, KeyPressMask, &down_key, env);
 	mlx_hook(env->win, KeyRelease, KeyReleaseMask, &up_key, env);
@@ -121,8 +125,6 @@ int	main(int argc, char **argv)
 	if (!env.win)
 		return (process_close(&env));
 	game_init(&env, argv[1]);
-	if (errno)
-		return (process_close(&env));
 	mlx_loop(env.mlx);
 	return (EXIT_SUCCESS);
 }

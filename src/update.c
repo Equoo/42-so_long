@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 17:59:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/30 22:16:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <ft_time.h>
 #include <sys/types.h>
 #include "classes/element.h"
+#include "error.h"
 #include "libft.h"
 #include "so_long.h"
 #include "render.h"
@@ -72,7 +73,7 @@ int	tick(t_gameenv *env)
 		node = node->next;
 	}
 
-	int scale = (int)((double)(env->height / 224) * 1.3);
+	int scale = (int)((double)env->height / 224 * 1.3);
 	if (scale)
 	{
 		buffer = mylx_img_scale(env->mlx, lbuffer, scale);
@@ -127,6 +128,8 @@ int	update(t_gameenv *env)
 	static double elapsed = 0;
 
 	env->time = ft_uptime();
+	if (env->time == -1 && print_error("Time"))
+		process_close(env);
 	if (!env->lastframe)
 		env->lastframe = env->time;
 	if (!lastrealtime)

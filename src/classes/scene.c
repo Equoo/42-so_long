@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 23:24:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/30 22:50:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	scene_add(t_scene *self, void *element)
 	if (!elem)
 		return (1);
 	node = ft_lstnew(elem);
+	if (!node)
+		elem->del(&elem);
 	if (!node)
 		return (1);
 	if (!self->elements
