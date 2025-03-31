@@ -6,17 +6,43 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 04:33:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:32:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
+#include "classes/scene.h"
 #include "so_long.h"
 #include <libft.h>
 #include <stdint.h>
 
+void	do_nothing(void *ptr)
+{
+	(void)ptr;
+}
+
 void	element_del(t_element **self)
 {
+	t_scene	*scene;
+	t_list	*elem;
+
+	if (!self || !*self)
+		return ;
+	scene = (*self)->scene;
+	if (scene && !scene->removed && scene->elements)
+	{
+		elem = scene->elements;
+		while (elem->next)
+		{
+			if (((t_element *)elem->next->content)->id == (*self)->id)
+				break ;
+			elem = elem->next;
+		}
+		if (elem->next)
+			ft_lstrmone(&elem->next, &do_nothing);
+		else if (((t_element *)elem->content)->id == (*self)->id)
+			ft_lstrmone(&scene->elements, &do_nothing);
+	}
 	if ((*self)->anim)
 		free((*self)->anim);
 	free(*self);

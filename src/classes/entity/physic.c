@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 16:27:35 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:34:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void			entity_physic(t_element *self)
 		new_pos = terrain->collide(terrain, ent,
 				float2d_scaled(ent->velocity, env->frametime),
 				new_pos);
-
-	ent->velocity = float2d_sub(new_pos, self->pos);
 	self->pos = new_pos;
 
 	ent->velocity = float2d_scaled(ent->velocity, 1 - (3 * frametime));

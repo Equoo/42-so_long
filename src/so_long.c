@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/30 23:42:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:33:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,13 @@ int	load_map(t_gameenv *env, char *path)
 	if (!scene)
 		return (1);
 	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm");
-	if (scene->terrain)
+	lst_scene = ft_lstnew(scene);
+	if (scene_add(scene, scene->terrain) || !lst_scene)
 	{
-		scene_add(scene, scene->terrain);
-		lst_scene = ft_lstnew(scene);
-	}
-	if (!scene->terrain || !lst_scene)
-	{
-		if (scene->terrain && lst_scene)
+		if (scene->terrain)
+			((t_terrain *)scene->terrain)->base->del(
+						&((t_terrain *)scene->terrain)->base);
+		if (lst_scene)
 			free(lst_scene);
 		scene_del(scene);
 		return (1);
@@ -82,7 +81,7 @@ void	game_init(t_gameenv *env, char *mappath)
 	t_player	*player;
 
 	if (load_map(env, mappath) || errno)
-		return ;
+		process_close(env);
 	element = ft_background(env->scene);
 	if (scene_add(env->scene, element) && print_error("Background"))
 		process_close(env);

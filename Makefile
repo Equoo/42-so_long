@@ -19,6 +19,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/vector2d/scaled.c\
 				classes/vector2d/scale_divided.c\
 				classes/vector2d/convert.c\
+				classes/vector2d/abs.c\
 				classes/vector2d/transform.c\
 				classes/vector2d.c\
 				classes/texture/data.c\

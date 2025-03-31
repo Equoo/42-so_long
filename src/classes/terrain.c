@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 00:30:13 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:16:46 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void	terrain_del(t_element **self)
 {
 	t_terrain	*terrain;
 
-	if ((*self)->parent)
+	terrain = (t_terrain *)(*self)->parent;
+	element_del(self);
+	if (terrain)
 	{
-		terrain = (t_terrain *)(*self)->parent;
 		if (terrain->grid)
 			free(terrain->grid);
 		free(terrain);
-		(*self)->parent = NULL;
 	}
-	element_del(self);
 }
 
 t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)

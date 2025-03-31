@@ -9658,7 +9658,7 @@ int full_callback(void *data, uintptr_t pc, const char *filename, int lineno, co
            function ? function : \"??\",
            short_filename ? short_filename : \"??\",
            lineno, KNRM);
-    
+
     isfirst = 1;
     return 0;
 }
@@ -9726,7 +9726,7 @@ int	__tester_open(const char *pathname, int flags, ...) {
 
     va_list args_copy;
     va_copy(args_copy, args);
-	
+
 	if (fail_at(\"open\", 3))
 	{
 		errno = EACCES;
@@ -9745,7 +9745,7 @@ int	__tester_openat(int dirfd, const char *pathname, int flags, ...) {
 
     va_list args_copy;
     va_copy(args_copy, args);
-	
+
 	if (fail_at(\"openat\", 4))
 	{
 		errno = EACCES;
@@ -9825,17 +9825,21 @@ cc -g3 -c /tmp/malloc_tester/malloc_tester.c -o /tmp/malloc_tester/malloc_tester
 
 echo "Compiling with malloc tester"
 
+rm "$workspace/.breaker_cjobs" > /dev/null 2>&1
+rm "$workspace/.breaker_endcpls" > /dev/null 2>&1
+rm "$workspace/.breaker_lastpos" > /dev/null 2>&1
 touch "$workspace/.breaker_cjobs"
 touch "$workspace/.breaker_endcpls"
 touch "$workspace/.breaker_lastpos"
 
 parse(){
 	while read -r cm; do
-		if [[ $(echo $cm | grep -oP '(?<=(clang|cc|gcc) ).*') ]]; then
+		if [[ $(echo $cm | grep -oP 'clang|cc|gcc .*') ]]; then
+			compiler=$(echo $cm | grep -oP '\bclang\b|\bgcc\b|\bcc\b')
 			if [[ $(echo $cm | grep -oP '\.c') ]]; then
-				echo "cd $(pwd) && cc -g3 -include '/tmp/malloc_tester/malloc_tester.h' $(echo "$cm" | grep -oP '(?<=(clang|cc|gcc) ).*')" >> "$workspace/.breaker_cjobs"
+				echo "cd $(pwd) && cc -g3 -include '/tmp/malloc_tester/malloc_tester.h' $(echo "$cm" | grep -oP "(?<=$compiler ).*")" >> "$workspace/.breaker_cjobs"
 			else
-				echo "cd $(pwd) && cc -g3 -rdynamic -pthread $(echo $cm | grep -oP '(?<=(clang|cc|gcc) ).*\.o') /tmp/malloc_tester/malloc_tester.o $(echo $cm | sed 's/.*\.o//') -L/tmp/malloc_tester -lbacktrace" >> "$workspace/.breaker_endcpls"
+				echo "cd $(pwd) && cc -g3 -rdynamic -pthread $(echo $cm | grep -oP "(?<=$compiler ).*\.o") /tmp/malloc_tester/malloc_tester.o $(echo $cm | sed 's/.*\.o//') -L/tmp/malloc_tester -lbacktrace" >> "$workspace/.breaker_endcpls"
 			fi
 		elif [[ $(echo $cm | grep -oP '(?<=ar ).*') ]]; then
 			echo "cd $(pwd) && ar $(echo $cm | grep -oP '(?<=ar ).*') /tmp/malloc_tester/malloc_tester.o" >> "$workspace/.breaker_endcpls"

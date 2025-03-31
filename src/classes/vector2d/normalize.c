@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normalize.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:13:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:22:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,32 @@
 ** Normalize a 2D float vector
 ** @param self: the vector
 */
-void	float2d_normalize(t_float2d *self)
+t_float2d	float2d_normalize(t_float2d self)
 {
 	float	len;
 
-	len = sqrt(self->x * self->x + self->y * self->y);
+	len = sqrt(self.x * self.x + self.y * self.y);
 	if (len > 0.0f)
 	{
-		self->x /= len;
-		self->y /= len;
+		self.x /= len;
+		self.y /= len;
 	}
+	return (self);
 }
 
 /*
 ** Normalize a 2D int vector
 ** @param self: the vector
 */
-void	int2d_normalize(t_int2d *self)
+t_int2d	int2d_normalize(t_int2d self)
 {
 	int	len;
 
-	len = sqrt(self->x * self->x + self->y * self->y);
+	len = sqrt(self.x * self.x + self.y * self.y);
 	if (len > 0.0f)
 	{
-		self->x /= len;
-		self->y /= len;
+		self.x /= len;
+		self.y /= len;
 	}
+	return (self);
 }

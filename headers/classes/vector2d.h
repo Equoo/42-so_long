@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 16:16:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:27:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ t_float2d		float2d_scale_dived(t_float2d self, float factor);
 t_float2d		float2d_scaled(t_float2d self, float factor);
 void			float2d_scale(t_float2d *self, float factor);
 float			float2d_dot(t_float2d *self, t_float2d *other);
-void			float2d_normalize(t_float2d *self);
+t_float2d		float2d_normalize(t_float2d self);
+t_float2d		float2d_abs(t_float2d self);
 float			float2d_length(t_float2d *self);
 
 void			float2d_del(t_float2d *self);
@@ -71,7 +72,8 @@ t_int2d			int2d_scale_dived(t_int2d self, int factor);
 t_int2d			int2d_scaled(t_int2d self, int factor);
 void			int2d_scale(t_int2d *self, int factor);
 int				int2d_dot(t_int2d *self, t_int2d *other);
-void			int2d_normalize(t_int2d *self);
+t_int2d			int2d_normalize(t_int2d self);
+t_int2d			int2d_abs(t_int2d self);
 int				int2d_length(t_int2d *self);
 
 void			int2d_del(t_int2d *self);

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/30 22:50:26 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:31:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	scene_del(void *self)
 	t_scene		*scene;
 
 	scene = (t_scene *)self;
+	scene->removed = TRUE;
 	if (scene->elements)
 		ft_lstclear(&scene->elements, &element_lst_del);
 	if (scene->name)

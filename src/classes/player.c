@@ -53,7 +53,10 @@ t_player	*ft_player(t_scene *scene)
 	player->base->txt_off_pos = (t_float2d){-16, -31};
 	player->entity->hull = (t_faabb){{-8, -14}, {8, 0}};
 	if (!player->base->texture)
+	{
 		player->base->del(&player->base);
+		return (NULL);
+	}
 	return (player);
 }
 
