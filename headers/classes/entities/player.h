@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 15:53:38 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:01:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_player
 }				t_player;
 
 void		player_del(t_element **self);
+
+void		player_anim_coroutine(t_actor *self);
 
 t_player	*ft_player(t_scene *scene);
 

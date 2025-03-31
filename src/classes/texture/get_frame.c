@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:13:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 23:51:06 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:17:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_frame	texture_get_cycle_frame(t_texture *self, char *slice, double cycle)
 		if (!ft_strncmp(name, slice, ft_strlen(name) + ft_strlen(slice)))
 		{
 			frame = self->slices[i].from + (int)((double)
-				(self->slices[i].to - self->slices[i].from) * cycle);
+				(self->slices[i].to - self->slices[i].from + 1) * cycle);
 			return (self->frames[frame]);
 		}
 		i++;

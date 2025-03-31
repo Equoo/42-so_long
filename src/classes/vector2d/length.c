@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   length.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:13:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:04:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 ** @param self: the vector
 ** @return the length
 */
-float	float2d_length(t_float2d *self)
+float	float2d_length(t_float2d self)
 {
-	return (sqrt(self->x * self->x + self->y * self->y));
+	return (sqrt(self.x * self.x + self.y * self.y));
 }
 
 /*
@@ -28,7 +28,7 @@ float	float2d_length(t_float2d *self)
 ** @param self: the vector
 ** @return the length
 */
-int	int2d_length(t_int2d *self)
+int	int2d_length(t_int2d self)
 {
-	return (sqrt(self->x * self->x + self->y * self->y));
+	return (sqrt(self.x * self.x + self.y * self.y));
 }

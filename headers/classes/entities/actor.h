@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/28 13:48:41 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:51:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,21 @@ typedef struct s_actor
 	int			direction;
 	int			anim_cycle;
 
-	char		*(*anim_couroutine)(struct s_actor *self);
-	void		(*move)(struct s_actor *self, int dir);
+	void		(*anim_couroutine)(struct s_actor *self);
+	void		(*move)(struct s_actor *self, int dir, int modifier);
 }				t_actor;
+
+typedef enum e_move_modifier
+{
+	MOVE_JOG,
+	MOVE_SPEED,
+	MOVE_WALK
+}				t_move_modifier;
 
 void	actor_draw(t_element *self, t_img *buffer);
 void	actor_del(t_element **self);
 
-void	actor_move(t_actor *self, int dir);
+void	actor_move(t_actor *self, int dir, int modifier);
 
 t_actor		*ft_actor(t_scene *scene);
 t_actor		*cast_actor(void *actor);

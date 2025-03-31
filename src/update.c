@@ -6,10 +6,11 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/30 22:16:41 by dderny           ###   ########.fr       */
+/*   Updated: 2025/03/31 23:58:46 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <X11/Xutil.h>
 #include <mlx.h>
 #include <ft_printf.h>
 #include <errno.h>
@@ -93,22 +94,20 @@ int	tick(t_gameenv *env)
 //read(fd, line, 180);
 //write(1, line, 180);
 
-int	last_keys_states[256] = {0};
-int	keys_states[256] = {0};
+int	last_keys_states[80000] = {0};
+int	keys_states[80000] = {0};
 
 int	down_key(int keycode, t_gameenv *env)
 {
 	if (keycode == XK_Escape)
 		process_close(env);
-	if (keycode < 256)
-		keys_states[keycode] = 1;
+	keys_states[keycode] = 1;
 	return (0);
 }
 
 int	up_key(int keycode, t_gameenv *env)
 {
-	if (keycode < 256)
-		keys_states[keycode] = 0;
+	keys_states[keycode] = 0;
 	if (keycode == XK_Escape)
 		process_close(env);
 	return (0);
@@ -116,12 +115,18 @@ int	up_key(int keycode, t_gameenv *env)
 
 int	update(t_gameenv *env)
 {
+	int modifier;
 	if (keys_states[(u_int8_t)('w')] && !last_keys_states[(u_int8_t)('w')])
-		env->ply->actor->move(env->ply->actor, 2);
+		env->ply->actor->move(env->ply->actor, 2, 0);
+	modifier = MOVE_JOG;
+	if (keys_states[XK_Alt_L])
+		modifier = MOVE_WALK;
+	if (keys_states[XK_Shift_L])
+		modifier = MOVE_SPEED;
 	if (keys_states[(u_int8_t)('a')])
-		env->ply->actor->move(env->ply->actor, 0);
+		env->ply->actor->move(env->ply->actor, 0, modifier);
 	if (keys_states[(u_int8_t)('d')])
-		env->ply->actor->move(env->ply->actor, 1);
+		env->ply->actor->move(env->ply->actor, 1, modifier);
 	ft_memcpy(&last_keys_states, &keys_states, sizeof(int) * 256);
 
 	static double lastrealtime = 0;

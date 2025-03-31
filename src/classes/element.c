@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 17:32:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 01:35:57 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	element_del(t_element **self)
 		else if (((t_element *)elem->content)->id == (*self)->id)
 			ft_lstrmone(&scene->elements, &do_nothing);
 	}
-	if ((*self)->anim)
-		free((*self)->anim);
+	//if ((*self)->anim)
+		//free((*self)->anim);
 	free(*self);
 	*self = NULL;
 }

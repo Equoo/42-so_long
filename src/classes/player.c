@@ -45,10 +45,11 @@ t_player	*ft_player(t_scene *scene)
 	player->base = actor->base;
 	player->entity = actor->entity;
 	player->actor = actor;
+	player->actor->anim_couroutine = &player_anim_coroutine;
 	player->base->class = CLASS_PLAYER;
 	player->base->parent = player;
 	player->base->del = &player_del;
-	player->base->anim = ft_strdup("Idle_2");
+	//player->base->anim = ft_strdup("Idle_2");
 	player->base->texture = ft_texture("./textures/cat.xpm", ((t_gameenv *)scene->env)->mlx);
 	player->base->txt_off_pos = (t_float2d){-16, -31};
 	player->entity->hull = (t_faabb){{-8, -14}, {8, 0}};
