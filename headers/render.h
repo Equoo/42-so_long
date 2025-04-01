@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/19 22:01:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 02:22:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void			*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
 					t_img *src);
 
 void			*mylx_img_copy(t_copyimg data);
+
+
 
 #endif
