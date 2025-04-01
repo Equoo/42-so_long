@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/24 17:25:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 14:43:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_background
 	t_texture	*back_2;
 }				t_background;
 
-void			background_draw(t_element *self, t_img *buffer);
+void			background_draw(t_element *self, t_img *buffer,
+							t_img *hud_buffer);
 
 t_background	*ft_background(t_scene *scene);
 void			background_del(t_element **self);

@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:51:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 23:58:46 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 21:10:15 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void printticks(t_gameenv *env)
 
 int	tick(t_gameenv *env)
 {
-	void	*lbuffer;
+	t_img	*lbuffer;
+	t_img	*hudbuffer;
 	void	*buffer;
 
 //#ifdef DEBUG
@@ -54,6 +55,7 @@ int	tick(t_gameenv *env)
 	*getseed() = env->seed;
 
 	lbuffer = mlx_new_image(env->mlx, 398, 224);
+	hudbuffer = mlx_new_image(env->mlx, env->width, env->height);
 	if (!lbuffer)
 	{
 		ft_printf("Error\n%s\n", strerror(errno));
@@ -63,6 +65,11 @@ int	tick(t_gameenv *env)
 		exit(EXIT_FAILURE);
 	}
 
+	int scale = (int)((double)env->height / 224 * 1.3);
+
+	lbuffer->format = 0;
+	hudbuffer->format = scale;
+
 	t_list	*node = env->scene->elements;
 	while (node)
 	{
@@ -70,17 +77,17 @@ int	tick(t_gameenv *env)
 		if (elem->update)
 			elem->update(elem);
 		if (elem->draw)
-			elem->draw(elem, lbuffer);
+			elem->draw(elem, lbuffer, hudbuffer);
 		node = node->next;
 	}
 
-	int scale = (int)((double)env->height / 224 * 1.3);
 	if (scale)
 	{
 		buffer = mylx_img_scale(env->mlx, lbuffer, scale);
 		mlx_put_image_to_window(env->mlx, env->win, buffer, -8 * scale, -8 * scale);
 		mlx_destroy_image(env->mlx, buffer);
 	}
+	mlx_put_image_to_window(env->mlx, env->win, hudbuffer, 0, 0);
 	mlx_destroy_image(env->mlx, lbuffer);
 
 	return (0);

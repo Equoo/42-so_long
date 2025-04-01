@@ -48,6 +48,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
             	render/copy.c\
             	render/fast_copy.c\
             	render/blend.c\
+            	render/text.c\
             	render/fast_blend.c\
             	render/img.c\
             	render/colors.c\

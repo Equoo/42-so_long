@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 16:52:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 14:45:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_background	*ft_background(t_scene *scene)
 	return (init_background(scene, background));
 }
 
-void	background_draw(t_element *self_element, t_img *buffer)
+void	background_draw(t_element *self_element, t_img *buffer, __attribute__((unused)) t_img *hud_buffer)
 {
 	t_background	*background;
 

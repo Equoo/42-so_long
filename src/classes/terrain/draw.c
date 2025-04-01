@@ -6,7 +6,7 @@
 /*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 22:56:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/01 14:45:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_prob {
 	char	*type;
 }	t_prob;
 
-void	terrain_draw(t_element *self_element, t_img *buffer)
+void	terrain_draw(t_element *self_element, t_img *buffer, __attribute__((unused)) t_img *hud_buffer)
 {
 	const t_frule	rules[] = {&rule_top_grass, &rule_corner_grass, &rule_platform};
 	t_terrain	*self;
