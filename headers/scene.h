@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 17:30:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:18:38 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "classes/vector2d.h"
+# include "so_long.h"
+# include "vector2d.h"
 # include <ft_bool.h>
 # include <libft.h>
 
@@ -38,12 +39,14 @@ typedef enum e_class
 
 typedef struct s_scene
 {
+	t_gameenv	*env;
 	char		*name;
-	void		*env;
-	t_bool		removed;
-	t_int2d		cam_pos;
-	void		*terrain;
 	t_list		*elements;
+	t_float2d	cam_pos;
+	void		*terrain;
+	void		*ply;
+	int			seed;
+	t_bool		removed;
 
 	void		(*update)(struct s_scene *self);
 }	t_scene;

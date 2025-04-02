@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 17:00:25 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:25:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <ft_printf.h>
 #include <get_next_line.h>
 #include <libft.h>
-#include <stdio.h>
 
 static void	check_line(t_terrain *map, int y, char *line)
 {

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   physic.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 19:34:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
 #include "classes/entity.h"
 #include "classes/terrain.h"
-#include "classes/vector2d.h"
+#include "vector2d.h"
 #include "collisions.h"
 #include "so_long.h"
 

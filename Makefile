@@ -8,25 +8,25 @@ INC_DIR = headers/
 ADDFLAGS =
 CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
 LIBS = -Llibft -lft -Lminilibx-linux -lmlx -L/usr/X11/lib -lXext -lX11 -lm
-SOLONG_SRCS =   classes/vector2d/add.c\
-				classes/vector2d/dot.c\
-				classes/vector2d/scale.c\
-				classes/vector2d/sub.c\
-				classes/vector2d/length.c\
-				classes/vector2d/normalize.c\
-				classes/vector2d/multiply.c\
-				classes/vector2d/divide.c\
-				classes/vector2d/scaled.c\
-				classes/vector2d/scale_divided.c\
-				classes/vector2d/convert.c\
-				classes/vector2d/abs.c\
-				classes/vector2d/transform.c\
-				classes/vector2d.c\
-				classes/texture/data.c\
-				classes/texture/draw_slice.c\
-				classes/texture/get_frame.c\
-				classes/texture/texture_slice_time.c\
-				classes/texture.c\
+SOLONG_SRCS =   vector2d/add.c\
+				vector2d/dot.c\
+				vector2d/scale.c\
+				vector2d/sub.c\
+				vector2d/length.c\
+				vector2d/normalize.c\
+				vector2d/multiply.c\
+				vector2d/divide.c\
+				vector2d/scaled.c\
+				vector2d/scale_divided.c\
+				vector2d/convert.c\
+				vector2d/abs.c\
+				vector2d/transform.c\
+				vector2d.c\
+				texture/data.c\
+				texture/draw_slice.c\
+				texture/get_frame.c\
+				texture/texture_slice_time.c\
+				texture.c\
 				classes/element.c\
 				classes/terrain/grid_utils.c\
 				classes/terrain/wall_rules.c\
@@ -39,7 +39,7 @@ SOLONG_SRCS =   classes/vector2d/add.c\
 				classes/entity.c\
 				classes/player/anim_coroutine.c\
 				classes/player.c\
-				classes/scene.c\
+				scene.c\
 				classes/background.c\
 				classes/actor/draw.c\
 				classes/actor/move.c\
@@ -53,11 +53,16 @@ SOLONG_SRCS =   classes/vector2d/add.c\
             	render/img.c\
             	render/colors.c\
             	render/m256_colors.c\
+				inputs/update.c\
+				inputs/isdown.c\
+				inputs/ispressed.c\
+				inputs/isreleased.c\
 				collisions/trace_grid.c\
 				collisions/swept_aabb_grid.c\
             	error.c\
             	seed.c\
-            	update.c\
+            	game.c\
+            	render.c\
             	so_long.c\
 
 OBJS = ${patsubst %.c,$(DIR_OBJ)%.o, $(SOLONG_SRCS)}

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   swept_aabb_grid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:39:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 19:14:38 by dderny           ###   ########.fr       */
+/*   Created: 2025/04/02 19:17:04 by dderny            #+#    #+#             */
+/*   Updated: 2025/04/02 19:17:15 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
-#include "classes/vector2d.h"
+#include "vector2d.h"
 #include "collisions.h"
 #include <libft.h>
 #include <math.h>

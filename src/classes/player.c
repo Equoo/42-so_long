@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
 /*   Updated: 2025/03/25 02:09:29 by dderny           ###   ########.fr       */
@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "classes/entities/player.h"
-#include "classes/scene.h"
-#include "classes/texture.h"
+#include "scene.h"
+#include "texture.h"
 #include "libft.h"
 #include "so_long.h"
 #include <stdlib.h>
@@ -49,8 +49,7 @@ t_player	*ft_player(t_scene *scene)
 	player->base->class = CLASS_PLAYER;
 	player->base->parent = player;
 	player->base->del = &player_del;
-	//player->base->anim = ft_strdup("Idle_2");
-	player->base->texture = ft_texture("./textures/cat.xpm", ((t_gameenv *)scene->env)->mlx);
+	player->base->texture = ft_texture(&scene->env->render, "./textures/cat.xpm");
 	player->base->txt_off_pos = (t_float2d){-16, -31};
 	player->entity->hull = (t_faabb){{-8, -14}, {8, 0}};
 	if (!player->base->texture)

@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/27 17:31:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:43:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "classes/entities/player.h"
-# include "classes/scene.h"
+# include "render.h"
 # include <libft.h>
 
 # ifndef TICK
@@ -34,28 +33,24 @@ enum
 
 typedef struct s_gameenv
 {
-	void		*mlx;
-	void		*win;
+	t_render	render;
 	double		time;
-	double		lastframe;
 	double		frametime;
-	int			width;
-	int			height;
-	int			seed;
+	u_int		internal_keys[32];
+	u_int		internal_last_keys[32];
+	u_int		keys_states[32][2];
 
-	t_player	*ply;
-
-	t_scene		*scene;
+	void		*scene;
 	t_list		*scenes_lst;
 }			t_gameenv;
 
+int			render_init(t_gameenv *env);
+int			game_init(t_gameenv *env, char *mappath);
+int			update(t_gameenv *env);
+void		tick(t_gameenv *env);
+void		tick_game(t_gameenv *env);
+void		tick_render(t_gameenv *env, t_render *render);
 
 int			process_close(t_gameenv *env);
-int			up_key(int keycode, t_gameenv *env);
-int			down_key(int keycode, t_gameenv *env);
-
-int			update(t_gameenv *env);
-
-double		uptime(void);
 
 #endif

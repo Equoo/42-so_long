@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terrain.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 14:43:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define TERRAIN_H
 # include "classes/element.h"
 # include "classes/entity.h"
-# include "classes/vector2d.h"
+# include "vector2d.h"
 
 # define MAP_CHARS "01CEP"
 # define MAP_COIN 'C'
@@ -53,7 +53,7 @@ t_bool			rule_platform(t_terrain *self, t_int2d pos, char **slice,
 void			terrain_load(t_terrain *self, char *path);
 int				terrain_findpath(t_terrain *self, int *checkedmap, t_int2d pos,
 					t_int2d last);
-void			terrain_draw(t_element *self, t_img *buffer, t_img *hud_buffer);
+void			terrain_draw(t_element *self, t_render *render);
 t_float2d		terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel,
 					t_float2d newpos);
 

@@ -118,18 +118,18 @@ cd $workspace
 echo "Edit files"
 
 for file in $(find -name "*.c"); do
-	sed -i -e 's/\bmalloc\b/__tester_malloc/g'\
-			-e 's/\bcalloc\b/__tester_calloc/g'\
-			-e 's/\brealloc\b/__tester_realloc/g'\
+	sed -i -e 's/\bmalloc\([ \t]*(\)/__tester_malloc(/g'\
+			-e 's/\bcalloc\([ \t]*(\)/__tester_calloc(/g'\
+			-e 's/\brealloc\([ \t]*(\)/__tester_realloc(/g'\
 \
-			-e 's/\bopen\b/__tester_open/g'\
-			-e 's/\bopenat\b/__tester_openat/g'\
-			-e 's/\bcreat\b/__tester_creat/g'\
-			-e 's/\bread\b/__tester_read/g'\
-			-e 's/\bpread\b/__tester_pread/g'\
-			-e 's/\bwrite\b/__tester_write/g'\
-			-e 's/\bpwrite\b/__tester_pwrite/g'\
-			-e 's/\bclose\b/__tester_close/g' $file
+			-e 's/\bopen\([ \t]*(\)/__tester_open(/g'\
+			-e 's/\bopenat\([ \t]*(\)/__tester_openat(/g'\
+			-e 's/\bcreat\([ \t]*(\)/__tester_creat(/g'\
+			-e 's/\bread\([ \t]*(\)/__tester_read(/g'\
+			-e 's/\bpread\([ \t]*(\)/__tester_pread(/g'\
+			-e 's/\bwrite\([ \t]*(\)/__tester_write(/g'\
+			-e 's/\bpwrite\([ \t]*(\)/__tester_pwrite(/g'\
+			-e 's/\bclose\([ \t]*(\)/__tester_close(/g' $file
 
 	touch -r $(echo $(realpath $file) | sed -e "s|$workspace|$OLDPATH|g") $file
 done
@@ -9852,7 +9852,7 @@ parse(){
 			cd $old_path
 			echo "$old_lastpaths" > "$workspace/.breaker_lastpos"
 		elif [[ $(echo $cm | grep -E "Entering directory '.*'") ]]; then
-			new_dir=$(echo $cm | grep -oP "(?<=directory ')[^']*")
+			new_dir=$(echo $cm | grep -oP "/.directory ')[^']*")
 			echo -n "$(pwd);;" >> "$workspace/.breaker_lastpos"
 			cd $new_dir
 		elif [[ $(echo $cm | grep -E "Leaving directory '.*'") ]]; then

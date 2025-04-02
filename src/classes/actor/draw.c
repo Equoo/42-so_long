@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 15:14:58 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:05:58 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/actor.h"
-#include "classes/texture.h"
-#include "classes/vector2d.h"
+#include "texture.h"
+#include "vector2d.h"
 #include "render.h"
 #include "so_long.h"
 
@@ -72,7 +72,7 @@ Animation animations[] = {
 #define SCREEN_WIDTH 340
 
 // Function to draw each animation at spaced positions
-void draw_all_animations(t_element *self, void *texture, void *buffer, void *hud_buffer, t_transform origin) {
+void draw_all_animations(t_element *self, void *texture, t_render *render, t_transform origin) {
 	static double last_anim_times[ANIM_COUNT] = {0};
 	static double cycles[ANIM_COUNT] = {0};
 
@@ -95,9 +95,9 @@ void draw_all_animations(t_element *self, void *texture, void *buffer, void *hud
 		}
 
 
-        texture_blend_anim(texture, buffer, transform, animations[i].name, cycles[i]);
+        texture_blend_anim(texture, render->buffer, transform, animations[i].name, cycles[i]);
 
-		draw_text(((t_gameenv *)self->scene->env)->mlx, hud_buffer, animations[i].name, (t_float2d){x, y}, 12);
+		draw_text(render, animations[i].name, (t_float2d){x, y}, 12);
 
         x += ANIM_SIZE - 4; // Space between animations
 		if (x + ANIM_SIZE + 8 > SCREEN_WIDTH) { // Move to next row if exceeding screen width
@@ -107,7 +107,7 @@ void draw_all_animations(t_element *self, void *texture, void *buffer, void *hud
     }
 }
 
-void	actor_draw(t_element *self, t_img *buffer, t_img *hud_buffer)
+void	actor_draw(t_element *self, t_render *render)
 {
 	t_actor		*actor;
 	t_transform	transform;
@@ -121,9 +121,9 @@ void	actor_draw(t_element *self, t_img *buffer, t_img *hud_buffer)
 	if (actor->direction == -1)
 		transform.scale.x = -1;
 
-	draw_all_animations(self, self->texture, buffer, hud_buffer, transform);
+	//draw_all_animations(self, self->texture, render, transform);
 
-	texture_blend_anim(self->texture, buffer, transform, self->anim, self->cycle);
+	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 
 	//if (self->pos.x >= 0 && self->pos.x < buffer->width && self->pos.y >= 0 && self->pos.y < buffer->height)
 	//	mylx_pixel_put(buffer, self->pos.x, self->pos.y, 0x00FF00);

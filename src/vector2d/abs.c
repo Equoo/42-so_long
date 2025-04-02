@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   abs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:26:27 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 19:26:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/vector2d.h"
+#include "vector2d.h"
 #include <libft.h>
 
 /*

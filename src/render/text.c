@@ -3,38 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 21:06:16 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:02:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/texture.h"
-#include "classes/vector2d.h"
+#include "ft_printf.h"
+#include "ft_vector.h"
+#include "texture.h"
+#include "vector2d.h"
 #include "libft.h"
+#include "render.h"
 #include <stddef.h>
 
-void	draw_text(void *mlx, t_img *buffer, char *text, t_float2d pos, int font_size)
+void	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
+{
+	t_rtext		data;
+
+	data.text = text;
+	data.pos = to_int2d(pos);
+	data.font_size = font_size;
+	vec_append(&render->texts, &data);
+}
+
+void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 {
 	size_t		len;
 	char		slice_char[16];
 	t_transform	transfo;
 	size_t		i;
 
-	if (buffer->format)
-	pos = float2d_scaled(float2d_sub(pos, (t_float2d){8, 8}), buffer->format);
-	len = ft_itoato(font_size, slice_char);
+	if (!data->font_size)
+		return ;
+	if (render->r_scale)
+		data->pos = int2d_scaled(int2d_sub(data->pos, (t_int2d){8, 8}), render->r_scale);
+	len = ft_itoato(data->font_size, slice_char);
 	slice_char[len] = '_';
 	i = 0;
-	transfo = t_from_pos(to_int2d(pos));
-	while (text[i])
+	transfo = t_from_pos(data->pos);
+	while (data->text[i])
 	{
-		ft_memcpy(slice_char + len + 1, text + i, 1);
+		ft_memcpy(slice_char + len + 1, data->text + i, 1);
 		slice_char[len + 2] = 0;
-		__builtin_printf("Slice: %s\n", slice_char);
-		transfo.pos.x += font_size;
-		texture_blend_slice(ft_texture("textures/font.xpm", mlx), buffer, transfo, slice_char);
+		transfo.pos.x += data->font_size;
+		ft_printf("Slice: %s\n", slice_char);
+		texture_blend_slice(render->font, buffer, transfo, slice_char);
 		i++;
 	}
+}
+
+void	render_texts(t_render *render, t_img *buffer)
+{
+	t_rtext	*data;
+	int		i;
+
+	if (!render->texts.actual_size)
+		return ;
+	data = (t_rtext *)render->texts.data;
+	i = 0;
+	while (i < render->texts.actual_size)
+	{
+		render_one_text(render, buffer, data + i);
+		i++;
+	}
+	ft_bzero(render->texts.data, render->texts.actual_size * render->texts.type_size);
 }

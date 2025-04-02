@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 16:17:25 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/vector2d.h"
+#include "vector2d.h"
 
 /*
 ** Substract two 2D float vectors

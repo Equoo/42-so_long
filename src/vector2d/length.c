@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scale.c                                            :+:      :+:    :+:   */
+/*   length.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/07 00:13:49 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/vector2d.h"
+#include "vector2d.h"
+#include <math.h>
 
 /*
-** Scale a 2D float vector
+** Length of a 2D float vector
 ** @param self: the vector
-** @param factor: the factor
+** @return the length
 */
-void	float2d_scale(t_float2d *self, float factor)
+float	float2d_length(t_float2d self)
 {
-	self->x *= factor;
-	self->y *= factor;
+	return (sqrt(self.x * self.x + self.y * self.y));
 }
 
 /*
-** Scale a 2D int vector
+** Length of a 2D int vector
 ** @param self: the vector
-** @param factor: the factor
+** @return the length
 */
-void	int2d_scale(t_int2d *self, int factor)
+int	int2d_length(t_int2d self)
 {
-	self->x *= factor;
-	self->y *= factor;
+	return (sqrt(self.x * self.x + self.y * self.y));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   background.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 14:43:34 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:21:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define BACKGROUND_H
 
 # include "classes/element.h"
-# include "classes/texture.h"
+#include "render.h"
+# include "texture.h"
 
 typedef struct s_background
 {
@@ -23,8 +24,7 @@ typedef struct s_background
 	t_texture	*back_2;
 }				t_background;
 
-void			background_draw(t_element *self, t_img *buffer,
-							t_img *hud_buffer);
+void			background_draw(t_element *self, t_render *render);
 
 t_background	*ft_background(t_scene *scene);
 void			background_del(t_element **self);

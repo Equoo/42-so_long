@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 23:43:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEXTURE_H
 # define TEXTURE_H
 # include <libft.h>
-# include <mlx_int.h>
+# include "render.h"
 # include "vector2d.h"
+# include <mlx_int.h>
 
 typedef struct s_iaabb t_frame;
 
@@ -49,8 +50,7 @@ int				read_texture_data(t_texture *texture, char *path);
 
 double			texture_slice_time(t_texture *texture, char *slice);
 
-t_list			**texture_cache();
 void			texture_del(void *self);
-t_texture		*ft_texture(char *path, void *mlx);
+t_texture		*ft_texture(t_render *render, char *path);
 
 #endif

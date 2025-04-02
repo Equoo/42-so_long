@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   copy.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:44:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/20 03:16:54 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include "classes/vector2d.h"
+#include "vector2d.h"
 #include "mlx_int.h"
 #include "render.h"
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 16:52:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entity.h"
-#include "classes/scene.h"
-#include "classes/vector2d.h"
+#include "scene.h"
+#include "vector2d.h"
 #include <libft.h>
 #include <stdint.h>
 

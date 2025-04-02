@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   grid_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:51:14 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 22:51:52 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
-#include "classes/vector2d.h"
+#include "vector2d.h"
 
 char	getindir(t_terrain *self, t_int2d pos, int dir)
 {

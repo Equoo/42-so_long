@@ -1,34 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   length.c                                           :+:      :+:    :+:   */
+/*   scaled.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:43:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 23:04:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/vector2d.h"
-#include <math.h>
+#include "vector2d.h"
 
 /*
-** Length of a 2D float vector
+** Scale a 2D float vector
 ** @param self: the vector
-** @return the length
+** @param factor: the factor
 */
-float	float2d_length(t_float2d self)
+t_float2d	float2d_scaled(t_float2d self, float factor)
 {
-	return (sqrt(self.x * self.x + self.y * self.y));
+	t_float2d	new;
+
+	if (factor == 0)
+		return (self);
+	new.x = self.x * factor;
+	new.y = self.y * factor;
+	return (new);
 }
 
 /*
-** Length of a 2D int vector
+** Scale a 2D int vector
 ** @param self: the vector
-** @return the length
+** @param factor: the factor
 */
-int	int2d_length(t_int2d self)
+t_int2d	int2d_scaled(t_int2d self, int factor)
 {
-	return (sqrt(self.x * self.x + self.y * self.y));
+	t_int2d	new;
+
+	if (factor == 0)
+		return (self);
+	new.x = self.x * factor;
+	new.y = self.y * factor;
+	return (new);
 }

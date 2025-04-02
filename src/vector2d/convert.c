@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add.c                                              :+:      :+:    :+:   */
+/*   convert.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 09:49:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/02/13 16:29:48 by dderny           ###   ########.fr       */
+/*   Created: 2025/03/26 02:37:29 by dderny            #+#    #+#             */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/vector2d.h"
+#include "vector2d.h"
 
-t_float2d	float2d_add(t_float2d self, t_float2d other)
+t_int2d	to_int2d(t_float2d vec)
 {
-	self.x += other.x;
-	self.y += other.y;
-	return (self);
+	return ((t_int2d){vec.x, vec.y});
 }
 
-t_int2d		int2d_add(t_int2d self, t_int2d other)
+t_float2d	to_float2d(t_int2d vec)
 {
-	self.x += other.x;
-	self.y += other.y;
-	return (self);
+	return ((t_float2d){vec.x, vec.y});
 }

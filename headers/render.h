@@ -3,30 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 15:14:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:03:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
-# include "classes/vector2d.h"
-# include "mm256.h"
-# include "so_long.h"
+
+# include "vector2d.h"
+# include "ft_vector.h"
+
+# include <libft.h>
+# include <mm256.h>
 # include <mlx_int.h>
 
 # define M256_NPIXEL (int)(sizeof(__m256i_u) / sizeof(unsigned int))
 
-typedef struct s_data
+typedef struct s_rtext
 {
-	t_img		*img;
-	char		*addr;
-	int			bpp;
-	int			line_length;
-	int			endian;
-}				t_data;
+	char		*text;
+	t_int2d		pos;
+	int			font_size;
+}				t_rtext;
+
+typedef struct s_render
+{
+	void		*mlx;
+	void		*win;
+	int			w_width;
+	int			w_height;
+	int			r_width;
+	int			r_height;
+	int			r_scale;
+
+	t_list		*textures;
+	t_img		*buffer;
+	void		*font;
+	t_vector	texts;
+}				t_render;
 
 typedef enum e_imgflip
 {
@@ -45,6 +62,8 @@ typedef struct s_copyimg
 	t_imgflip	flip;
 	int			angle;
 }				t_copyimg;
+
+void	render_texts(t_render *render, t_img *buffer);
 
 void			mylx_pixel_put(t_img *img, int x, int y, unsigned int color);
 void			mylx_m256_pixel_put(t_img *img, int x, int y, __m256i_u color);
@@ -97,6 +116,6 @@ void			*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
 
 void			*mylx_img_copy(t_copyimg data);
 
-void			draw_text(void *mlx, t_img *buffer, char *text, t_float2d pos, int font_size);
+void	draw_text(t_render *render, char *text, t_float2d pos, int font_size);
 
 #endif

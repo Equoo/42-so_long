@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   anim_coroutine.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:01:54 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/01 01:45:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/player.h"
-#include "classes/vector2d.h"
+#include "vector2d.h"
 
 void player_anim_coroutine(t_actor *self)
 {

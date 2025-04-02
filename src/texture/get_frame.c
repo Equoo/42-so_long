@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_frame.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:13:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 23:17:35 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include "classes/texture.h"
+#include "texture.h"
 
 t_frame	texture_get_frame(t_texture *self, char *slice)
 {

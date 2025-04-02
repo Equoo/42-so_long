@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terrain.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 17:16:46 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:27:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 		return (NULL);
 	terrain->base = ft_element(scene);
 	if (terrain->base)
-		terrain->base->texture = ft_texture(texpath, ((t_gameenv *)scene->env)->mlx);
+		terrain->base->texture = ft_texture(&scene->env->render, texpath);
 	if (terrain->base && terrain->base->texture)
 		terrain_load(terrain, mappath);
 	if (!terrain->base || !terrain->base->texture || !terrain->grid)

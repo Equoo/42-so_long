@@ -3,127 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 17:33:43 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:01:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdlib.h>
-#include <mlx.h>
-#include <ft_time.h>
-#include <errno.h>
-#include <libft.h>
-#include <ft_vector.h>
-#include "classes/background.h"
-#include "classes/scene.h"
-#include "classes/texture.h"
-#include "classes/terrain.h"
-#include "classes/entities/player.h"
-#include "so_long.h"
-#include "classes/vector2d.h"
+#include "seed.h"
+#include "texture.h"
 #include "error.h"
+#include "input.h"
+#include "render.h"
+#include "scene.h"
+#include "so_long.h"
+#include <errno.h>
+#include <ft_printf.h>
+#include <ft_time.h>
+#include <ft_vector.h>
+#include <libft.h>
+#include <mlx.h>
 
-#include <X11/keysym.h>
-#include <X11/X.h>
-
-int	process_close(t_gameenv *env)
-{
-	ft_lstclear(&env->scenes_lst, &scene_del);
-	ft_lstclear(texture_cache(), &texture_del);
-	if (env->win)
-		mlx_destroy_window(env->mlx, env->win);
-	if (env->mlx)
-	{
-		mlx_destroy_display(env->mlx);
-		free(env->mlx);
-	}
-	if (errno != 11 && errno && print_error("Initialization"))
-		exit(errno);
-	exit(EXIT_SUCCESS);
-	return (EXIT_SUCCESS);
-}
-
-
-
-
-int	load_map(t_gameenv *env, char *path)
-{
-	t_scene	*scene;
-	t_list	*lst_scene;
-
-	scene = ft_scene(env, path);
-	if (!scene)
-		return (1);
-	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm");
-	lst_scene = ft_lstnew(scene);
-	if (scene_add(scene, scene->terrain) || !lst_scene)
-	{
-		if (scene->terrain)
-			((t_terrain *)scene->terrain)->base->del(
-						&((t_terrain *)scene->terrain)->base);
-		if (lst_scene)
-			free(lst_scene);
-		scene_del(scene);
-		return (1);
-	}
-	ft_lstadd_front(&env->scenes_lst, lst_scene);
-	env->scene = scene;
-	return (0);
-}
-
-
-void	game_init(t_gameenv *env, char *mappath)
-{
-	void		*element;
-	t_player	*player;
-
-	if (load_map(env, mappath) || errno)
-		process_close(env);
-	element = ft_background(env->scene);
-	if (scene_add(env->scene, element) && print_error("Background"))
-		process_close(env);
-	player = ft_player(env->scene);
-	if (scene_add(env->scene, player) && print_error("Player"))
-		process_close(env);
-	player->base->pos = (t_float2d){80, 60};
-	env->ply = player;
-	env->seed = ft_uptime();
-	if (env->seed == -1 && print_error("Seed"))
-		process_close(env);
-	mlx_hook(env->win, ON_DESTROY, 0, &process_close, env);
-	mlx_hook(env->win, KeyPress, KeyPressMask, &down_key, env);
-	mlx_hook(env->win, KeyRelease, KeyReleaseMask, &up_key, env);
-	mlx_loop_hook(env->mlx, &update, env);
-}
-
-
+//pacat --rate=8000 --format=u8 --channels=1
+//static int fd;
+//char line[180];
+//if (!fd)
+	//fd = open("music.raw", O_RDONLY);
+//read(fd, line, 180);
+//write(1, line, 180);
 
 int	main(int argc, char **argv)
 {
 	t_gameenv	env;
 
-	(void)argv;
-	env = (t_gameenv){};
+	env = (t_gameenv){0};
 	if (argc != 2)
 	{
 		errno = EINVAL;
 		return (process_close(&env));
 	}
-	env.mlx = mlx_init();
-	if (!env.mlx)
+	if (render_init(&env))
 		return (process_close(&env));
-	env.width = 1920;
-	env.height = 1080;
-	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
 	errno = 0;
-	env.win = NULL;
-	env.win = mlx_new_window(env.mlx, env.width, env.height, "So long");
-	if (!env.win)
+	if (game_init(&env, argv[1]))
 		return (process_close(&env));
-	game_init(&env, argv[1]);
-	mlx_loop(env.mlx);
+	mlx_hook(env.render.win, ON_DESTROY, 0, &process_close, &env);
+	mlx_hook(env.render.win, ON_KEYDOWN, KeyPressMask, &down_key, &env);
+	mlx_hook(env.render.win, ON_KEYUP, KeyReleaseMask, &up_key, &env);
+	mlx_loop_hook(env.render.mlx, &update, &env);
+	mlx_loop(env.render.mlx);
+	return (EXIT_SUCCESS);
+}
+
+void	printticks(t_gameenv *env)
+{
+	static double	last = 0;
+	static double	middle = 0;
+	static int		fps = TICK;
+	static int		count = 0;
+
+	middle = middle + env->frametime;
+	count++;
+	if (env->time - last >= 1)
+	{
+		middle /= count;
+		count = 0;
+		fps = 1 / middle;
+		middle = env->frametime;
+		last = env->time;
+	}
+	ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time,
+		env->frametime, (int)(1 / env->frametime), fps);
+}
+
+int	update(t_gameenv *env)
+{
+	static double	last_frame = 0;
+	static double	lastrealtime = 0;
+	static double	elapsed = 0;
+
+	env->time = ft_uptime();
+	if (env->time == -1 && print_error("Time"))
+		process_close(env);
+	if (last_frame)
+		last_frame = env->time;
+	if (!lastrealtime)
+		lastrealtime = env->time;
+	elapsed += env->time - lastrealtime;
+	if (elapsed >= 1.f / ((double)TICK))
+	{
+		elapsed -= 1.f / ((double)TICK);
+		env->frametime = (env->time - last_frame);
+		tick(env);
+		last_frame = env->time;
+	}
+	lastrealtime = env->time;
+	printticks(env);
+	return (0);
+}
+
+void	tick(t_gameenv *env)
+{
+	*getseed() = ((t_scene *)env->scene)->seed;
+	tick_inputs(env);
+	tick_game(env);
+	tick_render(env, &env->render);
+}
+
+int	process_close(t_gameenv *env)
+{
+	vec_destroy(&env->render.texts);
+	ft_lstclear(&env->scenes_lst, &scene_del);
+	ft_lstclear(&env->render.textures, &texture_del);
+	if (env->render.buffer)
+		mlx_destroy_image(env->render.mlx, env->render.buffer);
+	if (env->render.win)
+		mlx_destroy_window(env->render.mlx, env->render.win);
+	if (env->render.mlx)
+	{
+		mlx_destroy_display(env->render.mlx);
+		free(env->render.mlx);
+	}
+	if (errno != 11 && errno && print_error("Initialization"))
+		exit(errno);
+	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

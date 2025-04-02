@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   texture_slice_time.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 03:39:46 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/26 04:03:26 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/texture.h"
+#include "texture.h"
 #include <linux/limits.h>
 
 double			texture_slice_time(t_texture *texture, char *slice)

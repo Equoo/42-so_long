@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   actor.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/31 16:52:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/actor.h"
 #include "classes/entity.h"
-#include "classes/scene.h"
+#include "scene.h"
 #include <stdlib.h>
 #include <stdint.h>
 
