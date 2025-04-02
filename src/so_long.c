@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:01:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:15:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	update(t_gameenv *env)
 	env->time = ft_uptime();
 	if (env->time == -1 && print_error("Time"))
 		process_close(env);
-	if (last_frame)
+	if (!last_frame)
 		last_frame = env->time;
 	if (!lastrealtime)
 		lastrealtime = env->time;
@@ -98,12 +98,12 @@ int	update(t_gameenv *env)
 		last_frame = env->time;
 	}
 	lastrealtime = env->time;
-	printticks(env);
 	return (0);
 }
 
 void	tick(t_gameenv *env)
 {
+	printticks(env);
 	*getseed() = ((t_scene *)env->scene)->seed;
 	tick_inputs(env);
 	tick_game(env);

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:05:46 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:16:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	tick_game(t_gameenv *env)
 {
 	t_scene		*scene;
 	t_player	*ply;
+	t_list		*node;
+	t_element	*node_elem;
 	int modifier;
 
 	scene = (t_scene *)env->scene;
@@ -40,6 +42,14 @@ void	tick_game(t_gameenv *env)
 		ply->actor->move(ply->actor, 0, modifier);
 	if (input_isdown('d', env))
 		ply->actor->move(ply->actor, 1, modifier);
+	node = scene->elements;
+	while (node)
+	{
+		node_elem = (t_element *)node->content;
+		if (node_elem->update)
+			node_elem->update(node_elem);
+		node = node->next;
+	}
 }
 
 int	load_map(t_gameenv *env, char *path)

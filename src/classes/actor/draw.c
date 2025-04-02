@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:05:58 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:20:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void draw_all_animations(t_element *self, void *texture, t_render *render, t_tra
 
         texture_blend_anim(texture, render->buffer, transform, animations[i].name, cycles[i]);
 
-		draw_text(render, animations[i].name, (t_float2d){x, y}, 12);
+		draw_text(render, animations[i].name, (t_float2d){x, y}, 14);
 
         x += ANIM_SIZE - 4; // Space between animations
 		if (x + ANIM_SIZE + 8 > SCREEN_WIDTH) { // Move to next row if exceeding screen width
@@ -121,7 +121,7 @@ void	actor_draw(t_element *self, t_render *render)
 	if (actor->direction == -1)
 		transform.scale.x = -1;
 
-	//draw_all_animations(self, self->texture, render, transform);
+	draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 

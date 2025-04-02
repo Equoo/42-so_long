@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:02:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/02 20:32:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 	if (!data->font_size)
 		return ;
 	if (render->r_scale)
-		data->pos = int2d_scaled(int2d_sub(data->pos, (t_int2d){8, 8}), render->r_scale);
+		data->pos = int2d_scaled(data->pos, render->r_scale);
 	len = ft_itoato(data->font_size, slice_char);
 	slice_char[len] = '_';
 	i = 0;
@@ -47,8 +47,7 @@ void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 	{
 		ft_memcpy(slice_char + len + 1, data->text + i, 1);
 		slice_char[len + 2] = 0;
-		transfo.pos.x += data->font_size;
-		ft_printf("Slice: %s\n", slice_char);
+		transfo.pos.x += data->font_size * 2;
 		texture_blend_slice(render->font, buffer, transfo, slice_char);
 		i++;
 	}
