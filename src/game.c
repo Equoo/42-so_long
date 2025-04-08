@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:16:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 02:03:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,21 @@ int	game_init(t_gameenv *env, char *mappath)
 {
 	void		*element;
 	t_scene		*scene;
+	t_terrain	*terrain;
 	t_player	*player;
 
 	if (load_map(env, mappath) || errno)
 		return (1);
-	element = ft_background(env->scene);
-	if (scene_add(env->scene, element) && print_error("Background"))
-		return (1);
-	player = ft_player(env->scene);
-	if (scene_add(env->scene, player) && print_error("Player"))
-		return (1);
-	player->base->pos = (t_float2d){80, 60};
 	scene = (t_scene *)env->scene;
+	element = ft_background(env->scene);
+	if (scene_add(scene, element) && print_error("Background"))
+		return (1);
+	player = ft_player(scene);
+	if (scene_add(scene, player) && print_error("Player"))
+		return (1);
+	terrain = (t_terrain *)scene->terrain;
+	player->base->pos = (t_float2d){terrain->spawn % terrain->w * 16,
+		terrain->spawn / terrain->w * 16};
 	scene->ply = player;
 	scene->seed = ft_uptime();
 	if (scene->seed == -1 && print_error("Seed"))

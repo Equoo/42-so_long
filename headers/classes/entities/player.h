@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 05:49:47 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ typedef struct s_player
 	t_entity	*entity;
 	t_actor		*actor;
 	void		*parent;
-	int			health;
-	int			anim_cycle;
 
 }				t_player;
 
 void		player_del(t_element **self);
 
+void		player_update(t_element *self);
 void		player_anim_coroutine(t_actor *self);
 
 t_player	*ft_player(t_scene *scene);

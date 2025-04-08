@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/06 15:14:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 12:25:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ void	actor_draw(t_element *self, t_render *render)
 		return ;
 	if (actor->anim_couroutine)
 		actor->anim_couroutine(actor);
-	transform = t_from_pos(to_int2d(float2d_add(self->pos, self->txt_off_pos)));
+	transform = t_from_pos(to_int2d(float2d_sub(float2d_add(self->pos, self->txt_off_pos), self->scene->cam_pos)));
 	if (actor->direction == -1)
 		transform.scale.x = -1;
 
-	draw_all_animations(self, self->texture, render, transform);
+	//draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 
