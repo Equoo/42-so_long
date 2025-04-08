@@ -38,6 +38,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/entity/physic.c\
 				classes/entity.c\
 				classes/player/anim_coroutine.c\
+				classes/player/update.c\
 				classes/player.c\
 				scene.c\
 				classes/background.c\

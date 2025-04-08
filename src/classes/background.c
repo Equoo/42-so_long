@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:21:13 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 02:03:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "vector2d.h"
 #include "so_long.h"
 #include "classes/background.h"
+#include <math.h>
 
 void	background_del(t_element **self)
 {
@@ -72,19 +73,26 @@ t_background	*ft_background(t_scene *scene)
 void	background_draw(t_element *self_element, t_render *buffer)
 {
 	t_background	*background;
+	int				offset;
+	int				offsety;
+	int				offset2;
+	int				offset3;
 
 	background = (t_background *)self_element->parent;
+	offsety = (double)self_element->scene->cam_pos.y / 16;
+	offset = (double)((int)((double)self_element->scene->cam_pos.x / 8) % 288);
+	offset2 = (double)((int)((double)self_element->scene->cam_pos.x / 4) % 288);
+	offset3 = (double)((int)((double)self_element->scene->cam_pos.x / 2) % 288);
 	texture_draw_slice(self_element->texture, buffer->buffer,
-			t_from_pos((t_int2d){0, 16}), "all");
-	texture_blend_slice(background->back_1, buffer->buffer,
-			t_from_pos((t_int2d){0, 16 * 9}), "all");
-	texture_blend_slice(background->back_2, buffer->buffer,
-			t_from_pos((t_int2d){0, 16 * 9 + 8}), "all");
-
+			t_from_pos((t_int2d){-offset, 0}), "all");
 	texture_draw_slice(self_element->texture, buffer->buffer,
-			t_from_pos((t_int2d){288, 16}), "all");
+			t_from_pos((t_int2d){288 - offset, 0}), "all");
 	texture_blend_slice(background->back_1, buffer->buffer,
-			t_from_pos((t_int2d){288, 16 * 9}), "all");
+			t_from_pos((t_int2d){-offset2, 16 * 7 - offsety / 2}), "all");
+	texture_blend_slice(background->back_1, buffer->buffer,
+			t_from_pos((t_int2d){288 - offset2, 16 * 7 - offsety / 2}), "all");
 	texture_blend_slice(background->back_2, buffer->buffer,
-			t_from_pos((t_int2d){288, 16 * 9 + 8}), "all");
+			t_from_pos((t_int2d){-offset3, 16 * 8 + 8 - offsety}), "all");
+	texture_blend_slice(background->back_2, buffer->buffer,
+			t_from_pos((t_int2d){288 - offset3, 16 * 8 + 8 - offsety}), "all");
 }

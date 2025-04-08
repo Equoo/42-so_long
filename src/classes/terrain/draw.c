@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:25:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/07 23:29:48 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_prob {
 	char	*type;
 }	t_prob;
 
-void	terrain_draw(t_element *self_element, t_render *render)
+void	terrain_draw(t_element *self_e, t_render *render)
 {
 	const t_frule	rules[] = {&rule_top_grass, &rule_corner_grass, &rule_platform};
 	t_terrain	*self;
@@ -32,9 +32,9 @@ void	terrain_draw(t_element *self_element, t_render *render)
 	t_int2d		offset;
 	char		*tex;
 
-	offset = (t_int2d){0, 0};
+	offset = to_int2d(float2d_scaled(self_e->scene->cam_pos, -1));
 
-	self = (t_terrain *)self_element->parent;
+	self = (t_terrain *)self_e->parent;
 	i = -1;
 	while (++i + 1 && self->grid[i])
 	{

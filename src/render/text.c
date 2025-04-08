@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:32:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:31:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,30 @@ void	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
 
 void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 {
-	size_t		len;
-	char		slice_char[16];
-	t_transform	transfo;
-	size_t		i;
+	//size_t		len;
+	//char		slice_char[16];
+	//t_transform	transfo;
+	//size_t		i;
 
-	if (!data->font_size)
-		return ;
-	if (render->r_scale)
-		data->pos = int2d_scaled(data->pos, render->r_scale);
-	len = ft_itoato(data->font_size, slice_char);
-	slice_char[len] = '_';
-	i = 0;
-	transfo = t_from_pos(data->pos);
-	while (data->text[i])
-	{
-		ft_memcpy(slice_char + len + 1, data->text + i, 1);
-		slice_char[len + 2] = 0;
-		transfo.pos.x += data->font_size * 2;
-		texture_blend_slice(render->font, buffer, transfo, slice_char);
-		i++;
-	}
+	(void)render;
+	(void)buffer;
+	(void)data;
+	//if (!data->font_size)
+	//	return ;
+	//if (render->r_scale)
+	//	data->pos = int2d_scaled(data->pos, render->r_scale);
+	//len = ft_itoato(data->font_size, slice_char);
+	//slice_char[len] = '_';
+	//i = 0;
+	//transfo = t_from_pos(data->pos);
+	//while (data->text[i])
+	//{
+	//	ft_memcpy(slice_char + len + 1, data->text + i, 1);
+	//	slice_char[len + 2] = 0;
+	//	transfo.pos.x += data->font_size * 2;
+	//	texture_blend_slice(render->font, buffer, transfo, slice_char);
+	//	i++;
+	//}
 }
 
 void	render_texts(t_render *render, t_img *buffer)
