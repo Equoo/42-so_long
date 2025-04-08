@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:56:53 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/06 15:11:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:31:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	*mylx_img_fast_blend(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
 
 	if (pos.x + sqr.b.x - sqr.a.x > dest->width)
 		sqr.b.x -= (pos.x + sqr.b.x - sqr.a.x - dest->width);
+	if (pos.y + sqr.b.y - sqr.a.y > dest->height)
+		sqr.b.y -= (pos.y + sqr.b.y - sqr.a.y - dest->height);
 	i.y = sqr.a.y;
 	while (i.y < sqr.b.y)
 	{

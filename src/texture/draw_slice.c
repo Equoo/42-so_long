@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:36:19 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:32:06 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	texture_blend_slice(t_texture *self, t_img *buffer,
 	if (data.scale.y == -1)
 		flip |= FLIP_VERT;
 	frame = texture_get_frame(self, slice);
-	if (data.angle != 0 || flip)
+	if (data.angle || flip)
 		mylx_img_blend((t_copyimg){frame.a, frame.b,
 				data.pos, self->img, buffer,
 				flip, data.angle});

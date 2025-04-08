@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:16:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 18:12:43 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	tick_render(t_gameenv *env, t_render *render)
 		buffer = mylx_img_scale(render->mlx, render->buffer, render->r_scale);
 		render_texts(render, buffer);
 		mlx_put_image_to_window(render->mlx, render->win,
-				buffer, -8 * render->r_scale, -8 * render->r_scale);
+				buffer, -ft_abs(buffer->width - render->w_width) / 2,
+				-ft_abs(buffer->height - render->w_height) / 2);
 		mlx_destroy_image(render->mlx, buffer);
 		return ;
 	}

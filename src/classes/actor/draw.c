@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/08 12:25:43 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/08 18:04:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,10 @@ void	actor_draw(t_element *self, t_render *render)
 	//draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
-
-	//if (self->pos.x >= 0 && self->pos.x < buffer->width && self->pos.y >= 0 && self->pos.y < buffer->height)
-	//	mylx_pixel_put(buffer, self->pos.x, self->pos.y, 0x00FF00);
+	
+    t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
+	if (self->pos.x >= 0 && self->pos.x < render->buffer->width && self->pos.y >= 0 && self->pos.y < render->buffer->height)
+		mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);
 	//if (self->pos.x + actor->entity->hull.a.x >= 0 && self->pos.x + actor->entity->hull.a.x < buffer->width
 	//	&& self->pos.y + actor->entity->hull.a.y >= 0 && self->pos.y + actor->entity->hull.a.y < buffer->height)
 	//	mylx_pixel_put(buffer, self->pos.x + actor->entity->hull.a.x, self->pos.y + actor->entity->hull.a.y, 0x0000FF);
