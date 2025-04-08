@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 20:32:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/06 15:01:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 	slice_char[len] = '_';
 	i = 0;
 	transfo = t_from_pos(data->pos);
+	//__builtin_printf("text: %s\n", data->text);
 	while (data->text[i])
 	{
 		ft_memcpy(slice_char + len + 1, data->text + i, 1);
 		slice_char[len + 2] = 0;
-		transfo.pos.x += data->font_size * 2;
+		transfo.pos.x += data->font_size / 2;
 		texture_blend_slice(render->font, buffer, transfo, slice_char);
 		i++;
 	}

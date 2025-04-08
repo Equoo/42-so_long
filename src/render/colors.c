@@ -6,16 +6,16 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:03:25 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/06 14:56:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 
-t_rgba	split_channels(int rgba, int alpha)
+t_rgba	split_channels(u_int rgba, int alpha)
 {
 	t_rgba	chans;
-	int		max;
+	u_int	max;
 
 	max = 0xFF;
 	if (alpha)
@@ -26,7 +26,7 @@ t_rgba	split_channels(int rgba, int alpha)
 	return (chans);
 }
 
-int	combine_channels(t_rgba chans)
+u_int	combine_channels(t_rgba chans)
 {
 	return (chans.r << 16 | chans.g << 8 | chans.b);
 }

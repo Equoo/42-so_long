@@ -106,6 +106,9 @@ elif [ "$#" -lt 2 ]; then
     echo "$usage"; exit $?
 fi
 
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 OLDPATH=$(pwd)
 workspace=/tmp/malloc_tester/$(basename "$(pwd)")
 
@@ -9852,7 +9855,7 @@ parse(){
 			cd $old_path
 			echo "$old_lastpaths" > "$workspace/.breaker_lastpos"
 		elif [[ $(echo $cm | grep -E "Entering directory '.*'") ]]; then
-			new_dir=$(echo $cm | grep -oP "/.directory ')[^']*")
+			new_dir=$(echo $cm | grep -oP "(?<=Entering directory ')[^']*")
 			echo -n "$(pwd);;" >> "$workspace/.breaker_lastpos"
 			cd $new_dir
 		elif [[ $(echo $cm | grep -E "Leaving directory '.*'") ]]; then

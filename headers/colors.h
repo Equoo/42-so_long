@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:00 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/06 14:56:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ typedef struct s_m256i_rgba
 
 typedef struct s_rgba
 {
-	int			r;
-	int			g;
-	int			b;
-	int			a;
+	u_int		r;
+	u_int		g;
+	u_int		b;
+	u_int		a;
 }				t_rgba;
 
 t_m256i_rgba	m256_split_channels(__m256i_u rgba, int alpha);
 __m256i_u		m256_combine_channels(t_m256i_rgba chans);
 t_m256i_rgba	m256_blend_by_alpha(t_m256i_rgba dst, t_m256i_rgba src);
 
-t_rgba	split_channels(int rgba, int alpha);
-int		combine_channels(t_rgba chans);
+t_rgba	split_channels(u_int rgba, int alpha);
+u_int	combine_channels(t_rgba chans);
 t_rgba	blend_by_alpha(t_rgba dst, t_rgba src);
 
 #endif

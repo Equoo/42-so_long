@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/02 19:17:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/06 15:25:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define DIR_LEFT 1
 # define DIR_RIGHT 2
 # define DIR_TOP 0
+# define EPSILON 0.001
 
 typedef struct s_float2d
 {
