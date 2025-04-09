@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:17:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/06 15:44:25 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/09 07:38:31 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,44 @@ float	aabb_h(t_faabb hull)
 	return (ft_fabs(hull.b.y - hull.a.y));
 }
 
-static int	aabb_intersect_grid(t_float2d pos, t_faabb a, t_int2d b)
+static int	aabb_intersect_grid(t_float2d pos, t_faabb a, t_int2d b, t_float2d *normal)
 {
-	t_faabb	bb;
+	t_faabb		bb;
+	t_float2d	overlap;
+	float		overlapmin;
 
 	bb.a = (t_float2d){b.x * TR_GRID_SIZE, b.y * TR_GRID_SIZE};
 	bb.b = (t_float2d){(b.x + 1) * TR_GRID_SIZE, (b.y + 1) * TR_GRID_SIZE};
-
 	a.a = float2d_add(a.a, pos);
 	a.b = float2d_add(a.b, pos);
-
-	if (a.a.x < bb.b.x && a.b.x > bb.a.x && a.a.y < bb.b.y && a.b.y > bb.a.y)
-		return (1);
-	return (0);
+	overlap.x = fmin(a.b.x, bb.b.x) - fmax(a.a.x, bb.a.x);
+	overlap.y = fmin(a.b.y, bb.b.y) - fmax(a.a.y, bb.a.y);
+	if (overlap.x < 0 || overlap.y < 0)
+		return (0);
+	overlapmin = fmin(overlap.x, overlap.y);
+	if (overlapmin == overlap.y)
+	{
+		if ((a.a.y + a.b.y) / 2 < (bb.a.y + bb.b.y) / 2)
+			normal->y = 1;
+		else
+			normal->y = -1;
+	}
+	else
+	{
+		if ((a.a.x + a.b.x) / 2 < (bb.a.x + bb.b.x) / 2)
+			normal->x = -1;
+		else
+			normal->x = 1;
+	}
+	return (1);
 }
 
 int	swept_aabb_grid(t_faabb from_to, t_faabb hull, t_terrain *terrain,
-		t_float2d *res)
+		t_float2d *res, t_float2d *normal)
 {
 	t__trace	a;
 
+	*normal = (t_float2d){0, 0};
 	a = init_trace_vars(from_to.a, from_to.b, hull);
 	while (1)
 	{
@@ -92,13 +110,18 @@ int	swept_aabb_grid(t_faabb from_to, t_faabb hull, t_terrain *terrain,
 		{
 			t_int2d	grid_pos = (t_int2d){(int)floor(a.gpos.x) + i % ((int)(aabb_w(hull) + TR_GRID_SIZE) / TR_GRID_SIZE), (int)floor(a.gpos.y) + i / ((int)(aabb_w(hull) + TR_GRID_SIZE) / TR_GRID_SIZE)};
 			if (a.gpos.x >= 0 && a.gpos.x < terrain->w && a.gpos.y >= 0
-				&& a.gpos.y < terrain->h && terrain->grid[grid_pos.y * terrain->w + grid_pos.x] == MAP_WALL && aabb_intersect_grid(from_to.a, hull, grid_pos))
+				&& a.gpos.y < terrain->h && terrain->grid[grid_pos.y * terrain->w + grid_pos.x] == MAP_WALL && aabb_intersect_grid(from_to.a, hull, grid_pos, normal))
 			{
 				*res = a.last_pos;
-				return (1);
+				__builtin_printf("collide %d %f %f\n", i, normal->x, normal->y);
+				//if (normal->x != 0)
+					//__builtin_printf("");
+				//return (1);
 			}
 			i++;
 		}
+		if (res->x == a.last_pos.x && res->y == a.last_pos.y)
+			return (1);
 
 		if (from_to.a.x == from_to.b.x && from_to.a.y == from_to.b.y)
 			break ;
