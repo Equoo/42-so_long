@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/08 18:04:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 01:14:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	actor_draw(t_element *self, t_render *render)
 	if (actor->direction == -1)
 		transform.scale.x = -1;
 
-	//draw_all_animations(self, self->texture, render, transform);
+	draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 	

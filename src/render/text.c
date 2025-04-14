@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/08 12:26:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 01:27:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ void	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
 {
 	t_rtext		data;
 
+	data = (t_rtext){0};
 	data.text = text;
 	data.pos = to_int2d(pos);
 	data.font_size = font_size;
-	vec_append(&render->texts, &data);
+	vec_append(&render->texts, &data); // need to be secured
 }
 
 void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
@@ -35,7 +36,7 @@ void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
 	t_transform	transfo;
 	size_t		i;
 
-	if (!data->font_size)
+	if (!data || !data->font_size)
 		return ;
 	if (render->r_scale)
 		data->pos = int2d_scaled(data->pos, render->r_scale);
@@ -62,10 +63,12 @@ void	render_texts(t_render *render, t_img *buffer)
 		return ;
 	data = (t_rtext *)render->texts.data;
 	i = 0;
+	__builtin_printf("rendering %zu texts\n", render->texts.actual_size);
 	while (i < render->texts.actual_size)
 	{
 		render_one_text(render, buffer, data + i);
 		i++;
 	}
 	ft_bzero(render->texts.data, render->texts.actual_size * render->texts.type_size);
+	render->texts.actual_size = 0;
 }

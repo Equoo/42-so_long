@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
 /*   Updated: 2025/03/25 02:09:29 by dderny           ###   ########.fr       */
