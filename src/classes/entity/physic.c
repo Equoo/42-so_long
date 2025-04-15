@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 00:56:57 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void			entity_physic(t_element *self)
 	t_float2d	res;
 	double		frametime;
 
-	element_update(self);
 	env = self->scene->env;
 	frametime = env->frametime;
 	if (frametime > 0.5)

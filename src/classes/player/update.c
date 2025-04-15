@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:19:09 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 01:01:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@
 
 void		player_update(t_element *self)
 {
-	//t_entity	*entity;
+	t_player	*ply;
 
-	element_update(self);
 	entity_physic(self);
-	//entity = cast_entity(self->parent);
+	ply = (t_player *)self->parent;
+	if (ply->is_jumping && ply->entity->b_isground)
+	{
+		ply->is_jumping = FALSE;
+		self->play_anim(self, "J_3");
+	}
 	self->scene->cam_pos = float2d_sub(self->pos, (t_float2d){(double)self->scene->env->render.r_width / 2, (double)self->scene->env->render.r_height / 2});
 	self->scene->cam_pos.y -= self->scene->env->render.r_height / 6;
 }

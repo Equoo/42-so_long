@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 00:48:18 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	element_del(t_element **self)
 		else if (((t_element *)elem->content)->id == (*self)->id)
 			ft_lstrmone(&scene->elements, &do_nothing);
 	}
-	//if ((*self)->anim)
-		//free((*self)->anim);
 	free(*self);
 	*self = NULL;
 }
@@ -62,7 +60,8 @@ t_element	*ft_element(t_scene *scene)
 	element->class = CLASS_ELEMENT;
 	element->scene = scene;
 	element->del = &element_del;
-	element->update = &element_update;
+	element->internal_update = &element_internal_update;
+	element->play_anim = &element_play_anim;
 	element->id = elements_count;
 	return (element);
 }
@@ -74,7 +73,7 @@ t_element	*cast_element(void *element)
 	return ((t_element *)(*(uintptr_t *)element));
 }
 
-void			element_update(t_element *self)
+void			element_internal_update(t_element *self)
 {
 	t_gameenv *env;
 
@@ -83,12 +82,22 @@ void			element_update(t_element *self)
 	{
 		if (!self->last_anim_time)
 			self->last_anim_time = env->time;
-		self->cycle = (env->time - self->last_anim_time)
-				/ texture_slice_time(self->texture, self->anim);
+		self->cycle = (env->time - self->last_anim_time) / texture_slice_time(
+				self->texture, self->anim);
 		if (self->cycle >= 1)
 		{
 			self->cycle = 0;
 			self->last_anim_time = env->time;
 		}
 	}
+	if (self->force_anim_time && self->force_anim_time < env->time)
+	{
+		self->cycle = 0;
+		self->last_anim_time = env->time;
+		self->force_anim_time = 0;
+	}
+	if (!self->force_anim_time && self->anim_coroutine)
+		self->anim_coroutine(self, &env->render);
+	if (self->update)
+		self->update(self);
 }

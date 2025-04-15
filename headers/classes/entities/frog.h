@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 00:55:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "classes/entity.h"
 # include "classes/entities/actor.h"
+#include "texture.h"
 
 typedef struct s_frog
 {
@@ -22,11 +23,12 @@ typedef struct s_frog
 	t_entity	*entity;
 	t_actor		*actor;
 	void		*parent;
+	t_texture	*textures[6];
 }				t_frog;
 
 void		frog_del(t_element **self);
 
-void		frog_anim_coroutine(t_actor *self);
+void		frog_anim_coroutine(t_element *self, t_render *render);
 
 t_frog		*ft_frog(t_scene *scene);
 

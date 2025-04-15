@@ -6,19 +6,21 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:01:54 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 01:09:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/player.h"
+#include "render.h"
 #include "vector2d.h"
 
-void player_anim_coroutine(t_actor *self)
+void player_anim_coroutine(t_element *self, t_render *render)
 {
 	t_player	*player;
 	float		speed;
 
-	player = (t_player *)self->base->parent;
+	(void)render;
+	player = (t_player *)self->parent;
 	speed = float2d_length(player->entity->velocity);
 	if (player->entity->b_isground && speed <= 1.5 && speed >= 0.05)
 	{
@@ -38,11 +40,17 @@ void player_anim_coroutine(t_actor *self)
 	}
 	else if (!player->entity->b_isground)
 	{
-		if (player->entity->velocity.y < 0)
-			player->base->anim = "Stop";
+		if (!player->is_jumping)
+			player->base->anim = "J_1";
 		else
-			player->base->anim = "Stop";
+		{
+			player->base->anim = "J_3";
+			player->base->cycle = 0;
+		}
 	}
 	else
-		player->base->anim = "Idle_1";
+		if (ft_strcmp(player->base->anim, "Idle_2") && player->base->cycle == 0)
+			player->base->anim = "Idle_1";
+		else
+			player->base->anim = "Idle_2";
 }

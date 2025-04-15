@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 12:46:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_texture	*get_from_cache(t_render *render, char *path)
 	while (cache)
 	{
 		tex = (t_texture *)cache->content;
-		if (!ft_strncmp(tex->path, path, ft_strlen(tex->path) + 1))
+		if (!ft_strcmp(tex->path, path))
 			return (tex);
 		cache = cache->next;
 	}
@@ -63,6 +63,7 @@ static t_texture	*get_from_cache(t_render *render, char *path)
 t_texture	*ft_texture(t_render *render, char *path)
 {
 	t_texture	*tex;
+	t_list		*lst;
 
 	tex = get_from_cache(render, path);
 	if (tex)
@@ -73,15 +74,16 @@ t_texture	*ft_texture(t_render *render, char *path)
 		return (NULL);
 	tex->mlx = render->mlx;
 	tex->path = ft_strdup(path);
-	tex->img = mylx_xpm_to_img(render->mlx, path, &tex->width, &tex->height);
-	if (errno)
-		print_error("Texture data parsing");
-	if (!tex->path || !tex->img || read_texture_data(tex, path))
+	if (tex->path)
+		tex->img = mylx_xpm_to_img(render->mlx, path, &tex->width, &tex->height);
+	if (tex->img)
+		lst = ft_lstnew(tex);
+	if (!tex->path || !tex->img || !lst || read_texture_data(tex, path))
 	{
+		print_error("Texture data parsing");
 		texture_del(tex);
 		return (NULL);
 	}
-	else
-		ft_lstadd_front(&render->textures, ft_lstnew(tex));
+	ft_lstadd_front(&render->textures, lst);
 	return (tex);
 }

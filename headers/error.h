@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:23:59 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define ERRMAPPLAYER MAPERROR + 3
 # define ERRMAPEXIT MAPERROR + 4
 # define ERRMAPWALL MAPERROR + 5
+# define ERRMAPCOIN MAPERROR + 6
 # define ERRMAPPATH MAPERROR + 6
 # define ERRMAPNOPE MAPERROR + 7
 

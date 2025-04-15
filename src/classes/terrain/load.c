@@ -6,17 +6,38 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:24:02 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
 #include "error.h"
+#include "ft_vector.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <ft_printf.h>
 #include <get_next_line.h>
 #include <libft.h>
+
+static int parse_map_line(t_terrain *map, char c, int x, int y)
+{
+	int	res;
+	
+	if (c == MAP_PLAYER && !map->spawn)
+		map->spawn = y * map->w + x;
+	else if (c == MAP_PLAYER)
+		errno = ERRMAPPLAYER;
+	if (c == MAP_EXIT && !map->exit)
+		map->exit = y * map->w + x;
+	else if (c == MAP_EXIT)
+		errno = ERRMAPEXIT;
+	if (c == MAP_COIN)
+	{
+		res = y * map->w + x;
+		vec_append(&map->coins, &res);
+	}
+	return (0);
+}
 
 static void	check_line(t_terrain *map, int y, char *line)
 {
@@ -30,14 +51,8 @@ static void	check_line(t_terrain *map, int y, char *line)
 			errno = ERRMAPWALL;
 		if (!ft_strchr(MAP_CHARS, line[x]))
 			errno = ERRMAPCHAR;
-		if (line[x] == MAP_PLAYER && !map->spawn)
-			map->spawn = y * map->w + x;
-		else if (line[x] == MAP_PLAYER)
-			errno = ERRMAPPLAYER;
-		if (line[x] == MAP_EXIT && !map->exit)
-			map->exit = y * map->w + x;
-		else if (line[x] == MAP_EXIT)
-			errno = ERRMAPEXIT;
+		if (parse_map_line(map, line[x], x, y))
+			errno = ERRMAPCHAR;
 	}
 	if (!map->w)
 		map->w = x;
@@ -71,6 +86,8 @@ static void	read_map(int fd, t_terrain *map)
 		errno = ERRMAPWALL;
 	if (!errno && (!map->spawn || !map->exit))
 		errno = ERRMAPNOPE;
+	if (!errno && !map->coins.actual_size)
+		errno = ERRMAPCOIN;
 	i = 0;
 }
 

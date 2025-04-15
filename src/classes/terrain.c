@@ -6,12 +6,13 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:24:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <X11/X.h>
 #include <stdlib.h>
+#include "ft_vector.h"
 #include "so_long.h"
 #include "classes/terrain.h"
 
@@ -25,6 +26,8 @@ void	terrain_del(t_element **self)
 	{
 		if (terrain->grid)
 			free(terrain->grid);
+		if (terrain->coins.data)
+			vec_destroy(&terrain->coins);
 		free(terrain);
 	}
 }
@@ -39,9 +42,12 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 	terrain->base = ft_element(scene);
 	if (terrain->base)
 		terrain->base->texture = ft_texture(&scene->env->render, texpath);
-	if (terrain->base && terrain->base->texture)
+	if (terrain->base->texture)
+		terrain->coins = vec_new(32, sizeof(int));
+	if (terrain->coins.data)
 		terrain_load(terrain, mappath);
-	if (!terrain->base || !terrain->base->texture || !terrain->grid)
+	if (!terrain->base || !terrain->base->texture
+		|| !terrain->coins.data || !terrain->grid)
 	{
 		terrain->base->del(&terrain->base);
 		free(terrain);

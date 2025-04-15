@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:12:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TERRAIN_H
 # include "classes/element.h"
 # include "classes/entity.h"
+#include "ft_vector.h"
 # include "vector2d.h"
 
 # define MAP_CHARS "01CEP"
@@ -31,7 +32,7 @@ typedef struct s_terrain
 	int			h;
 	int			spawn;
 	int			exit;
-	int			*coins;
+	t_vector	coins;
 
 	t_float2d	(*collide)(struct s_terrain *self, t_entity *ent, t_float2d vel,
 			t_float2d newpos);

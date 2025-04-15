@@ -27,6 +27,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				texture/get_frame.c\
 				texture/texture_slice_time.c\
 				texture.c\
+				classes/element/play_anim.c\
 				classes/element.c\
 				classes/terrain/grid_utils.c\
 				classes/terrain/wall_rules.c\
@@ -40,6 +41,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/player/anim_coroutine.c\
 				classes/player/update.c\
 				classes/player.c\
+				classes/frog.c\
 				scene.c\
 				classes/background.c\
 				classes/actor/draw.c\

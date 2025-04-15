@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/15 01:14:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 00:55:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,23 @@ Animation animations[] = {
     {"J_2"},
     {"J_3"},
     {"Bow_Sit"},
+    {"B_S_1"},
+    {"B_S_2"},
     {"Bow_Idle"},
+    {"B_I_1"},
+    {"B_I_2"},
+    {"rook_around"},
+    {"R_A_Right"},
+    {"R_A_1"},
+    {"R_A_2"},
+    {"R_A_3"},
+    {"R_A_Left"},
+    {"R_A_4"},
+    {"R_A_5"},
+    {"R_A_6"},
     {"Eat"},
+    {"Eat_1"},
+    {"Eat_2"},
     {"Dmg"},
     {"Death_1"},
     {"Death_2"},
@@ -62,19 +77,21 @@ Animation animations[] = {
     {"Dig_2"},
     {"Pooping"},
     {"Paws"},
+    {"On_2_Paws"},
+    {"On_4_Paws"},
     {"Scratching"},
     {"Pac-Cat"},
     {"Goomba"}
 };
 
-#define ANIM_COUNT 42
+#define ANIM_COUNT 60
 #define ANIM_SIZE 32
 #define SCREEN_WIDTH 340
 
 // Function to draw each animation at spaced positions
 void draw_all_animations(t_element *self, void *texture, t_render *render, t_transform origin) {
-	static double last_anim_times[ANIM_COUNT] = {0};
-	static double cycles[ANIM_COUNT] = {0};
+	static double last_anim_times[ANIM_COUNT + 1] = {0};
+	static double cycles[ANIM_COUNT + 1] = {0};
 
     int x = 8, y = 0;
     for (int i = 0; i < (int)ANIM_COUNT; i++) {
@@ -115,23 +132,21 @@ void	actor_draw(t_element *self, t_render *render)
 	actor = cast_actor(self->parent);
 	if (!actor)
 		return ;
-	if (actor->anim_couroutine)
-		actor->anim_couroutine(actor);
 	transform = t_from_pos(to_int2d(float2d_sub(float2d_add(self->pos, self->txt_off_pos), self->scene->cam_pos)));
 	if (actor->direction == -1)
 		transform.scale.x = -1;
 
-	draw_all_animations(self, self->texture, render, transform);
+	//draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 	
     t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
-	if (self->pos.x >= 0 && self->pos.x < render->buffer->width && self->pos.y >= 0 && self->pos.y < render->buffer->height)
+	if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
 		mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);
-	//if (self->pos.x + actor->entity->hull.a.x >= 0 && self->pos.x + actor->entity->hull.a.x < buffer->width
-	//	&& self->pos.y + actor->entity->hull.a.y >= 0 && self->pos.y + actor->entity->hull.a.y < buffer->height)
-	//	mylx_pixel_put(buffer, self->pos.x + actor->entity->hull.a.x, self->pos.y + actor->entity->hull.a.y, 0x0000FF);
-	//if (self->pos.x + actor->entity->hull.b.x >= 0 && self->pos.x + actor->entity->hull.b.x < buffer->width
-	//	&& self->pos.y + actor->entity->hull.b.y >= 0 && self->pos.y + actor->entity->hull.b.y < buffer->height)
-	//	mylx_pixel_put(buffer, self->pos.x + actor->entity->hull.b.x, self->pos.y + actor->entity->hull.b.y, 0x0000FF);
+	if (pos.x + actor->entity->hull.a.x >= 0 && pos.x + actor->entity->hull.a.x < render->buffer->width
+		&& pos.y + actor->entity->hull.a.y >= 0 && pos.y + actor->entity->hull.a.y < render->buffer->height)
+		mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.a.x, pos.y + actor->entity->hull.a.y, 0x0000FF);
+	if (pos.x + actor->entity->hull.b.x >= 0 && pos.x + actor->entity->hull.b.x < render->buffer->width
+		&& pos.y + actor->entity->hull.b.y >= 0 && pos.y + actor->entity->hull.b.y < render->buffer->height)
+		mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.b.x, pos.y + actor->entity->hull.b.y, 0x0000FF);
 }

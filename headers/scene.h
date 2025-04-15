@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/15 12:20:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum e_class
 	CLASS_ENTITY,
 	CLASS_ACTOR,
 	CLASS_PLAYER,
-	CLASS_ENEMY,
+	CLASS_FROG,
 	CLASS_ITEM,
 	CLASS_HUD,
 	CLASS_TERRAIN,
