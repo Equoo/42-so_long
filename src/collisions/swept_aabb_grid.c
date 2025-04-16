@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 19:17:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 17:42:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,6 @@ static void	bresenham_algorithm(t__trace *a, t_float2d *start)
 		a->gpos.y += a->step.y * TR_STEP_SIZE / TR_GRID_SIZE;
 		start->y += a->step.y * TR_STEP_SIZE;
 	}
-}
-
-float	aabb_w(t_faabb hull)
-{
-	return (ft_fabs(hull.b.x - hull.a.x));
-}
-
-
-float	aabb_h(t_faabb hull)
-{
-	return (ft_fabs(hull.b.y - hull.a.y));
 }
 
 static int	aabb_intersect_grid(t_float2d pos, t_faabb a, t_int2d b, t_float2d *normal)
