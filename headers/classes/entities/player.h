@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:13:27 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 22:46:28 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_player
 	t_entity	*entity;
 	t_actor		*actor;
 	void		*parent;
+	uint		coins;
 	t_bool		is_jumping;
 
 	void		(*attack)(struct s_player *self);

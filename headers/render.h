@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 22:42:51 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ void			*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
 
 void			*mylx_img_copy(t_copyimg data);
 
-void	draw_text(t_render *render, char *text, t_float2d pos, int font_size);
+int	draw_text(t_render *render, char *text, t_float2d pos, int font_size);
 
 #endif

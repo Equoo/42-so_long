@@ -42,6 +42,7 @@ t_player	*ft_player(t_scene *scene)
 		actor->base->del(&actor->base);
 		return (NULL);
 	}
+	player->coins = 0;
 	player->base = actor->base;
 	player->entity = actor->entity;
 	player->actor = actor;

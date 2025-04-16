@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:11:14 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 22:48:31 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 #include "ft_time.h"
 #include "ft_vector.h"
 #include "input.h"
+#include "libft.h"
+#include "render.h"
 #include "so_long.h"
 #include "error.h"
 #include "scene.h"
 #include "classes/entities/player.h"
 #include "classes/background.h"
 #include "classes/terrain.h"
+#include "vector2d.h"
 #include <X11/X.h>
 #include <X11/Xutil.h>
 #include <errno.h>
@@ -61,6 +64,16 @@ void	tick_game(t_gameenv *env)
 			node_elem->internal_update(node_elem);
 		node = node->next;
 	}
+	
+	char *coins = ft_itoa(((t_player *)scene->ply)->coins);
+	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
+	draw_text(&env->render, coins, (t_float2d){55, 35}, 32);
+	free(coins);
+
+	char *fps = ft_itoa(env->smooth_fps);
+	draw_text(&env->render, "FPS:", (t_float2d){39, 30}, 32);
+	draw_text(&env->render, fps, (t_float2d){50, 30}, 32);
+	free(fps);
 }
 
 int	load_map(t_gameenv *env, char *path)

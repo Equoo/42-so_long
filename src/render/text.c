@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/15 01:27:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 22:45:46 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,22 @@
 #include "render.h"
 #include <stddef.h>
 
-void	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
+int	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
 {
 	t_rtext		data;
 
 	data = (t_rtext){0};
-	data.text = text;
+	data.text = ft_strdup(text);
+	if (!data.text)
+		return (1);
 	data.pos = to_int2d(pos);
 	data.font_size = font_size;
-	vec_append(&render->texts, &data); // need to be secured
+	if (vec_append(&render->texts, &data))
+	{
+		free(data.text);
+		return (1);
+	}
+	return (0);
 }
 
 void	render_one_text(t_render *render, t_img *buffer, t_rtext *data)
@@ -67,6 +74,7 @@ void	render_texts(t_render *render, t_img *buffer)
 	while (i < render->texts.actual_size)
 	{
 		render_one_text(render, buffer, data + i);
+		free(data[i].text);
 		i++;
 	}
 	ft_bzero(render->texts.data, render->texts.actual_size * render->texts.type_size);
