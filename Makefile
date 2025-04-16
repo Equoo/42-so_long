@@ -40,6 +40,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/entity.c\
 				classes/player/anim_coroutine.c\
 				classes/player/update.c\
+				classes/player/attack.c\
 				classes/player.c\
 				classes/frog.c\
 				scene.c\
@@ -60,6 +61,8 @@ SOLONG_SRCS =   vector2d/add.c\
 				inputs/isdown.c\
 				inputs/ispressed.c\
 				inputs/isreleased.c\
+				collisions/aabbtoaabb.c\
+				collisions/swept_aabb_aabb.c\
 				collisions/trace_grid.c\
 				collisions/swept_aabb_grid.c\
             	error.c\

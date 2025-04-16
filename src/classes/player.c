@@ -47,6 +47,7 @@ t_player	*ft_player(t_scene *scene)
 	player->actor = actor;
 	player->base->anim_coroutine = &player_anim_coroutine;
 	player->base->update = &player_update;
+	player->attack = &player_attack;
 	player->base->class = CLASS_PLAYER;
 	player->base->parent = player;
 	player->base->del = &player_del;

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 00:57:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 22:11:14 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "classes/background.h"
 #include "classes/terrain.h"
 #include <X11/X.h>
+#include <X11/Xutil.h>
 #include <errno.h>
 
 void	tick_game(t_gameenv *env)
@@ -50,6 +51,8 @@ void	tick_game(t_gameenv *env)
 		ply->actor->move(ply->actor, 0, modifier);
 	if (input_isdown('d', env))
 		ply->actor->move(ply->actor, 1, modifier);
+	if (input_ispressed(XK_space, env))
+		ply->attack(ply);
 	node = scene->elements;
 	while (node)
 	{

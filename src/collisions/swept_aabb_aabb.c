@@ -6,18 +6,41 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:30:40 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 18:30:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 21:46:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "collisions.h"
+#include "vector2d.h"
+#include <math.h>
 
-static int	test_aabb(t_faabb hull, t_float2d *res)
+static int	aabb_intersect(t_float2d pos, t_faabb a, t_faabb b,
+		t_float2d *normal)
 {
-	if (hull.a.x > hull.b.x || hull.a.y > hull.b.y)
+	t_float2d	overlap;
+	float		overlapmin;
+
+	a.a = float2d_add(a.a, pos);
+	a.b = float2d_add(a.b, pos);
+	overlap.x = fmin(a.b.x, b.b.x) - fmax(a.a.x, b.a.x);
+	overlap.y = fmin(a.b.y, b.b.y) - fmax(a.a.y, b.a.y);
+	if (overlap.x < 0 || overlap.y < 0)
 		return (0);
-	res->x = (hull.a.x + hull.b.x) / 2;
-	res->y = (hull.a.y + hull.b.y) / 2;
+	overlapmin = fmin(overlap.x, overlap.y);
+	if (overlapmin == overlap.y)
+	{
+		if ((a.a.y + a.b.y) / 2 < (b.a.y + b.b.y) / 2)
+			normal->y = 1;
+		else
+			normal->y = -1;
+	}
+	else
+	{
+		if ((a.a.x + a.b.x) / 2 < (b.a.x + b.b.x) / 2)
+			normal->x = -1;
+		else
+			normal->x = 1;
+	}
 	return (1);
 }
 
@@ -55,10 +78,29 @@ static void	bresenham_algorithm(t__trace *a, t_float2d *start)
 	}
 }
 
-int	swept_aabb_aabb(t_faabb from_to, t_faabb hull, t_faabb hull2,
-	t_float2d *res)
+int	swept_aabb_aabb(t_faabb from_to, t_faabb hulla, t_faabb hullb,
+		t_float2d *res, t_float2d *normal)
 {
 	t__trace	a;
 
-	
+	a = init_trace_vars(from_to.a, from_to.b);
+	while (1)
+	{
+		if (!aabb_intersect(from_to.a, hulla, hullb, normal))
+		{
+			*res = a.last_pos;
+			return (1);
+		}
+		if (from_to.a.x == from_to.b.x && from_to.a.y == from_to.b.y)
+			break ;
+		if (ft_fabs(from_to.a.x - from_to.b.x) < TR_STEP_SIZE
+			&& ft_fabs(from_to.a.y - from_to.b.y) < TR_STEP_SIZE)
+		{
+			a.last_pos = from_to.a;
+			from_to.a = from_to.b;
+			continue ;
+		}
+		bresenham_algorithm(&a, &from_to.a);
+	}
+	return (0);
 }

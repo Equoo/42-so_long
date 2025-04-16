@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:00:27 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 17:48:05 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/16 21:44:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int trace_grid(t_float2d start, t_float2d end, t_terrain *terrain,
 int	swept_aabb_grid(t_faabb from_to, t_faabb hull, t_terrain *terrain,
 	t_float2d *res, t_float2d *normal);
 int	swept_aabb_aabb(t_faabb from_to, t_faabb hull, t_faabb hull2,
-		t_float2d *res);
+	t_float2d *res, t_float2d *normal);
 
 #endif
