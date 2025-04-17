@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collide.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 05:17:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/17 22:24:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@
 
 t_float2d	terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel, t_float2d newpos)
 {
-	t_float2d	res;
-	t_float2d	norm;
+	t_trace	trace;
 	(void)vel;
 	(void)ent;
 	(void)self;
-	(void)res;
 
-	res = (t_float2d){0, 0};
-	if (swept_aabb_grid((t_faabb){ent->base->pos, newpos}, ent->hull, self, &res, &norm))
+	trace = (t_trace){0};
+	trace.from = ent->base->pos;
+	trace.to = newpos;
+	trace.hull = ent->hull;
+	trace.ignore = ent->base->id;
+	trace = swept_aabb(self->base->scene, trace);
+	if (trace.hit)
 	{
-		//newpos = res;
-		ent->velocity = float2d_sub(ent->velocity, float2d_multiply(ent->velocity, float2d_abs(norm)));
+		ent->velocity = float2d_sub(ent->velocity, float2d_multiply(ent->velocity, float2d_abs(trace.normal)));
 		newpos = float2d_add(ent->base->pos, ent->velocity);
-		__builtin_printf("collide %f %f\n", norm.x, norm.y);
+		__builtin_printf("ENTITY collide %d %f %f\n", ent->base->class, trace.normal.x, trace.normal.y);
 	}
 	return (newpos);
 }

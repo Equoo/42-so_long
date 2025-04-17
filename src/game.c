@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:48:31 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:23:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	tick_game(t_gameenv *env)
 			node_elem->internal_update(node_elem);
 		node = node->next;
 	}
-	
+
 	char *coins = ft_itoa(((t_player *)scene->ply)->coins);
 	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
 	draw_text(&env->render, coins, (t_float2d){55, 35}, 32);
@@ -121,7 +121,7 @@ int	game_init(t_gameenv *env, char *mappath)
 	player->base->pos = (t_float2d){(terrain->spawn % terrain->w) * 16,
 		(terrain->spawn / terrain->w) * 16};
 	scene->ply = player;
-	
+
 	int	i = 0;
 	while (i < terrain->coins.actual_size)
 	{

@@ -62,9 +62,8 @@ SOLONG_SRCS =   vector2d/add.c\
 				inputs/ispressed.c\
 				inputs/isreleased.c\
 				collisions/aabbtoaabb.c\
-				collisions/swept_aabb_aabb.c\
-				collisions/trace_grid.c\
-				collisions/swept_aabb_grid.c\
+				collisions/collide_aabb.c\
+				collisions/swept_aabb.c\
             	error.c\
             	seed.c\
             	game.c\

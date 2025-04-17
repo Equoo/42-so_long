@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/15 12:20:41 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/17 21:25:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,21 @@ enum e_scene
 
 typedef enum e_class
 {
-	CLASS_ELEMENT,
-	CLASS_ENTITY,
-	CLASS_ACTOR,
-	CLASS_PLAYER,
-	CLASS_FROG,
-	CLASS_ITEM,
-	CLASS_HUD,
-	CLASS_TERRAIN,
-	CLASS_BACKGROUND
+	CLASS_ELEMENT = 1,
+	CLASS_ENTITY = 1 << 1,
+	CLASS_ACTOR = 1 << 2,
+	CLASS_PLAYER = 1 << 3,
+	CLASS_FROG = 1 << 4,
+	CLASS_HUD = 1 << 5,
+	CLASS_TERRAIN = 1 << 6,
+	CLASS_BACKGROUND = 1 << 7
 }	t_class;
+
+typedef enum e_cgroup
+{
+	CGROUP_ENTITY = CLASS_ENTITY | CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG,
+	CGROUP_ACTOR = CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG,
+}	t_cgroup;
 
 typedef struct s_scene
 {

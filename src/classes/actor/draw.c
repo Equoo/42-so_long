@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 00:55:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:29:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	actor_draw(t_element *self, t_render *render)
 	//draw_all_animations(self, self->texture, render, transform);
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
-	
+
     t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
 	if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
 		mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);

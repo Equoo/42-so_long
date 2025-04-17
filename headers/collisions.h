@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collisions.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:00:27 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 21:44:32 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/17 22:25:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,37 @@
 # define COLLISIONS_H
 
 # include "classes/terrain.h"
+#include "ft_bool.h"
 # include "vector2d.h"
 
 #define TR_STEP_SIZE 0.01
 #define TR_GRID_SIZE 16
 
-typedef struct s__trace
+typedef struct s_trace
 {
-	t_float2d	gpos;
-	t_float2d	delta;
+	t_float2d	from;
+	t_float2d	to;
+	t_faabb		hull;
+	int			mask;
+	int			ignore;
+	t_bool		hit;
+	t_float2d	hitpos;
+	t_float2d	normal;
+}	t_trace;
+
+typedef struct s__bresenham
+{
+	t_float2d	pos;
 	t_float2d	last_pos;
+	t_float2d	delta;
 	t_int2d		step;
 	double		err;
-}	t__trace;
+}	t__bresenham;
 
 float	aabb_w(t_faabb hull);
 float	aabb_h(t_faabb hull);
 
-int trace_grid(t_float2d start, t_float2d end, t_terrain *terrain,
-	t_float2d *res);
-int	swept_aabb_grid(t_faabb from_to, t_faabb hull, t_terrain *terrain,
-	t_float2d *res, t_float2d *normal);
-int	swept_aabb_aabb(t_faabb from_to, t_faabb hull, t_faabb hull2,
-	t_float2d *res, t_float2d *normal);
+t_trace	collide_aabb(t_scene *scene, t_trace traceinfo);
+t_trace	swept_aabb(t_scene *scene, t_trace trace);
 
 #endif
