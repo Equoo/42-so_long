@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:25:58 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 21:26:10 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 00:51:57 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,46 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+float sign(float value)
+{
+	return value < 0 ? -1 : 1;
+}
 
 static int	aabb_intersect(t_faabb a, t_faabb b,
-		t_float2d *normal)
+		t_trace *trace)
 {
-	t_float2d	overlap;
-	float		overlapmin;
+	t_float2d 	delta;
+	t_faabb 	abox;
+	t_faabb 	bbox;
+	t_float2d 	p;
+	t_float2d 	s;
 
-	overlap.x = fmin(a.b.x, b.b.x) - fmax(a.a.x, b.a.x);
-	overlap.y = fmin(a.b.y, b.b.y) - fmax(a.a.y, b.a.y);
-	if (overlap.x < 0 || overlap.y < 0)
+	abox.a = float2d_scale_dived(float2d_add(a.a, a.b), 2);
+	abox.b = float2d_sub(abox.a, a.a);
+	bbox.a = float2d_scale_dived(float2d_add(b.a, b.b), 2);
+	bbox.b = float2d_sub(bbox.a, b.a);
+	delta = float2d_sub(bbox.a, abox.a);
+	p.x = bbox.b.x + abox.b.x - ft_abs(delta.x);
+	p.y = bbox.b.y + abox.b.y - ft_abs(delta.y);
+	if (p.x <= 0 || p.y <= 0)
 		return (0);
-	overlapmin = fmin(overlap.x, overlap.y);
-	if (!normal)
-		return (1);
-	if (overlapmin == overlap.y)
+	if (p.x < p.y)
 	{
-		if ((a.a.y + a.b.y) / 2 < (b.a.y + b.b.y) / 2)
-			normal->y = 1;
-		else
-			normal->y = -1;
+		s.x = sign(delta.x);
+		trace->delta.x = p.x * s.x;
+		trace->normal.x = s.x;
+		trace->hitpos.x = abox.a.x + (abox.b.x * s.x);
+		trace->hitpos.y = bbox.a.y;
 	}
 	else
 	{
-		if ((a.a.x + a.b.x) / 2 < (b.a.x + b.b.x) / 2)
-			normal->x = -1;
-		else
-			normal->x = 1;
+		s.y = sign(delta.y);
+		trace->delta.y = p.y * s.y;
+		trace->normal.y = s.y;
+		trace->hitpos.x = bbox.a.x;
+		trace->hitpos.y = abox.a.y + (abox.b.y * s.y);
 	}
 	return (1);
 }
@@ -64,7 +77,7 @@ static int	collide_aabb_entities(t_entity *entity, t_trace *trace)
 	hullb = entity->hull;
 	hullb.a = float2d_add(hullb.a, entity->base->pos);
 	hullb.b = float2d_add(hullb.b, entity->base->pos);
-	if (aabb_intersect(hulla, hullb, &trace->normal))
+	if (aabb_intersect(hulla, hullb, trace))
 	{
 		trace->hit = 1;
 		trace->hitpos = trace->from;
@@ -83,7 +96,6 @@ static int	collide_aabb_terrain(t_terrain *terrain, t_trace *trace)
 	hulla = trace->hull;
 	hulla.a = float2d_add(hulla.a, trace->from);
 	hulla.b = float2d_add(hulla.b, trace->from);
-
 	uint	voxels = ceil(aabb_w(hulla) * aabb_h(hulla) / (TR_GRID_SIZE * TR_GRID_SIZE));
 	i = -1;
 	while (++i < voxels)
@@ -95,7 +107,7 @@ static int	collide_aabb_terrain(t_terrain *terrain, t_trace *trace)
 		hullb = (t_faabb){{gridindex % terrain->w * TR_GRID_SIZE, gridindex / terrain->w * TR_GRID_SIZE},
 				{TR_GRID_SIZE, TR_GRID_SIZE}};
 		hullb.b = float2d_add(hullb.b, hullb.a);
-		if (aabb_intersect(hulla, hullb, &trace->normal))
+		if (aabb_intersect(hulla, hullb, trace))
 			trace->hit = 1;
 	}
 	if (trace->hit)

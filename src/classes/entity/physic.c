@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 22:30:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 00:38:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void			entity_physic(t_element *self)
 
 
 
-	ent->b_isground = collide_aabb(self->scene, (t_trace){(t_float2d){ent->base->pos.x + ent->hull.a.x, ent->base->pos.y + 1}, {0}, {{0}, {aabb_w(ent->hull), 1}}, 0, self->id, 0, {0}, {0}}).hit;
+	ent->b_isground = collide_aabb(self->scene, (t_trace){(t_float2d){ent->base->pos.x + ent->hull.a.x, ent->base->pos.y + 1}, {0}, {{0}, {aabb_w(ent->hull), 1}}, 0, self->id, 0, {0}, {0}, {0}}).hit;
 }

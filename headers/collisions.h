@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:00:27 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 22:25:42 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 00:23:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_trace
 	int			mask;
 	int			ignore;
 	t_bool		hit;
+	t_float2d	delta;
 	t_float2d	hitpos;
 	t_float2d	normal;
 }	t_trace;
