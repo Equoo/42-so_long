@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   swept_aabb.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:25:58 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/20 14:52:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/21 01:28:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ static float getsign(float value)
 	return value < 0 ? -1 : 1;
 }
 
+static t_float2d float2d_sign(t_float2d v)
+{
+	if (v.x < 0)
+		v.x = -1;
+	else if (v.x > 0)
+		v.x = 1;
+	if (v.y < 0)
+		v.y = -1;
+	else if (v.y > 0)
+		v.y = 1;
+	return (v);
+}
+
 
 t_hit	intersect_segment(t_float2d pos, t_float2d delta, t_float2d padding, t_aabb hull)
 {
@@ -48,14 +61,16 @@ t_hit	intersect_segment(t_float2d pos, t_float2d delta, t_float2d padding, t_aab
 	hit = (t_hit){0};
 	scale = float2d_divide((t_float2d){1, 1}, delta);
 	sign = (t_float2d){getsign(scale.x), getsign(scale.y)};
-	near_time = float2d_multiply(float2d_sub(float2d_sub(hull.center,
-		float2d_multiply(sign, float2d_add(hull.half, padding))), pos), scale);
-	far_time = float2d_multiply(float2d_add(float2d_add(hull.center,
-		float2d_multiply(sign, float2d_add(hull.half, padding))), pos), scale);
+	near_time = float2d_multiply(float2d_sub(float2d_sub(hull.center, pos),
+		float2d_multiply(sign, float2d_add(hull.half, padding))), scale);
+	far_time = float2d_multiply(float2d_add(float2d_sub(hull.center, pos),
+		float2d_multiply(sign, float2d_add(hull.half, padding))), scale);
 	if (near_time.x > far_time.y || near_time.y > far_time.x || ft_fmax(
 		near_time.x, near_time.y) >= 1 || ft_fmin(far_time.x, far_time.y) <= 0)
 		return (hit);
+	hit.touch = 1;
 	hit.time = clamp(ft_fmax(near_time.x, near_time.y), 0, 1);
+	__builtin_printf("Near time: %f %f, %f, %f\n", near_time.x, near_time.y, ft_fmax(near_time.x, near_time.y), hit.time);
 	if (near_time.x > near_time.y)
 		hit.normal.x = -sign.x;
 	else
@@ -76,6 +91,7 @@ t_hit	intersect_aabb(t_aabb hulla, t_aabb hullb)
 	p = float2d_sub(float2d_add(hulla.half, hullb.half), float2d_abs(d));
 	if (p.x <= 0 || p.y <= 0)
 		return (hit);
+	hit.touch = 1;
 	if (p.x < p.y)
 	{
 		hit.normal.x = getsign(d.x);
@@ -125,21 +141,21 @@ t_sweep	sweep_aabb(t_aabb hulla, t_aabb hullb, t_float2d delta)
 	if (pos.x + sweep.hit.pos.x >= 0 && pos.x + sweep.hit.pos.x < debug_rd->buffer->width && pos.y + sweep.hit.pos.y >= 0 && pos.y + sweep.hit.pos.y < debug_rd->buffer->height)
 		mylx_pixel_put(debug_rd->buffer, pos.x + sweep.hit.pos.x, pos.y + sweep.hit.pos.y, 0x00FFFF);
 
-	if (pos.x + hulla.center.x >= 0 && pos.x + hulla.center.x < debug_rd->buffer->width
-		&& pos.y + hulla.center.y >= 0 && pos.y + hulla.center.y < debug_rd->buffer->height)
-		mylx_pixel_put(debug_rd->buffer,pos.x + hulla.center.x,pos.y + hulla.center.y, 0xb112b1);
-	if (pos.x + hulla.half.x >= 0 && pos.x + hulla.half.x < debug_rd->buffer->width
-		&& pos.y + hulla.half.y >= 0 && pos.y + hulla.half.y < debug_rd->buffer->height)
-		mylx_pixel_put(debug_rd->buffer,pos.x + hulla.half.x,pos.y + hulla.half.y, 0xFF00FF);
+	//if (pos.x + hulla.center.x >= 0 && pos.x + hulla.center.x < debug_rd->buffer->width
+	//	&& pos.y + hulla.center.y >= 0 && pos.y + hulla.center.y < debug_rd->buffer->height)
+	//	mylx_pixel_put(debug_rd->buffer,pos.x + hulla.center.x,pos.y + hulla.center.y, 0xb112b1);
+	//if (pos.x + hulla.half.x >= 0 && pos.x + hulla.half.x < debug_rd->buffer->width
+	//	&& pos.y + hulla.half.y >= 0 && pos.y + hulla.half.y < debug_rd->buffer->height)
+	//	mylx_pixel_put(debug_rd->buffer,pos.x + hulla.half.x,pos.y + hulla.half.y, 0xFF00FF);
 
-	if (pos.x + hullb.center.x >= 0 && pos.x + hullb.center.x < debug_rd->buffer->width
-		&& pos.y + hullb.center.y >= 0 && pos.y + hullb.center.y < debug_rd->buffer->height)
-		mylx_pixel_put(debug_rd->buffer,pos.x + hullb.center.x,pos.y + hullb.center.y, 0xECBE00);
-	if (pos.x + hullb.half.x >= 0 && pos.x + hullb.half.x < debug_rd->buffer->width
-		&& pos.y + hullb.half.y >= 0 && pos.y + hullb.half.y < debug_rd->buffer->height)
-		mylx_pixel_put(debug_rd->buffer,pos.x + hullb.half.x,pos.y + hullb.half.y, 0xECFF00);
+	if (pos.x + hullb.center.x - hullb.half.x >= 0 && pos.x + hullb.center.x - hullb.half.x < debug_rd->buffer->width
+		&& pos.y + hullb.center.y - hullb.half.y >= 0 && pos.y + hullb.center.y - hullb.half.y < debug_rd->buffer->height)
+		mylx_pixel_put(debug_rd->buffer,pos.x + hullb.center.x - hullb.half.x,pos.y + hullb.center.y - hullb.half.y, 0xECBE00);
+	if (pos.x + hullb.center.x + hullb.half.x >= 0 && pos.x + hullb.center.x + hullb.half.x < debug_rd->buffer->width
+		&& pos.y + hullb.center.y + hullb.half.y >= 0 && pos.y + hullb.center.y + hullb.half.y < debug_rd->buffer->height)
+		mylx_pixel_put(debug_rd->buffer,pos.x + hullb.center.x + hullb.half.x,pos.y + hullb.center.y + hullb.half.y, 0xECFF00);
 
-	__builtin_printf("COL %f ht %f, %f %f, Touch: %d\n", sweep.time, sweep.hit.time, sweep.hit.pos.x, sweep.hit.pos.y, sweep.hit.touch);
+	__builtin_printf("COL %f ht %f, %f %f, Touch: %d\n", sweep.time, sweep.hit.time, sweep.hit.normal.x, sweep.hit.normal.y, sweep.hit.touch);
 
 	if (sweep.hit.touch)
 	{
@@ -212,23 +228,26 @@ static t_sweep	sweep_aabb_terrain(t_terrain *terrain, t_trace *trace)
 		&& pos.y + hulla.center.y + hulla.half.y >= 0 && pos.y + hulla.center.y + hulla.half.y < debug_rd->buffer->height)
 		mylx_pixel_put(debug_rd->buffer,pos.x + hulla.center.x + hulla.half.x,pos.y + hulla.center.y + hulla.half.y, 0xFF00FF);
 
-	uint	voxels = ceil(aabb_w(hulla) * aabb_h(hulla) / (TR_GRID_SIZE * TR_GRID_SIZE)) * 2;
-	uint	voxelsW = ceil(aabb_w(hulla) / TR_GRID_SIZE);
+	uint	voxels = ceil(round(aabb_w(hulla)) * round(aabb_h(hulla)) * 4 / (TR_GRID_SIZE * TR_GRID_SIZE));
+	uint	voxelsW = ceil(round(aabb_w(hulla)) / TR_GRID_SIZE) * 2;
 	i = -1;
 	while (++i < voxels)
 	{
-		gridindex = (int)floor(trace->from.x / TR_GRID_SIZE) + i % voxelsW +
-			((int)floor(trace->from.y / TR_GRID_SIZE) + i / voxelsW) * terrain->w;
+		gridindex = (int)floor(hulla.min.x / TR_GRID_SIZE) + i % voxelsW +
+			((int)floor(hulla.min.y / TR_GRID_SIZE) + i / voxelsW) * terrain->w;
+		__builtin_printf("GRID %d %c %d %d %d %d\n", gridindex, terrain->grid[gridindex], i, voxelsW, terrain->w, terrain->h);
 		if (terrain->grid[gridindex] != MAP_WALL)
 			continue ;
-		hullb = (t_aabb){{gridindex % terrain->w * TR_GRID_SIZE, gridindex / terrain->w * TR_GRID_SIZE},
+		hullb = (t_aabb){{(gridindex % terrain->w) * TR_GRID_SIZE, gridindex / terrain->w * TR_GRID_SIZE},
 				{TR_GRID_SIZE, TR_GRID_SIZE}, {0}, {0}};
-		hullb.max = float2d_add(hullb.min, hullb.min);
+		hullb.max = float2d_add(hullb.min, hullb.max);
 		hullb = aabb_from_mm(hullb.min, hullb.max);
 		sweep = sweep_aabb(hulla, hullb, float2d_sub(trace->to, trace->from));
-		__builtin_printf("@%d: %f ht %f, %f %f\n", i, sweep.time, sweep.hit.time, sweep.hit.normal.x, sweep.hit.normal.y);
+		sweep.hit.normal = float2d_sign(float2d_add(sweep.hit.normal, nearest.hit.normal));
 		if (sweep.time < nearest.time)
 			nearest = sweep;
+		else
+			nearest.hit.normal = float2d_sign(float2d_add(sweep.hit.normal, nearest.hit.normal));
 	}
 	return (nearest);
 }
@@ -254,7 +273,7 @@ t_sweep	world_sweep_aabb(t_scene *scene, t_trace trace)
 			else if (element->class & CGROUP_ENTITY)
 				act = sweep_aabb_entities(cast_entity(element->parent), &trace);
 			act.hit.element = element;
-			__builtin_printf("T: %f ht %f, %f %f\n", act.time, act.hit.time, act.hit.normal.x, act.hit.normal.y);
+			//__builtin_printf("T: %f ht %f, %f %f\n", act.time, act.hit.time, act.hit.normal.x, act.hit.normal.y);
 			if (act.time < sweep.time)
 				sweep = act;
 		}

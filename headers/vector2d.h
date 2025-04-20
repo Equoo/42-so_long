@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/21 00:46:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define DIR_LEFT 1
 # define DIR_RIGHT 2
 # define DIR_TOP 0
-# define EPSILON 0.001
+# define EPSILON 0.1
 
 typedef struct s_float2d
 {
