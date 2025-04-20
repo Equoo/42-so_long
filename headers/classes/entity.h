@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:18:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "element.h"
 # include "vector2d.h"
+# include "collisions.h"
 
 # include <ft_bool.h>
 # include <unistd.h>
@@ -25,7 +26,7 @@ typedef struct s_entity
 	void		*entity;
 	void		*parent;
 	t_float2d	velocity;
-	t_faabb		hull;
+	t_aabb		hull;
 	t_bool		b_isground;
 	t_bool		nocollision;
 	t_bool		nogravity;

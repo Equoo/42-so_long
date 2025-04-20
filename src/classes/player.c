@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "classes/entities/player.h"
+#include "collisions.h"
 #include "scene.h"
 #include "texture.h"
 #include "libft.h"
@@ -54,7 +55,7 @@ t_player	*ft_player(t_scene *scene)
 	player->base->del = &player_del;
 	player->base->texture = ft_texture(&scene->env->render, "./textures/cat.xpm");
 	player->base->txt_off_pos = (t_float2d){-16, -31};
-	player->entity->hull = (t_faabb){{-8, -14}, {8, 0}};
+	player->entity->hull = (t_aabb){{-8, -14}, {8, 0}, {0}, {0}};
 	if (!player->base->texture)
 	{
 		player->base->del(&player->base);

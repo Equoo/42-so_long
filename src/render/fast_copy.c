@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fast_copy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:58:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx_int.h"
 #include "render.h"
 
-void	*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
+void	*mylx_img_fast_copy(t_2int2d sqr, t_int2d pos, t_img *dest, t_img *src)
 {
 	t_int2d	i;
 	void	*src_pixels;

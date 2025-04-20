@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ typedef struct s_float2d
 	float		y;
 }				t_float2d;
 
-typedef struct s_faabb
+typedef struct s_2float2d
 {
 	t_float2d	a;
 	t_float2d	b;
-}				t_faabb;
+}				t_2float2d;
 
 typedef struct s_int2d
 {
@@ -37,11 +37,11 @@ typedef struct s_int2d
 	int			y;
 }				t_int2d;
 
-typedef struct s_iaabb
+typedef struct s_2int2d
 {
 	t_int2d		a;
 	t_int2d		b;
-}				t_iaabb;
+}				t_2int2d;
 
 typedef struct s_transform
 {

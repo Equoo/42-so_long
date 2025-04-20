@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 05:17:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 22:24:12 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:37:06 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 t_float2d	terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel, t_float2d newpos)
 {
 	t_trace	trace;
+	t_sweep	res;
 	(void)vel;
 	(void)ent;
 	(void)self;
@@ -29,12 +30,13 @@ t_float2d	terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel, t_float
 	trace.to = newpos;
 	trace.hull = ent->hull;
 	trace.ignore = ent->base->id;
-	trace = swept_aabb(self->base->scene, trace);
-	if (trace.hit)
+	res = world_sweep_aabb(self->base->scene, trace);
+	__builtin_printf("%i, T %f ht %f, %f %f\n", res.hit.touch, res.time, res.hit.time, res.hit.normal.x, res.hit.normal.y);
+	if (res.hit.touch)
 	{
-		ent->velocity = float2d_sub(ent->velocity, float2d_multiply(ent->velocity, float2d_abs(trace.normal)));
+		ent->velocity = float2d_sub(ent->velocity, float2d_multiply(ent->velocity, float2d_abs(res.hit.normal)));
 		newpos = float2d_add(ent->base->pos, ent->velocity);
-		__builtin_printf("ENTITY collide %d %f %f\n", ent->base->class, trace.normal.x, trace.normal.y);
+		__builtin_printf("ENTITY collide %d %f %f\n", ent->base->class, res.hit.normal.x, res.hit.normal.y);
 	}
 	return (newpos);
 }

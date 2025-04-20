@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fast_blend.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:56:53 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <mlx.h>
 
 static void	blend_m256_block(t_img *dest, t_img *src, t_int2d pos, t_int2d i,
-		t_iaabb sqr)
+		t_2int2d sqr)
 {
 	__m256i_u		*src_pixels;
 	__m256i_u		*dst_pixels;
@@ -36,7 +36,7 @@ static void	blend_m256_block(t_img *dest, t_img *src, t_int2d pos, t_int2d i,
 }
 
 static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_int2d pos,
-		t_int2d i, t_iaabb sqr)
+		t_int2d i, t_2int2d sqr)
 {
 	u_int	src;
 	u_int	dst;
@@ -55,7 +55,7 @@ static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_int2d pos,
 	mylx_pixel_put(dest, dst_x, dst_y, result);
 }
 
-static void	process_scanline(t_img *dest, t_img *src, t_int2d pos, t_iaabb sqr,
+static void	process_scanline(t_img *dest, t_img *src, t_int2d pos, t_2int2d sqr,
 		t_int2d i)
 {
 	int	m256_end;
@@ -78,7 +78,7 @@ static void	process_scanline(t_img *dest, t_img *src, t_int2d pos, t_iaabb sqr,
 	}
 }
 
-void	*mylx_img_fast_blend(t_iaabb sqr, t_int2d pos, t_img *dest, t_img *src)
+void	*mylx_img_fast_blend(t_2int2d sqr, t_int2d pos, t_img *dest, t_img *src)
 {
 	t_int2d	i;
 

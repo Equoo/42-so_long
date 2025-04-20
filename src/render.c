@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/15 01:28:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:15:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	tick_render(t_gameenv *env, t_render *render)
 	while (node)
 	{
 		node_elem = (t_element *)node->content;
+		if (node_elem->internal_update) // DEBUG
+			node_elem->internal_update(node_elem); // DEBUG
 		if (node_elem->draw)
 			node_elem->draw(node_elem, render);
 		node = node->next;

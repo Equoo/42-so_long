@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:22:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:08:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	update(t_gameenv *env)
 	if (elapsed >= 1.f / ((double)TICK))
 	{
 		elapsed -= 1.f / ((double)TICK);
-		env->frametime = (env->time - last_frame);
+		env->frametime = (env->time - last_frame) / 100; // DEBUG SLOWING
 		tick(env);
 		last_frame = env->time;
 	}

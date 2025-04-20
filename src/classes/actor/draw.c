@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 14:29:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:26:51 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,13 @@ void	actor_draw(t_element *self, t_render *render)
 
 	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 
-    t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
-	if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
-		mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);
-	if (pos.x + actor->entity->hull.a.x >= 0 && pos.x + actor->entity->hull.a.x < render->buffer->width
-		&& pos.y + actor->entity->hull.a.y >= 0 && pos.y + actor->entity->hull.a.y < render->buffer->height)
-		mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.a.x, pos.y + actor->entity->hull.a.y, 0x0000FF);
-	if (pos.x + actor->entity->hull.b.x >= 0 && pos.x + actor->entity->hull.b.x < render->buffer->width
-		&& pos.y + actor->entity->hull.b.y >= 0 && pos.y + actor->entity->hull.b.y < render->buffer->height)
-		mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.b.x, pos.y + actor->entity->hull.b.y, 0x0000FF);
+    //t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
+	//if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
+	//	mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);
+	//if (pos.x + actor->entity->hull.min.x >= 0 && pos.x + actor->entity->hull.min.x < render->buffer->width
+	//	&& pos.y + actor->entity->hull.min.y >= 0 && pos.y + actor->entity->hull.min.y < render->buffer->height)
+	//	mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.min.x, pos.y + actor->entity->hull.min.y, 0x0000FF);
+	//if (pos.x + actor->entity->hull.max.x >= 0 && pos.x + actor->entity->hull.max.x < render->buffer->width
+	//	&& pos.y + actor->entity->hull.max.y >= 0 && pos.y + actor->entity->hull.max.y < render->buffer->height)
+	//	mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.max.x, pos.y + actor->entity->hull.max.y, 0x0000FF);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:42:51 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void			*mylx_img_scale(void *mlx, t_img *img, int scale);
 ** @param src: the source image
 ** @return the destination image
 */
-void			*mylx_img_fast_blend(t_iaabb sqr, t_int2d pos, t_img *dest,
+void			*mylx_img_fast_blend(t_2int2d sqr, t_int2d pos, t_img *dest,
 					t_img *src);
 
 void			*mylx_img_blend(t_copyimg data);
@@ -111,7 +111,7 @@ void			*mylx_img_blend(t_copyimg data);
 ** @param src: the source image
 ** @return the destination image
 */
-void			*mylx_img_fast_copy(t_iaabb sqr, t_int2d pos, t_img *dest,
+void			*mylx_img_fast_copy(t_2int2d sqr, t_int2d pos, t_img *dest,
 					t_img *src);
 
 void			*mylx_img_copy(t_copyimg data);

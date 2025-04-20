@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "classes/entities/frog.h"
+#include "collisions.h"
 #include "render.h"
 #include "scene.h"
 #include "seed.h"
@@ -44,7 +45,7 @@ static int	init(t_frog *frog, t_render *render)
 	frog->base->texture = frog->textures[rand_int() % 6];
 	frog->base->anim_coroutine = &frog_anim_coroutine;
 	frog->base->txt_off_pos = (t_float2d){-21, -31};
-	frog->entity->hull = (t_faabb){{-11, -15}, {11, 0}};
+	frog->entity->hull = (t_aabb){{-11, -15}, {11, 0}, {0}, {0}};
 	return (0);
 }
 

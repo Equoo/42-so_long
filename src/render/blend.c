@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   blend.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:59:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	isoutofbounds(t_copyimg *data, t_int2d real_size, t_int2d pos,
 		int *i)
 {
 	t_int2d	dstpos;
-	
+
 	dstpos = int2d_add(pos, data->to);
 	if (dstpos.x < 0 || dstpos.y < 0
 		|| dstpos.x >= data->dest->width || dstpos.y >= data->dest->height)

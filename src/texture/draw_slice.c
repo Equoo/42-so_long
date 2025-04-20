@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_slice.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:36:19 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	texture_draw_slice(t_texture *self, t_img *buffer,
 				data.pos, self->img, buffer,
 				flip, data.angle});
 	else
-		mylx_img_fast_copy((t_iaabb){frame.a,
+		mylx_img_fast_copy((t_2int2d){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
 			data.pos, buffer, self->img);
 }
@@ -53,7 +53,7 @@ void	texture_draw_anim(t_texture *self, t_img *buffer,
 				data.pos, self->img, buffer,
 				flip, data.angle});
 	else
-		mylx_img_fast_copy((t_iaabb){frame.a,
+		mylx_img_fast_copy((t_2int2d){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
 			data.pos, buffer, self->img);
 }
@@ -75,7 +75,7 @@ void	texture_blend_slice(t_texture *self, t_img *buffer,
 				data.pos, self->img, buffer,
 				flip, data.angle});
 	else
-		mylx_img_fast_blend((t_iaabb){frame.a,
+		mylx_img_fast_blend((t_2int2d){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
 			data.pos, buffer, self->img);
 }
@@ -97,7 +97,7 @@ void	texture_blend_anim(t_texture *self, t_img *buffer,
 				data.pos, self->img, buffer,
 				flip, data.angle});
 	else
-		mylx_img_fast_blend((t_iaabb){frame.a,
+		mylx_img_fast_blend((t_2int2d){frame.a,
 			(t_int2d){frame.a.x + frame.b.x, frame.a.y + frame.b.y}},
 			data.pos, buffer, self->img);
 }

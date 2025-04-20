@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:19:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entity.h"
+#include "collisions.h"
 #include "scene.h"
 #include "vector2d.h"
 #include <libft.h>
@@ -42,7 +43,7 @@ t_entity	*ft_entity(t_scene *scene)
 	}
 	entity->base = base;
 	entity->entity = entity;
-	entity->hull = (t_faabb){{-8, -16}, {8, 0}};
+	entity->hull = (t_aabb){{-8, -16}, {8, 0}, {0}, {0}};
 	entity->base->update = &entity_physic;
 	entity->base->parent = entity;
 	entity->base->class = CLASS_ENTITY;
