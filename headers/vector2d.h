@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:50:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/21 00:46:34 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/21 15:05:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define DIR_LEFT 1
 # define DIR_RIGHT 2
 # define DIR_TOP 0
-# define EPSILON 0.1
+# define EPSILON 0.001
 
 typedef struct s_float2d
 {
@@ -61,6 +61,7 @@ float			float2d_dot(t_float2d *self, t_float2d *other);
 t_float2d		float2d_normalize(t_float2d self);
 t_float2d		float2d_abs(t_float2d self);
 float			float2d_length(t_float2d self);
+t_float2d		float2d_lerp(t_float2d a, t_float2d b, float t);
 
 void			float2d_del(t_float2d *self);
 t_float2d		*ft_float2d(float x, float y);

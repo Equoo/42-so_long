@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:45:46 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/21 15:14:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	render_texts(t_render *render, t_img *buffer)
 		return ;
 	data = (t_rtext *)render->texts.data;
 	i = 0;
-	__builtin_printf("rendering %zu texts\n", render->texts.actual_size);
 	while (i < render->texts.actual_size)
 	{
 		render_one_text(render, buffer, data + i);

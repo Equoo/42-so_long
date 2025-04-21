@@ -21,6 +21,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				vector2d/convert.c\
 				vector2d/abs.c\
 				vector2d/transform.c\
+				vector2d/lerp.c\
 				vector2d.c\
 				texture/data.c\
 				texture/draw_slice.c\

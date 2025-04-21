@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/21 15:22:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ typedef struct s_terrain
 	int			exit;
 	t_vector	coins;
 
-	t_float2d	(*collide)(struct s_terrain *self, t_entity *ent, t_float2d vel,
-			t_float2d newpos);
+	int			(*collide)(struct s_terrain *self, t_entity *ent, t_float2d vel);
 }				t_terrain;
 
 char			getindir(t_terrain *self, t_int2d pos, int dir);
@@ -55,8 +54,7 @@ void			terrain_load(t_terrain *self, char *path);
 int				terrain_findpath(t_terrain *self, int *checkedmap, t_int2d pos,
 					t_int2d last);
 void			terrain_draw(t_element *self, t_render *render);
-t_float2d		terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel,
-					t_float2d newpos);
+int				terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel);
 
 t_terrain		*ft_terrain(t_scene *scene, char *mappath, char *texpath);
 
