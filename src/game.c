@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/21 15:05:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:37:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	tick_game(t_gameenv *env)
 {
 	t_scene		*scene;
 	t_player	*ply;
-	//t_list		*node;
-	//t_element	*node_elem;
+	t_list		*node;
+	t_element	*node_elem;
 	int modifier;
 
 	scene = (t_scene *)env->scene;
@@ -56,14 +56,14 @@ void	tick_game(t_gameenv *env)
 		ply->actor->move(ply->actor, 1, modifier);
 	if (input_ispressed(XK_space, env))
 		ply->attack(ply);
-	//node = scene->elements;
-	//while (node)
-	//{
-	//	node_elem = (t_element *)node->content;
-	//	if (node_elem->internal_update)
-	//		node_elem->internal_update(node_elem);
-	//	node = node->next;
-	//}
+	node = scene->elements;
+	while (node)
+	{
+		node_elem = (t_element *)node->content;
+		if (node_elem->internal_update)
+			node_elem->internal_update(node_elem);
+		node = node->next;
+	}
 
 	char *coins = ft_itoa(((t_player *)scene->ply)->coins);
 	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
@@ -122,15 +122,15 @@ int	game_init(t_gameenv *env, char *mappath)
 		(terrain->spawn / terrain->w) * 16};
 	scene->ply = player;
 
-	//int	i = 0;
-	//while (i < terrain->coins.actual_size)
-	//{
-	//	element = ft_frog(scene);
-	//	scene_add(scene, element);
-	//	cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins, i) % terrain->w) * 16,
-	//		(*(int *)vec_get(&terrain->coins, i) / terrain->w) * 16};
-	//	i++;
-	//}
+	int	i = 0;
+	while (i < terrain->coins.actual_size)
+	{
+		element = ft_frog(scene);
+		scene_add(scene, element);
+		cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins, i) % terrain->w) * 16,
+			(*(int *)vec_get(&terrain->coins, i) / terrain->w) * 16};
+		i++;
+	}
 
 	scene->seed = ft_uptime();
 	if (scene->seed == -1 && print_error("Seed"))

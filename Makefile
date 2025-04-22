@@ -6,7 +6,7 @@ SRC_DIR = src/
 INC_DIR = headers/
 
 ADDFLAGS =
-CFLAGS = -Wall -Wextra -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
+CFLAGS = -Wall -Wextra -Werror -MMD -mavx2 $(ADDFLAGS) -I $(INC_DIR) -I libft/headers -I minilibx-linux
 LIBS = -Llibft -lft -Lminilibx-linux -lmlx -L/usr/X11/lib -lXext -lX11 -lm
 SOLONG_SRCS =   vector2d/add.c\
 				vector2d/dot.c\
@@ -63,7 +63,8 @@ SOLONG_SRCS =   vector2d/add.c\
 				inputs/ispressed.c\
 				inputs/isreleased.c\
 				collisions/aabb.c\
-				collisions/swept_aabb.c\
+				collisions/sweep_aabb.c\
+				collisions/world_sweep_aabb.c\
             	error.c\
             	seed.c\
             	game.c\

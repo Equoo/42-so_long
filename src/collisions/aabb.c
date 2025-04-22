@@ -6,11 +6,19 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:37:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/20 13:27:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:39:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "collisions.h"
+
+float	getsign(float value)
+{
+	if (value < 0)
+		return (-1);
+	else
+		return (1);
+}
 
 float	aabb_w(t_aabb hull)
 {

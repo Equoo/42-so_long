@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/20 22:54:06 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:37:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	printticks(t_gameenv *env)
 		middle = env->frametime;
 		last = env->time;
 	}
-	ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time,
-		env->frametime, (int)(1 / env->frametime), fps);
+	//ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time,
+		//env->frametime, (int)(1 / env->frametime), fps);
 }
 
 int	update(t_gameenv *env)
@@ -94,7 +94,7 @@ int	update(t_gameenv *env)
 	if (elapsed >= 1.f / ((double)TICK))
 	{
 		elapsed -= 1.f / ((double)TICK);
-		env->frametime = (env->time - last_frame); // DEBUG SLOWING
+		env->frametime = (env->time - last_frame);
 		tick(env);
 		last_frame = env->time;
 	}

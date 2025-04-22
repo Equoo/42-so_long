@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   isdown.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:37:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:40:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	input_isdown(u_int keycode, t_gameenv *env)
 	i = 0;
 	while (i < 32)
 	{
-		if (env->keys_states[i][0] == keycode && env->keys_states[i][1] == KEY_DOWN)
+		if (env->keys_states[i][0] == keycode
+			&& env->keys_states[i][1] == KEY_DOWN)
 			return (1);
 		i++;
 	}

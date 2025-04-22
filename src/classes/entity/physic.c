@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:52 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:04:31 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void			entity_physic(t_element *self)
 	ent->velocity = float2d_scaled(ent->velocity, 1 - (3 * frametime));
 
 	t_float2d from = (t_float2d){ent->base->pos.x + ent->hull.min.x, ent->base->pos.y + 1};
-	t_sweep	res = world_sweep_aabb(self->scene, (t_trace){from, from, {{0}, {aabb_w(ent->hull), 16}, {0}, {0}}, 0, self->id});
-	__builtin_printf("res.time: %f, res.hit.touch: %d, res.hit.normal: %f %f, res.hit.pos: %f %f\n",
-		res.time, res.hit.touch, res.hit.normal.x, res.hit.normal.y, res.hit.pos.x, res.hit.pos.y);
+	t_sweep	res = world_sweep_aabb(self->scene, (t_trace){from, from, {{0}, {aabb_w(ent->hull), 1}, {0}, {0}}, 0, self->id});
 	ent->b_isground = res.hit.touch;
 }

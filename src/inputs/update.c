@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:23:05 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:40:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "so_long.h"
-#include <X11/keysym.h>
 #include <X11/X.h>
+#include <X11/keysym.h>
 #include <sys/types.h>
 
 int	down_key(int keycode, t_gameenv *env)
@@ -47,7 +47,7 @@ int	up_key(int keycode, t_gameenv *env)
 	{
 		if (env->internal_keys[i] == (u_int)keycode)
 		{
-			env->internal_keys[i]= 0;
+			env->internal_keys[i] = 0;
 			return (0);
 		}
 		i++;
@@ -68,7 +68,7 @@ void	tick_inputs(t_gameenv *env)
 			if (env->keys_states[i][1] < KEY_RELEASED)
 				env->keys_states[i][1] = KEY_RELEASED;
 			else
-			 	env->keys_states[i][1] = KEY_NONE;
+				env->keys_states[i][1] = KEY_NONE;
 			i++;
 			continue ;
 		}
@@ -80,4 +80,3 @@ void	tick_inputs(t_gameenv *env)
 	}
 	ft_memcpy(&env->internal_last_keys, &env->internal_keys, sizeof(int) * 32);
 }
-

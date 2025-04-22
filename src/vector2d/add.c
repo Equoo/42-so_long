@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 09:49:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:40:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_float2d	float2d_add(t_float2d self, t_float2d other)
 	return (self);
 }
 
-t_int2d		int2d_add(t_int2d self, t_int2d other)
+t_int2d	int2d_add(t_int2d self, t_int2d other)
 {
 	self.x += other.x;
 	self.y += other.y;
