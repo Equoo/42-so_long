@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:44:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:49:51 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,95 +15,66 @@
 #include "mlx_int.h"
 #include "render.h"
 
-static void internal_copy(t_copyimg *data, t_int2d real_size, int *i)
+static int	isoutofbounds(t_copyimg *data, t_int2d real_size, t_int2d pos,
+		int *i)
+{
+	t_int2d	dstpos;
+
+	dstpos = int2d_add(pos, data->to);
+	if (dstpos.x < 0 || dstpos.y < 0 || dstpos.x >= data->dest->width
+		|| dstpos.y >= data->dest->height)
+	{
+		if (dstpos.x >= data->dest->width)
+			(*i) += real_size.x - pos.x;
+		else if (dstpos.y >= data->dest->height)
+			(*i) = real_size.x * real_size.y;
+		return (1);
+	}
+	return (0);
+}
+
+static void	copy(t_copyimg *data, t_int2d real_size, int *i)
 {
 	t_int2d	pos;
-	t_int2d	src_pos;
+	t_int2d	srcpos;
 
-	while (*i < real_size.x * real_size.y)
+	while (++(*i) < real_size.x * real_size.y)
 	{
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
+		pos = (t_int2d){(*i) % real_size.x, (*i) / real_size.x};
+		if (isoutofbounds(data, real_size, pos, i))
+			continue ;
+		if (ft_abs(data->angle) == 90)
+			pos = (t_int2d){pos.y, pos.x};
 		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + data->size.x - pos.x - 1;
+			srcpos.x = data->from.x + data->size.x - pos.x - 1;
 		else
-			src_pos.x = data->from.x + pos.x;
+			srcpos.x = data->from.x + pos.x;
 		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + data->size.y - pos.y - 1;
+			srcpos.y = data->from.y + data->size.y - pos.y - 1;
 		else
-			src_pos.y = data->from.y + pos.y;
+			srcpos.y = data->from.y + pos.y;
+		pos = (t_int2d){(*i) % real_size.x, (*i) / real_size.x};
 		pos = int2d_add(pos, data->to);
 		mylx_pixel_put(data->dest, pos.x, pos.y,
-				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));
-		(*i)++;
+			*mylx_pixel_get(data->src, srcpos.x, srcpos.y));
 	}
 }
 
-static void internal_copy_90(t_copyimg *data, t_int2d real_size, int *i)
+static void	apply_angle(t_copyimg *data)
 {
-	t_int2d	pos;
-	t_int2d	src_pos;
-
-	while (*i < real_size.x * real_size.y)
+	if (data->angle == 0)
+		return ;
+	if (data->angle == 90)
 	{
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
-		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + pos.y;
-		else
-			src_pos.x = data->from.x + data->size.x - pos.y - 1;
-		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + data->size.y - pos.x - 1;
-		else
-			src_pos.y = data->from.y + pos.x;
-		pos = int2d_add(pos, data->to);
-		mylx_pixel_put(data->dest, pos.x, pos.y,
-				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));
-		(*i)++;
+		data->flip = data->flip ^ FLIP_HORIZ;
 	}
-}
-
-static void internal_copy_minus90(t_copyimg *data, t_int2d real_size, int *i)
-{
-	t_int2d	pos;
-	t_int2d	src_pos;
-
-	while (*i < real_size.x * real_size.y)
+	else if (data->angle == -90)
 	{
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
-		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + data->size.x - pos.y - 1;
-		else
-			src_pos.x = data->from.x + pos.y;
-		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + pos.x;
-		else
-			src_pos.y = data->from.y + data->size.y - pos.x - 1;
-		pos = int2d_add(pos, data->to);
-		mylx_pixel_put(data->dest, pos.x, pos.y,
-				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));
-		(*i)++;
+		data->flip = data->flip ^ FLIP_VERT;
 	}
-}
-
-static void internal_copy_180(t_copyimg *data, t_int2d real_size, int *i)
-{
-	t_int2d	pos;
-	t_int2d	src_pos;
-
-	while (*i < real_size.x * real_size.y)
+	else if (data->angle == 180)
 	{
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
-		if (data->flip & FLIP_HORIZ)
-			src_pos.x = data->from.x + pos.x;
-		else
-			src_pos.x = data->from.x + data->size.x - pos.x - 1;
-		if (data->flip & FLIP_VERT)
-			src_pos.y = data->from.y + pos.y;
-		else
-			src_pos.y = data->from.y + data->size.y - pos.y - 1;
-		pos = int2d_add(pos, data->to);
-		mylx_pixel_put(data->dest, pos.x, pos.y,
-				*mylx_pixel_get(data->src, src_pos.x, src_pos.y));
-		(*i)++;
+		data->flip = data->flip ^ (FLIP_HORIZ | FLIP_VERT);
 	}
 }
 
@@ -115,22 +86,14 @@ void	*mylx_img_copy(t_copyimg data)
 	real_size = data.size;
 	if (!(data.angle % 180))
 		real_size = (t_int2d){real_size.y, real_size.x};
-	i = 0;
-	if (data.to.x < 0)
-		i += -data.to.x;
-	if (data.to.y < 0)
-		i += -data.to.y * data.dest->width;
+	i = -1;
 	if (real_size.x + data.to.x > data.dest->width)
 		real_size.x -= real_size.x + data.to.x - data.dest->width;
-	if (real_size.y + data.to.y > data.dest->width)
-		real_size.y -= real_size.y + data.to.y - data.dest->width;
-	if (data.angle == 0)
-		internal_copy(&data, real_size, &i);
-	else if (data.angle == 90)
-		internal_copy_90(&data, real_size, &i);
-	else if (data.angle == -90)
-		internal_copy_minus90(&data, real_size, &i);
-	else if (data.angle == 180)
-		internal_copy_180(&data, real_size, &i);
+	if (real_size.y + data.to.y > data.dest->height)
+		real_size.y -= real_size.y + data.to.y - data.dest->height;
+	if (real_size.x < 0 || real_size.y < 0)
+		return (data.dest);
+	apply_angle(&data);
+	copy(&data, real_size, &i);
 	return (data.dest);
 }

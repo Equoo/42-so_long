@@ -6,15 +6,15 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:59:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:46:56 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include "vector2d.h"
 #include "colors.h"
 #include "mlx_int.h"
 #include "render.h"
+#include "vector2d.h"
+#include <mlx.h>
 
 static int	isoutofbounds(t_copyimg *data, t_int2d real_size, t_int2d pos,
 		int *i)
@@ -22,8 +22,8 @@ static int	isoutofbounds(t_copyimg *data, t_int2d real_size, t_int2d pos,
 	t_int2d	dstpos;
 
 	dstpos = int2d_add(pos, data->to);
-	if (dstpos.x < 0 || dstpos.y < 0
-		|| dstpos.x >= data->dest->width || dstpos.y >= data->dest->height)
+	if (dstpos.x < 0 || dstpos.y < 0 || dstpos.x >= data->dest->width
+		|| dstpos.y >= data->dest->height)
 	{
 		if (dstpos.x >= data->dest->width)
 			(*i) += real_size.x - pos.x;
@@ -34,14 +34,26 @@ static int	isoutofbounds(t_copyimg *data, t_int2d real_size, t_int2d pos,
 	return (0);
 }
 
-static void blend(t_copyimg *data, t_int2d real_size, int *i)
+static void	do_blend(t_copyimg *data, t_int2d spos, t_int2d pos)
+{
+	mylx_pixel_put(data->dest, pos.x, pos.y,
+		combine_channels(
+			blend_by_alpha(
+				split_channels(*mylx_pixel_get(data->dest, pos.x, pos.y), 0),
+				split_channels(*mylx_pixel_get(data->src, spos.x, spos.y), 1)
+				)
+			)
+		);
+}
+
+static void	blend(t_copyimg *data, t_int2d real_size, int *i)
 {
 	t_int2d	pos;
 	t_int2d	srcpos;
 
 	while (++(*i) < real_size.x * real_size.y)
 	{
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
+		pos = (t_int2d){(*i) % real_size.x, (*i) / real_size.x};
 		if (isoutofbounds(data, real_size, pos, i))
 			continue ;
 		if (ft_abs(data->angle) == 90)
@@ -54,16 +66,13 @@ static void blend(t_copyimg *data, t_int2d real_size, int *i)
 			srcpos.y = data->from.y + data->size.y - pos.y - 1;
 		else
 			srcpos.y = data->from.y + pos.y;
-		pos = (t_int2d){*i % real_size.x, *i / real_size.x};
+		pos = (t_int2d){(*i) % real_size.x, (*i) / real_size.x};
 		pos = int2d_add(pos, data->to);
-		mylx_pixel_put(data->dest, pos.x, pos.y,
-			combine_channels(blend_by_alpha(split_channels(*mylx_pixel_get(
-				data->dest, pos.x, pos.y), 0), split_channels(*mylx_pixel_get(
-					data->src, srcpos.x, srcpos.y), 1))));
+		do_blend(data, srcpos, pos);
 	}
 }
 
-static void apply_angle(t_copyimg *data)
+static void	apply_angle(t_copyimg *data)
 {
 	if (data->angle == 0)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:56:53 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 15:04:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "vector2d.h"
 #include <mlx.h>
 
-static void	blend_m256_block(t_img *dest, t_img *src, t_int2d pos, t_int2d i,
+static void	blend_m256_block(t_img *dest, t_img *src, t_2int2d pos_i,
 		t_2int2d sqr)
 {
 	__m256i_u		*src_pixels;
@@ -24,19 +24,19 @@ static void	blend_m256_block(t_img *dest, t_img *src, t_int2d pos, t_int2d i,
 	t_m256i_rgba	src_chans;
 	t_m256i_rgba	dst_chans;
 
-	src_pixels = mylx_m256_pixel_get(src, i.x * M256_NPIXEL, i.y);
+	src_pixels = mylx_m256_pixel_get(src, pos_i.b.x * M256_NPIXEL, pos_i.b.y);
 	if (!src_pixels)
 		return ;
-	dst_pixels = mylx_m256_pixel_get(dest, i.x * M256_NPIXEL + pos.x - sqr.a.x,
-			i.y + pos.y - sqr.a.y);
+	dst_pixels = mylx_m256_pixel_get(dest, pos_i.b.x * M256_NPIXEL + pos_i.a.x
+			- sqr.a.x, pos_i.b.y + pos_i.a.y - sqr.a.y);
 	src_chans = m256_split_channels(*src_pixels, 1);
 	dst_chans = m256_split_channels(*dst_pixels, 0);
 	*dst_pixels = m256_combine_channels(m256_blend_by_alpha(dst_chans,
 				src_chans));
 }
 
-static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_int2d pos,
-		t_int2d i, t_2int2d sqr)
+static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_2int2d pos_i,
+		t_2int2d sqr)
 {
 	u_int	src;
 	u_int	dst;
@@ -44,9 +44,9 @@ static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_int2d pos,
 	u_int	dst_x;
 	u_int	dst_y;
 
-	dst_x = i.x + pos.x - sqr.a.x;
-	dst_y = i.y + pos.y - sqr.a.y;
-	src = *mylx_pixel_get(src_img, i.x, i.y);
+	dst_x = pos_i.b.x + pos_i.a.x - sqr.a.x;
+	dst_y = pos_i.b.y + pos_i.a.y - sqr.a.y;
+	src = *mylx_pixel_get(src_img, pos_i.b.x, pos_i.b.y);
 	if (!src)
 		return ;
 	dst = *mylx_pixel_get(dest, dst_x, dst_y);
@@ -55,26 +55,27 @@ static void	blend_scalar_pixel(t_img *dest, t_img *src_img, t_int2d pos,
 	mylx_pixel_put(dest, dst_x, dst_y, result);
 }
 
-static void	process_scanline(t_img *dest, t_img *src, t_int2d pos, t_2int2d sqr,
-		t_int2d i)
+static void	process_scanline(t_img *dest, t_img *src, t_2int2d pos_i,
+		t_2int2d sqr)
 {
 	int	m256_end;
 
 	m256_end = sqr.b.x / M256_NPIXEL;
-	i.x = sqr.a.x / M256_NPIXEL;
-	while (i.x < m256_end)
+	pos_i.b.x = sqr.a.x / M256_NPIXEL;
+	while (pos_i.b.x < m256_end)
 	{
-		if (i.x * M256_NPIXEL + pos.x - sqr.a.x >= 0 && i.x * M256_NPIXEL
-			+ pos.x - sqr.a.x < dest->width)
-			blend_m256_block(dest, src, pos, i, sqr);
-		i.x++;
+		if (pos_i.b.x * M256_NPIXEL + pos_i.a.x - sqr.a.x >= 0 && pos_i.b.x
+			* M256_NPIXEL + pos_i.a.x - sqr.a.x < dest->width)
+			blend_m256_block(dest, src, pos_i, sqr);
+		pos_i.b.x++;
 	}
-	i.x *= M256_NPIXEL;
-	while (i.x < sqr.b.x)
+	pos_i.b.x *= M256_NPIXEL;
+	while (pos_i.b.x < sqr.b.x)
 	{
-		if (i.x + pos.x - sqr.a.x >= 0 && i.x + pos.x - sqr.a.x < dest->width)
-			blend_scalar_pixel(dest, src, pos, i, sqr);
-		i.x++;
+		if (pos_i.b.x + pos_i.a.x - sqr.a.x >= 0 && pos_i.b.x + pos_i.a.x
+			- sqr.a.x < dest->width)
+			blend_scalar_pixel(dest, src, pos_i, sqr);
+		pos_i.b.x++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:50:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,9 @@ void	background_draw(t_element *self_element, t_render *buffer)
 	offset = (double)((int)((double)self_element->scene->cam_pos.x / 8) % 288);
 	offset2 = (double)((int)((double)self_element->scene->cam_pos.x / 4) % 288);
 	offset3 = (double)((int)((double)self_element->scene->cam_pos.x / 2) % 288);
-	//texture_draw_slice(self_element->texture, buffer->buffer,
-	//		t_from_pos((t_int2d){-offset, 0}), "all");
-	//texture_draw_slice(self_element->texture, buffer->buffer,
-	//		t_from_pos((t_int2d){288 - offset, 0}), "all");
-	texture_blend_slice(self_element->texture, buffer->buffer,
+	texture_draw_slice(self_element->texture, buffer->buffer,
 		t_from_pos((t_int2d){-offset, 0}), "all");
-	texture_blend_slice(self_element->texture, buffer->buffer,
+		texture_draw_slice(self_element->texture, buffer->buffer,
 			t_from_pos((t_int2d){288 - offset, 0}), "all");
 	texture_blend_slice(background->back_1, buffer->buffer,
 			t_from_pos((t_int2d){-offset2, 16 * 6 - offsety / 2 + 8}), "all");
