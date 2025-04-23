@@ -6,11 +6,12 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:19:09 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 01:01:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:58:58 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
+#include "classes/entities/actor.h"
 #include "classes/entities/player.h"
 #include "classes/entity.h"
 #include "render.h"
@@ -21,7 +22,7 @@ void		player_update(t_element *self)
 {
 	t_player	*ply;
 
-	entity_physic(self);
+	actor_update(self);
 	ply = (t_player *)self->parent;
 	if (ply->is_jumping && ply->entity->b_isground)
 	{

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 00:49:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:54:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum e_move_modifier
 }				t_move_modifier;
 
 void	actor_draw(t_element *self, t_render *render);
+void	actor_update(t_element *self);
 void	actor_del(t_element **self);
 
 void	actor_move(t_actor *self, int dir, int modifier);

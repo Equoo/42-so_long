@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:25:58 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:00:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:37:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_sweep	world_sweep_aabb(t_scene *scene, t_trace trace)
 	while (current)
 	{
 		element = current->content;
-		if (!(element->class && trace.mask) && trace.ignore != element->id)
+		if (!(element->class & trace.mask) && trace.ignore != element->id)
 		{
 			act = (t_sweep){{0}, {0}, 1};
 			if (element->class == CLASS_TERRAIN)

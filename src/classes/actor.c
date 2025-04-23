@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:58:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ t_actor	*ft_actor(t_scene *scene)
 	actor->actor = actor;
 	actor->move = &actor_move;
 	actor->direction = 1;
+	actor->health = 100;
 	actor->base = entity->base;
 	actor->base->zindex = 10;
 	actor->base->parent = actor;
+	actor->base->update = &actor_update;
 	actor->base->draw = &actor_draw;
 	actor->base->class = CLASS_ACTOR;
 	actor->base->del = &actor_del;

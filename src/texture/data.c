@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:18:41 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 	if (ft_arraylen((void **)splited) != 4)
 		return (print_cerror("Texture data parsing", ERRTEXARGS));
 	if (tex->slices)
-	  name = ft_strdup(splited[0]);
+		name = ft_strdup(splited[0]);
 	if (!errno && name && tex->slices)
 		tex->slices[n - startn] = (t_slice){name, ft_atoi(splited[1]),
 			ft_atoi(splited[2]), ft_atoi(splited[3])};

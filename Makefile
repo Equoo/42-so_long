@@ -48,6 +48,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/background.c\
 				classes/actor/draw.c\
 				classes/actor/move.c\
+				classes/actor/update.c\
 				classes/actor.c\
             	render/pixel.c\
             	render/copy.c\

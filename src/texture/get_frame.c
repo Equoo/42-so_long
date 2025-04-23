@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_frame.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:13:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:19:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_frame	texture_get_frame(t_texture *self, char *slice)
 {
 	int		i;
-	char 	*name;
+	char	*name;
 
 	i = 0;
 	while (i < self->nb_slices)
@@ -33,7 +33,7 @@ t_frame	texture_get_cycle_frame(t_texture *self, char *slice, double cycle)
 {
 	int		i;
 	int		frame;
-	char 	*name;
+	char	*name;
 
 	i = 0;
 	while (i < self->nb_slices)
@@ -42,7 +42,7 @@ t_frame	texture_get_cycle_frame(t_texture *self, char *slice, double cycle)
 		if (!ft_strncmp(name, slice, ft_strlen(name) + ft_strlen(slice)))
 		{
 			frame = self->slices[i].from + (int)((double)
-				(self->slices[i].to - self->slices[i].from + 1) * cycle);
+					(self->slices[i].to - self->slices[i].from + 1) * cycle);
 			return (self->frames[frame]);
 		}
 		i++;
