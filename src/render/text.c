@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/21 15:14:52 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:00:39 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	render_texts(t_render *render, t_img *buffer)
 		free(data[i].text);
 		i++;
 	}
-	ft_bzero(render->texts.data, render->texts.actual_size * render->texts.type_size);
+	ft_bzero(render->texts.data, render->texts.actual_size
+		* render->texts.type_size);
 	render->texts.actual_size = 0;
 }

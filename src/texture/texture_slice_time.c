@@ -6,17 +6,17 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 03:39:46 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:01:30 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture.h"
 #include <linux/limits.h>
 
-double			texture_slice_time(t_texture *texture, char *slice)
+double	texture_slice_time(t_texture *texture, char *slice)
 {
 	int		i;
-	char 	*name;
+	char	*name;
 
 	i = 0;
 	while (i < texture->nb_slices)

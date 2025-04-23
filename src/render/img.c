@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   img.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:00:47 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*mylx_img_scale(void *mlx, t_img *img, int scale)
 		i = 1;
 		while (i < scale)
 			ft_memcpy(mylx_pixel_get(dest, 0, pos.y * scale + i++),
-						dst_pixels, dest->width * sizeof(int));
+				dst_pixels, dest->width * sizeof(int));
 	}
 	return (dest);
 }

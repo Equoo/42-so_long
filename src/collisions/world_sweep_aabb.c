@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   world_sweep_aabb.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:25:58 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:37:05 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:00:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static t_sweep	sweep_terrain_voxel(t_terrain *terrain, t_trace *trace, uint i)
 	gridindex = (int)floor(hulla.min.x / TR_GRID_SIZE) + i % voxels_w - 1
 		+ ((int)floor(hulla.min.y / TR_GRID_SIZE) + i / voxels_w - 1)
 		* terrain->w;
+	if (gridindex < 0 || gridindex >= (uint)terrain->w * (uint)terrain->h)
+		return ((t_sweep){.time = 1});
 	if (terrain->grid[gridindex] != MAP_WALL)
 		return ((t_sweep){.time = 1});
 	hullb = (t_aabb){{(gridindex % terrain->w) * TR_GRID_SIZE, gridindex

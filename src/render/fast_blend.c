@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fast_blend.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:56:53 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 15:04:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/23 16:24:21 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	*mylx_img_fast_blend(t_2int2d sqr, t_int2d pos, t_img *dest, t_img *src)
 	while (i.y < sqr.b.y)
 	{
 		if (i.y + pos.y - sqr.a.y >= 0 && i.y + pos.y - sqr.a.y < dest->height)
-			process_scanline(dest, src, pos, sqr, i);
+			process_scanline(dest, src, (t_2int2d){pos, i}, sqr);
 		i.y++;
 	}
 	return (dest);
