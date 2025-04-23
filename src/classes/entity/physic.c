@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   physic.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 04:36:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:04:31 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:03:46 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void			entity_physic(t_element *self)
 	ent->velocity = float2d_scaled(ent->velocity, 1 - (3 * frametime));
 
 	t_float2d from = (t_float2d){ent->base->pos.x + ent->hull.min.x, ent->base->pos.y + 1};
-	t_sweep	res = world_sweep_aabb(self->scene, (t_trace){from, from, {{0}, {aabb_w(ent->hull), 1}, {0}, {0}}, 0, self->id});
+	t_sweep	res = world_sweep_aabb(self->scene, (t_trace){from, from, {{0}, {aabb_w(ent->hull), 1}, {0}, {0}}, CGROUP_ALL, self->id});
 	ent->b_isground = res.hit.touch;
 }

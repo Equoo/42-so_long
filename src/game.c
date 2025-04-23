@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:37:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:45:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	tick_game(t_gameenv *env)
 		node_elem = (t_element *)node->content;
 		if (node_elem->internal_update)
 			node_elem->internal_update(node_elem);
+		__builtin_printf("Element %d updated, %p, next %p\n", node_elem->id, node, node->next);
 		node = node->next;
 	}
 

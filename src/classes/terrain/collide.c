@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collide.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 05:17:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 10:36:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:02:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel)
 		trace.from = ent->base->pos;
 		trace.to = float2d_add(ent->base->pos, remaining_vel);
 		trace.hull = ent->hull;
+		trace.mask = CGROUP_ALL;
 		trace.ignore = ent->base->id;
-
 		res = world_sweep_aabb(self->base->scene, trace);
 		if (!res.hit.touch || res.time >= 1.0f)
 			break;

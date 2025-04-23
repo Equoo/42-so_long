@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:12:45 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 18:01:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 00:35:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "scene.h"
 #include "vector2d.h"
 #include "collisions.h"
+#include <errno.h>
 
 void	player_attack(t_player *self)
 {
@@ -29,8 +30,10 @@ void	player_attack(t_player *self)
 	trace.hull = self->entity->hull;
 	trace.mask = CGROUP_ACTOR;
 	trace.ignore = self->base->id;
+	errno = 4328;
 	sweep = world_sweep_aabb(self->base->scene, trace);
 	__builtin_printf("player_attack: %d, %p\n", sweep.hit.touch, sweep.hit.element);
+	errno = 0;
 	actor = NULL;
 	if (sweep.hit.touch && sweep.hit.element
 		&& sweep.hit.element->class & CGROUP_ACTOR)

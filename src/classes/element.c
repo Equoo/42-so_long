@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 00:48:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:38:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,18 @@ void	element_del(t_element **self)
 	if (scene && !scene->removed && scene->elements)
 	{
 		elem = scene->elements;
-		while (elem->next)
+		while (elem && elem->next)
 		{
 			if (((t_element *)elem->next->content)->id == (*self)->id)
 				break ;
 			elem = elem->next;
 		}
+		__builtin_printf("Element %d deleted, %p\n", (*self)->id, elem->next);
 		if (elem->next)
 			ft_lstrmone(&elem->next, &do_nothing);
 		else if (((t_element *)elem->content)->id == (*self)->id)
 			ft_lstrmone(&scene->elements, &do_nothing);
+		__builtin_printf("Element %d deleted, %p\n", (*self)->id, elem->next);
 	}
 	free(*self);
 	*self = NULL;
