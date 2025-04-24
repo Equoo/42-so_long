@@ -6,25 +6,31 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:12 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:00:47 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:57:24 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <errno.h>
+#include <stdio.h>
 #include "vector2d.h"
 #include "mlx_int.h"
 #include "render.h"
+#include "error.h"
 
 t_img	*mylx_xpm_to_img(void *mlx, char *path, int *width, int *height)
 {
+	int		olderrno;
 	t_img	*img;
 
 	if (open(path, O_RDONLY) == -1)
 		return (NULL);
+	olderrno = errno;
 	img = mlx_xpm_file_to_image(mlx, path, width, height);
-	if (errno == 11)
-		errno = 0;
+	if (errno == EAGAIN && img)
+		errno = olderrno;
+	else if (!img && (!errno || errno == EAGAIN))
+		errno = EINVALTEX;
 	return (img);
 }
 

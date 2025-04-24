@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 03:39:46 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:01:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:04:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ double	texture_slice_time(t_texture *texture, char *slice)
 	while (i < texture->nb_slices)
 	{
 		name = texture->slices[i].name;
-		if (!ft_strncmp(name, slice, ft_strlen(name) + ft_strlen(slice)))
+		if (!name && ++i)
+			continue ;
+		if (!ft_strcmp(name, slice))
 			return ((double)(texture->slices[i].to - texture->slices[i].from)
 					* ((double)1 / (double)texture->slices[i].framerate));
 		i++;

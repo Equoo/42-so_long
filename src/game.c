@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:32:04 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:51:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <X11/X.h>
 #include <X11/Xutil.h>
 #include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 void	tick_game(t_gameenv *env)
@@ -139,9 +140,13 @@ int	game_init(t_gameenv *env, char *mappath)
 	while (i < terrain->coins.actual_size)
 	{
 		element = ft_frog(scene);
-		scene_add(scene, element);
-		cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins, i) % terrain->w) * 16,
-			(*(int *)vec_get(&terrain->coins, i) / terrain->w) * 16};
+		if (scene_add(scene, element) && print_error("Frog generation"))
+			return (1);
+		if (element)
+			cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins, i) % terrain->w) * 16,
+				(*(int *)vec_get(&terrain->coins, i) / terrain->w) * 16};
+		else
+			break ;
 		i++;
 	}
 

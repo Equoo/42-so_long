@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/15 12:46:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:51:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 void	texture_del(void *self)
 {
+	int			olderrno;
 	t_texture	*tex;
 
 	tex = (t_texture *)self;
@@ -31,8 +32,11 @@ void	texture_del(void *self)
 			free(tex->slices[tex->nb_slices].name);
 		free(tex->slices);
 	}
+	olderrno = errno;
 	if (tex->img)
 		mlx_destroy_image(tex->mlx, tex->img);
+	if (errno == EAGAIN)
+		errno = olderrno;
 	if (tex->path)
 		free(tex->path);
 	free(tex);
@@ -65,10 +69,10 @@ t_texture	*ft_texture(t_render *render, char *path)
 	t_texture	*tex;
 	t_list		*lst;
 
+	lst = NULL;
 	tex = get_from_cache(render, path);
 	if (tex)
 		return (tex);
-	errno = 0;
 	tex = ft_calloc(1, sizeof(t_texture));
 	if (!tex && print_error("Texture creation"))
 		return (NULL);
@@ -81,6 +85,8 @@ t_texture	*ft_texture(t_render *render, char *path)
 	if (!tex->path || !tex->img || !lst || read_texture_data(tex, path))
 	{
 		print_error("Texture data parsing");
+		if (lst)
+			free(lst);
 		texture_del(tex);
 		return (NULL);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 19:10:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:43:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,19 @@ int	render_init(t_gameenv *env)
 
 	render = &env->render;
 	render->mlx = mlx_init();
-	if (!render->mlx)
-		return (1);
 	render->w_width = 1920;
 	render->w_height = 1080;
-	//mlx_get_screen_size(render->mlx, &render->w_width, &render->w_height);
-	render->win = mlx_new_window(render->mlx, render->w_width,
+	if (render->mlx)
+		render->win = mlx_new_window(render->mlx, render->w_width,
 		render->w_height, "So long");
-	if (!render->win)
-		return (1);
 	render->r_width = 398;
 	render->r_height = 224;
 	render->r_scale = (int)((double)render->w_height / 224 * 1.3);
-	render->buffer = mlx_new_image(render->mlx, render->r_width,
+	if (render->win)
+		render->buffer = mlx_new_image(render->mlx, render->r_width,
 			render->r_height);
+	if (errno == EAGAIN)
+		errno = 0;
 	render->font = ft_texture(render, "textures/font.xpm");
 	if (!render->buffer || !render->font)
 		return (1);

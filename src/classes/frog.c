@@ -34,11 +34,16 @@ void	frog_del(t_element **self)
 static int	init(t_frog *frog, t_render *render)
 {
 	frog->textures[0] = ft_texture(render, "./textures/frog_blue_blue.xpm");
-	frog->textures[1] = ft_texture(render, "./textures/frog_blue_brown.xpm");
-	frog->textures[2] = ft_texture(render, "./textures/frog_green_blue.xpm");
-	frog->textures[3] = ft_texture(render, "./textures/frog_green_brown.xpm");
-	frog->textures[4] = ft_texture(render, "./textures/frog_purple_blue.xpm");
-	frog->textures[5] = ft_texture(render, "./textures/frog_purple_white.xpm");
+	if (frog->textures[0])
+		frog->textures[1] = ft_texture(render, "./textures/frog_blue_brown.xpm");
+	if (frog->textures[1])
+		frog->textures[2] = ft_texture(render, "./textures/frog_green_blue.xpm");
+	if (frog->textures[2])
+		frog->textures[3] = ft_texture(render, "./textures/frog_green_brown.xpm");
+	if (frog->textures[3])
+		frog->textures[4] = ft_texture(render, "./textures/frog_purple_blue.xpm");
+	if (frog->textures[4])
+		frog->textures[5] = ft_texture(render, "./textures/frog_purple_white.xpm");
 	if (!frog->textures[0] || !frog->textures[1] || !frog->textures[2]
 		|| !frog->textures[3] || !frog->textures[4] || !frog->textures[5])
 		return (1);

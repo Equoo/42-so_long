@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 14:10:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:51:07 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define TEXTERROR 2000
 # define ERRTEXARGS TEXTERROR + 1
 # define ERRTEXNOFS TEXTERROR + 2
+# define EINVALTEX TEXTERROR + 3
 
 int	print_error(char *category);
 int	print_cerror(char *category, int error);

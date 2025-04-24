@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:18:41 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:58:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ static int	parse_data_lineargs(t_texture *tex, int n, int startn, char *line)
 	if (!splited)
 		return (print_error("Texture data parsing"));
 	if (ft_arraylen((void **)splited) != 4)
+	{
+		ft_freearray((void **)splited);
 		return (print_cerror("Texture data parsing", ERRTEXARGS));
-	if (tex->slices)
+	}
+	if (tex->slices && n - startn < tex->nb_slices)
 		name = ft_strdup(splited[0]);
-	if (!errno && name && tex->slices)
+	if (!errno && name && tex->slices && n - startn < tex->nb_slices)
 		tex->slices[n - startn] = (t_slice){name, ft_atoi(splited[1]),
 			ft_atoi(splited[2]), ft_atoi(splited[3])};
-	else if (!errno && tex->frames)
+	else if (!errno && tex->frames && n - startn < tex->nb_frames)
 		tex->frames[n - startn] = (t_frame){(t_int2d){ft_atoi(splited[0]),
 			ft_atoi(splited[1])}, (t_int2d){ft_atoi(splited[2]),
 			ft_atoi(splited[3])}};

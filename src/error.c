@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 23:58:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:51:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static char	*str_custom_errors(int err)
 		return ("Invalid slices or frames arguments");
 	if (err == ERRTEXNOFS)
 		return ("No frames or slices found");
+	if (err == EINVALTEX)
+		return ("Invalid texture");
 	return ("Unknown error");
 }
 

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:16:31 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 00:41:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	update(t_gameenv *env)
 		last_frame = env->time;
 	}
 	lastrealtime = env->time;
-	if (errno && errno != 11 && print_error("Update"))
+	if (errno && errno != EAGAIN && print_error("Update"))
 		process_close(env);
 	return (0);
 }
@@ -127,7 +127,7 @@ int	process_close(t_gameenv *env)
 		mlx_destroy_display(env->render.mlx);
 		free(env->render.mlx);
 	}
-	if (errno != 11 && errno && print_error("Initialization"))
+	if (errno != EAGAIN && errno && print_error("Initialization"))
 		exit(errno);
 	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
