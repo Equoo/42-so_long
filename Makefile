@@ -100,6 +100,36 @@ cachegrind:
 callgrind:
 	valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes ./$(NAME) $(MAP)
 
+.PHONY: supressor
+supressor:
+	/bin/echo -e "\
+	{\n\
+		ignore_libmlx_error\n\
+		Memcheck:Param\n\
+		writev(vector[0])\n\
+		fun:__internal_syscall_cancel\n\
+		fun:__syscall_cancel\n\
+		fun:writev\n\
+		fun:UnknownInlinedFun\n\
+		fun:_xcb_conn_wait.part.0\n\
+		fun:UnknownInlinedFun\n\
+		fun:_xcb_out_send\n\
+		fun:UnknownInlinedFun\n\
+		fun:xcb_writev\n\
+		fun:_XSend\n\
+		fun:_XReadEvents\n\
+		fun:XWindowEvent\n\
+		fun:mlx_int_wait_first_expose\n\
+		fun:mlx_new_window\n\
+	},\n\
+	{\n\
+		ignore_libmlx_leaks\n\
+		Memcheck:Leak\n\
+		...\n\
+		obj:/libmlx.a.\n\
+	}\
+	" > mlx.supp
+
 %/:
 	mkdir -p $@
 
