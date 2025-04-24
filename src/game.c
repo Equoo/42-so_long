@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 13:59:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 19:18:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	tick_game(t_gameenv *env)
 	{
 		tmp_node = node->next;
 		node_elem = (t_element *)node->content;
-		if (node_elem->internal_update)
+		if (node_elem->internal_update && scene->ply && (float2d_length(float2d_sub(node_elem->pos, cast_element(scene->ply)->pos)) < 2048))
 			node_elem->internal_update(node_elem);
 		node = tmp_node;
 	}

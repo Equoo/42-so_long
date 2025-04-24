@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actor.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:54:53 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 15:18:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct s_actor
 	t_entity	*entity;
 	void		*actor;
 	void		*parent;
+	char		*death_anim;
+	double		die_end_time;
 	int			health;
 	int			direction;
 

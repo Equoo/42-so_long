@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   world_sweep_aabb.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:25:58 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 01:00:48 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 16:05:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_sweep	sweep_entities(t_entity *entity, t_trace *trace)
 	t_aabb	hulla;
 	t_aabb	hullb;
 
-	if (!entity)
+	if (!entity || entity->nocollision)
 		return ((t_sweep){{0}, {0}, 1});
 	hulla = trace->hull;
 	hulla.min = float2d_add(hulla.min, trace->from);

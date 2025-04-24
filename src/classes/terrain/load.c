@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 19:19:20 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	check_access(t_terrain *map)
 			continue ;
 		ft_memset(checkedmap, 0, size * sizeof(int));
 		pos = (t_int2d){i % map->w, i / map->w};
-		if (!terrain_findpath(map, checkedmap, pos, pos))
+		if (!terrain_findpath(map, checkedmap, pos, pos) || errno)
 			break ;
 		i++;
 	}

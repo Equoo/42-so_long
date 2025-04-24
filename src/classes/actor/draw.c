@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:53:18 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 19:07:07 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ void	actor_draw(t_element *self, t_render *render)
 
 	//draw_all_animations(self, self->texture, render, transform);
 
-	texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
+	if (self->anim)
+		texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
 
     //t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
 	//if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
