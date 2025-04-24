@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actor.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 15:18:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 22:17:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_actor
 	int			direction;
 
 	void		(*move)(struct s_actor *self, int dir, int modifier);
+	void		(*on_die)(struct s_actor *self);
 }				t_actor;
 
 typedef enum e_move_modifier

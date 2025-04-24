@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:19:09 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:58:58 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:34:19 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include "classes/entities/actor.h"
 #include "classes/entities/player.h"
 #include "classes/entity.h"
+#include "collisions.h"
 #include "render.h"
 #include "scene.h"
 #include "vector2d.h"
 
-void		player_update(t_element *self)
+void	player_update(t_element *self)
 {
 	t_player	*ply;
 
@@ -29,6 +30,12 @@ void		player_update(t_element *self)
 		ply->is_jumping = FALSE;
 		self->play_anim(self, "J_3");
 	}
-	self->scene->cam_pos = float2d_sub(self->pos, (t_float2d){(double)self->scene->env->render.r_width / 2, (double)self->scene->env->render.r_height / 2});
+	if (ply->entity->b_isground && ply->last_pos.x > 0 && ply->last_pos.y > 0)
+		ply->walk_count += float2d_length(float2d_sub(self->pos,
+					ply->last_pos)) / TR_GRID_SIZE;
+	ply->last_pos = self->pos;
+	self->scene->cam_pos = float2d_sub(self->pos,
+			(t_float2d){(double)self->scene->env->render.r_width / 2,
+			(double)self->scene->env->render.r_height / 2});
 	self->scene->cam_pos.y -= self->scene->env->render.r_height / 6;
 }

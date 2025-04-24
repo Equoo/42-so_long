@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 22:46:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:31:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "classes/entity.h"
 # include "classes/entities/actor.h"
 # include "ft_bool.h"
+#include "vector2d.h"
+#include <sys/types.h>
 
 typedef struct s_player
 {
@@ -23,7 +25,10 @@ typedef struct s_player
 	t_entity	*entity;
 	t_actor		*actor;
 	void		*parent;
+	t_float2d	last_pos;
 	uint		coins;
+	double		walk_count;
+	double		hit_cooldown;
 	t_bool		is_jumping;
 
 	void		(*attack)(struct s_player *self);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terrain.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/21 15:22:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:34:06 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define TERRAIN_H
 # include "classes/element.h"
 # include "classes/entity.h"
-#include "ft_vector.h"
+# include "ft_vector.h"
 # include "vector2d.h"
 
 # define MAP_CHARS "01CEP"

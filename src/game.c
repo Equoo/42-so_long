@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 19:18:00 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:32:04 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
 #include "classes/entities/frog.h"
 #include "ft_bool.h"
+#include "ft_printf.h"
 #include "ft_time.h"
 #include "ft_vector.h"
 #include "input.h"
@@ -28,6 +29,7 @@
 #include <X11/X.h>
 #include <X11/Xutil.h>
 #include <errno.h>
+#include <stdlib.h>
 
 void	tick_game(t_gameenv *env)
 {
@@ -68,14 +70,23 @@ void	tick_game(t_gameenv *env)
 	}
 
 	char *coins = ft_itoa(((t_player *)scene->ply)->coins);
+	char *maxcoins = ft_itoa(((t_terrain *)scene->terrain)->coins.actual_size);
 	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
 	draw_text(&env->render, coins, (t_float2d){55, 35}, 32);
+	draw_text(&env->render, "/", (t_float2d){58, 35}, 32);
+	draw_text(&env->render, maxcoins, (t_float2d){61, 35}, 32);
 	free(coins);
+	free(maxcoins);
 
 	char *fps = ft_itoa(env->smooth_fps);
 	draw_text(&env->render, "FPS:", (t_float2d){39, 30}, 32);
 	draw_text(&env->render, fps, (t_float2d){50, 30}, 32);
 	free(fps);
+
+	char *moves = ft_itoa((int)((t_player *)scene->ply)->walk_count);
+	draw_text(&env->render, "MOVES:", (t_float2d){39, 25}, 32);
+	draw_text(&env->render, moves, (t_float2d){55, 25}, 32);
+	free(moves);
 }
 
 int	load_map(t_gameenv *env, char *path)

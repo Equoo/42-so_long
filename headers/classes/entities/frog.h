@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/16 00:55:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 22:32:08 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_frog
 void		frog_del(t_element **self);
 
 void		frog_anim_coroutine(t_element *self, t_render *render);
+void		frog_on_die(t_actor *self);
 
 t_frog		*ft_frog(t_scene *scene);
 

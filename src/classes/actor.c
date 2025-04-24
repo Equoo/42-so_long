@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:58:41 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 22:54:01 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	actor_del(t_element **self)
 	t_actor	*actor;
 
 	actor = cast_actor((*self)->parent);
+	if (actor && actor->on_die && !actor->die_end_time)
+		actor->on_die(actor);
 	entity_del(self);
 	if (actor)
 		free(actor);
