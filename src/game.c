@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 01:45:24 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 13:59:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	tick_game(t_gameenv *env)
 	t_scene		*scene;
 	t_player	*ply;
 	t_list		*node;
+	t_list		*tmp_node;
 	t_element	*node_elem;
 	int modifier;
 
@@ -59,11 +60,11 @@ void	tick_game(t_gameenv *env)
 	node = scene->elements;
 	while (node)
 	{
+		tmp_node = node->next;
 		node_elem = (t_element *)node->content;
 		if (node_elem->internal_update)
 			node_elem->internal_update(node_elem);
-		__builtin_printf("Element %d updated, %p, next %p\n", node_elem->id, node, node->next);
-		node = node->next;
+		node = tmp_node;
 	}
 
 	char *coins = ft_itoa(((t_player *)scene->ply)->coins);

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:37:57 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/24 14:45:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "classes/element.h"
 #include "so_long.h"
 #include "scene.h"
+#include <errno.h>
 #include <mlx.h>
+#include <stdio.h>
 
 void	tick_render(t_gameenv *env, t_render *render)
 {
@@ -55,9 +57,9 @@ int	render_init(t_gameenv *env)
 		return (1);
 	render->w_width = 1920;
 	render->w_height = 1080;
-	//mlx_get_screen_size(env.mlx, &env.width, &env.height);
+	//mlx_get_screen_size(render->mlx, &render->w_width, &render->w_height);
 	render->win = mlx_new_window(render->mlx, render->w_width,
-			render->w_height, "So long");
+		render->w_height, "So long");
 	if (!render->win)
 		return (1);
 	render->r_width = 398;
