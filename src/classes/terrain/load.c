@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 19:19:20 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 21:19:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <get_next_line.h>
 #include <libft.h>
 
-static int parse_map_line(t_terrain *map, char c, int x, int y)
+static int	parse_map_line(t_terrain *map, char c, int x, int y)
 {
 	int	res;
 
@@ -119,9 +119,8 @@ static int	check_access(t_terrain *map)
 }
 
 void	terrain_load(t_terrain *map, char *path)
-		// VERIFY IF THERE ONE COLLECTIBLE
 {
-	int fd;
+	int	fd;
 
 	errno = 0;
 	fd = open(path, O_RDONLY);

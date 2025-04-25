@@ -6,76 +6,79 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:40:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/terrain.h"
-#include "render.h"
-#include "vector2d.h"
 #include "libft.h"
+#include "render.h"
 #include "seed.h"
+#include "vector2d.h"
 
-typedef struct s_prob {
-	double	ratio;
-	char	*type;
-}	t_prob;
-
-void	terrain_draw(t_element *self_e, t_render *render)
+void	hover_ground_gen(t_terrain *self, t_render *render, t_int2d offset)
 {
-	const t_frule	rules[] = {&rule_top_grass, &rule_corner_grass, &rule_platform};
-	t_terrain	*self;
-	int			i;
-	int			j;
-	t_transform transform;
+	const char	ground_slices[][64] = {"ground_mid_moss", "ground_mid_green_2",
+		"ground_mid_green_3", "ground_mid_green_4", "ground_mid_red",
+		"ground_mid_moss"};
 	t_int2d		pos;
-	t_int2d		offset;
 	char		*tex;
+	int			i;
 
-	offset = to_int2d(float2d_scaled(self_e->scene->cam_pos, -1));
-
-	self = (t_terrain *)self_e->parent;
-	i = -1;
-	while (++i + 1 && self->grid[i])
-	{
-		if (self->grid[i] != MAP_WALL)
-			continue;
-		pos = (t_int2d){i % self->w, i / self->w};
-		tex = NULL;
-
-		j = 0;
-		transform = t_from_pos((t_int2d){offset.x + pos.x * 16, offset.y + pos.y * 16});
-		while (j < 3)
-		{
-			if (rules[j](self, pos, &tex, &transform))
-				break;
-			j++;
-		}
-		if (j == 3)
-			tex = ft_strdup("ground");
-		if (!tex)
-			return ;
-		texture_blend_slice(self->base->texture, render->buffer, transform, tex);
-		free(tex);
-	}
-
-	const char 	ground_slices[][64] = {"ground_mid_moss", "ground_mid_green_2", "ground_mid_green_3", "ground_mid_green_4", "ground_mid_red", "ground_mid_moss"};
 	i = -1;
 	while (++i + 1 && self->grid[i])
 	{
 		if (self->grid[i] != MAP_WALL || rand_int() % 8 != 0)
-			continue;
+			continue ;
 		pos = (t_int2d){i % self->w, i / self->w};
-
-		if (getindir(self, pos, DIR_TOP) == MAP_WALL
-			&& getindir(self, pos, DIR_BOTTOM) == MAP_WALL
-			&& getindir(self, pos, DIR_LEFT) == MAP_WALL
-			&& getindir(self, pos, DIR_RIGHT) == MAP_WALL)
+		if (getindir(self, pos, DIR_TOP) == MAP_WALL && getindir(self, pos,
+				DIR_BOTTOM) == MAP_WALL && getindir(self, pos,
+				DIR_LEFT) == MAP_WALL && getindir(self, pos,
+				DIR_RIGHT) == MAP_WALL)
 			tex = (char *)ground_slices[rand_int() % 6];
 		else
-			continue;
-
-		texture_draw_slice(self->base->texture, render->buffer, (t_transform){
-			{offset.x + pos.x * 16, offset.y + pos.y * 16}, {0}, 0}, tex);
+			continue ;
+		texture_draw_slice(self->base->texture, render->buffer,
+			(t_transform){{offset.x + pos.x * 16, offset.y + pos.y * 16}, {0},
+			0}, tex);
 	}
+}
+
+void	ground_gen(t_terrain *self, t_render *render, t_int2d offset)
+{
+	const t_frule	rules[] = {&rule_topgrass, &rule_corgrass, &rule_platform};
+	t_int2d			pos;
+	t_transform		transform;
+	char			*tex;
+	t_int2d			i;
+
+	i.x = -1;
+	while (++i.x + 1 && self->grid[i.x])
+	{
+		if (self->grid[i.x] != MAP_WALL)
+			continue ;
+		pos = (t_int2d){i.x % self->w, i.x / self->w};
+		tex = NULL;
+		transform = t_from_pos((t_int2d){offset.x + pos.x * 16, offset.y + pos.y
+				* 16});
+		i.y = -1;
+		while (++i.y < 3)
+			if (rules[i.y](self, pos, &tex, &transform))
+				break ;
+		if (i.y == 3)
+			tex = "ground";
+		texture_blend_slice(self->base->texture, render->buffer, transform,
+			tex);
+	}
+}
+
+void	terrain_draw(t_element *self_e, t_render *render)
+{
+	t_terrain	*self;
+	t_int2d		offset;
+
+	self = (t_terrain *)self_e->parent;
+	offset = to_int2d(float2d_scaled(self_e->scene->cam_pos, -1));
+	ground_gen(self, render, offset);
+	hover_ground_gen(self, render, offset);
 }

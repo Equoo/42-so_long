@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 06:58:02 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 02:18:46 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:56:26 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	actor_move(struct s_actor *self, int dir, int modifier)
 		self->direction = 1;
 	}
 	else if (dir == 2 && self->entity->b_isground)
-		self->entity->velocity.y -= 350 * frametime;
+		self->entity->velocity.y += 350 * frametime
+			* self->entity->gravity_dir.y;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                            :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/03/25 02:09:29 by dderny           ###   ########.fr       */
+/*   Created: 2025/04/25 22:41:20 by dderny            #+#    #+#             */
+/*   Updated: 2025/04/25 22:42:55 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,23 @@ void	player_del(t_element **self)
 		free(player);
 }
 
+static void	init_plyer(t_player *player)
+{
+	player->actor->death_anim = "Death_1";
+	player->base->anim_coroutine = &player_anim_coroutine;
+	player->base->update = &player_update;
+	player->attack = &player_attack;
+	player->base->class = CLASS_PLAYER;
+	player->base->parent = player;
+	player->base->del = &player_del;
+	player->base->txt_off_pos = (t_float2d){-14, -31};
+	player->entity->hull = (t_aabb){{-7, -14}, {7, 0}, {0}, {0}};
+}
+
 t_player	*ft_player(t_scene *scene)
 {
-	t_actor *actor;
-	t_player *player;
+	t_actor		*actor;
+	t_player	*player;
 
 	actor = ft_actor(scene);
 	if (!actor)
@@ -47,20 +60,13 @@ t_player	*ft_player(t_scene *scene)
 	player->base = actor->base;
 	player->entity = actor->entity;
 	player->actor = actor;
-	player->actor->death_anim = "Death_1";
-	player->base->anim_coroutine = &player_anim_coroutine;
-	player->base->update = &player_update;
-	player->attack = &player_attack;
-	player->base->class = CLASS_PLAYER;
-	player->base->parent = player;
-	player->base->del = &player_del;
-	player->base->texture = ft_texture(&scene->env->render, "./textures/cat.xpm");
-	player->base->txt_off_pos = (t_float2d){-16, -31};
-	player->entity->hull = (t_aabb){{-8, -14}, {8, 0}, {0}, {0}};
+	player->base->texture = ft_texture(&scene->env->render,
+			"./textures/cat.xpm");
 	if (!player->base->texture)
 	{
 		player->base->del(&player->base);
 		return (NULL);
 	}
+	init_plyer(player);
 	return (player);
 }

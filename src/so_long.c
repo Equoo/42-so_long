@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:41:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:27:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,12 @@ int	update(t_gameenv *env)
 	static double	lastrealtime = 0;
 	static double	elapsed = 0;
 
+	errno = 0;
 	env->time = ft_uptime();
 	if (env->time == -1 && print_error("Time"))
 		process_close(env);
+	if (!env->start_time)
+		env->start_time = env->time;
 	if (!last_frame)
 		last_frame = env->time;
 	if (!lastrealtime)

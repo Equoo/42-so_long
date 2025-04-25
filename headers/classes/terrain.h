@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:21:49 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 21:46:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int				get_facing(t_terrain *self, t_int2d pos, int dirs[4]);
 typedef t_bool	(*t_frule)(t_terrain *self, t_int2d pos, char **slice,
 		t_transform *transform);
 
-t_bool			rule_top_grass(t_terrain *self, t_int2d pos, char **slice,
+t_bool			rule_topgrass(t_terrain *self, t_int2d pos, char **slice,
 					t_transform *transform);
-t_bool			rule_corner_grass(t_terrain *self, t_int2d pos, char **slice,
+t_bool			rule_corgrass(t_terrain *self, t_int2d pos, char **slice,
 					t_transform *transform);
 t_bool			rule_platform(t_terrain *self, t_int2d pos, char **slice,
 					__attribute__((unused)) t_transform *transform);

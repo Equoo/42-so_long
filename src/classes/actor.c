@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actor.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 22:54:01 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:44:21 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,8 @@ void	actor_del(t_element **self)
 		free(actor);
 }
 
-t_actor	*ft_actor(t_scene *scene)
+static void	init_actor(t_actor *actor, t_entity *entity)
 {
-	t_entity *entity;
-	t_actor *actor;
-
-	entity = ft_entity(scene);
-	if (!entity)
-		return (NULL);
-	actor = ft_calloc(1, sizeof(t_actor));
-	if (!actor)
-	{
-		entity->base->del(&entity->base);
-		return (NULL);
-	}
 	actor->entity = entity;
 	actor->actor = actor;
 	actor->move = &actor_move;
@@ -55,6 +43,23 @@ t_actor	*ft_actor(t_scene *scene)
 	actor->base->class = CLASS_ACTOR;
 	actor->base->del = &actor_del;
 	actor->entity->base = actor->base;
+}
+
+t_actor	*ft_actor(t_scene *scene)
+{
+	t_entity	*entity;
+	t_actor		*actor;
+
+	entity = ft_entity(scene);
+	if (!entity)
+		return (NULL);
+	actor = ft_calloc(1, sizeof(t_actor));
+	if (!actor)
+	{
+		entity->base->del(&entity->base);
+		return (NULL);
+	}
+	init_actor(actor, entity);
 	return (actor);
 }
 

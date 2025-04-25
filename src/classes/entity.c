@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 01:32:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:48:15 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	entity_del(t_element **self)
 {
-	t_entity *entity;
+	t_entity	*entity;
 
 	entity = cast_entity((*self)->parent);
 	element_del(self);
@@ -29,8 +29,8 @@ void	entity_del(t_element **self)
 
 t_entity	*ft_entity(t_scene *scene)
 {
-	t_element *base;
-	t_entity *entity;
+	t_element	*base;
+	t_entity	*entity;
 
 	base = ft_element(scene);
 	if (!base)

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:33:31 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 19:55:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_exit
 {
 	t_element	*base;
 	t_entity	*entity;
-	void		*exit;
 	void		*parent;
 }				t_exit;
 

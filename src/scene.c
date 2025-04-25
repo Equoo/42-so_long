@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:59:29 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:01:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ t_scene	*ft_scene(void *env, char *name)
 	return (scene);
 }
 
+static int	is_front(t_list *elements, t_element *elem)
+{
+	return (!elements
+		|| ((t_element *)elements->content)->zindex > elem->zindex);
+}
+
 int	scene_add(t_scene *self, void *element)
 {
 	t_element	*elem;
@@ -69,13 +75,13 @@ int	scene_add(t_scene *self, void *element)
 		elem->del(&elem);
 	if (!node)
 		return (1);
-	if (!self->elements
-		|| ((t_element *)self->elements->content)->zindex > elem->zindex)
+	if (is_front(self->elements, elem))
 		ft_lstadd_front(&self->elements, node);
 	else if (self->elements)
 	{
 		tmp = self->elements;
-		while (tmp->next && ((t_element *)tmp->next->content)->zindex <= elem->zindex)
+		while (tmp->next
+			&& ((t_element *)tmp->next->content)->zindex <= elem->zindex)
 			tmp = tmp->next;
 		ft_lstadd_front(&tmp->next, node);
 	}

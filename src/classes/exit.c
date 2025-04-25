@@ -6,19 +6,21 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:01:30 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:33:57 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:55:56 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/exit.h"
 #include "classes/entities/player.h"
 #include "classes/entity.h"
+#include "classes/terrain.h"
+#include "ft_printf.h"
 #include "scene.h"
 #include "so_long.h"
 #include "texture.h"
-#include "vector2d.h"
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void	exit_del(t_element **self)
 {
@@ -30,10 +32,27 @@ void	exit_del(t_element **self)
 		free(exit);
 }
 
+static void	init_frog(t_scene *scene, t_exit *exit, t_entity *entity)
+{
+	exit->entity = entity;
+	exit->entity->on_collide = &exit_on_collide;
+	exit->entity->nogravity = TRUE;
+	exit->base = entity->base;
+	exit->base->texture = ft_texture(&scene->env->render,
+			"./textures/exit.xpm");
+	exit->base->txt_off_pos = (t_float2d){-8, -19};
+	exit->entity->hull = (t_aabb){{-8, -19}, {8, 0}, {0}, {0}};
+	exit->base->zindex = 10;
+	exit->base->parent = exit;
+	exit->base->anim = "all";
+	exit->base->del = &exit_del;
+	exit->entity->base = exit->base;
+}
+
 t_exit	*ft_exit(t_scene *scene)
 {
-	t_entity *entity;
-	t_exit *exit;
+	t_entity	*entity;
+	t_exit		*exit;
 
 	entity = ft_entity(scene);
 	if (!entity)
@@ -44,16 +63,7 @@ t_exit	*ft_exit(t_scene *scene)
 		entity->base->del(&entity->base);
 		return (NULL);
 	}
-	exit->entity = entity;
-	exit->entity->on_collide = &exit_on_collide;
-	exit->exit = exit;
-	exit->base = entity->base;
-	exit->base->texture = ft_texture(&scene->env->render, "textures/exit.xpm");
-	exit->base->zindex = 10;
-	exit->base->parent = exit;
-	exit->base->anim = "all";
-	exit->base->del = &exit_del;
-	exit->entity->base = exit->base;
+	init_frog(scene, exit, entity);
 	return (exit);
 }
 
@@ -65,8 +75,14 @@ void	exit_on_collide(t_entity *self, t_element *other, t_sweep data)
 	if (!other || other->class != CLASS_PLAYER)
 		return ;
 	player = other->parent;
-	if (!player)
+	if (!player
+		|| player->coins
+		!= ((t_terrain *)other->scene->terrain)->coins.actual_size)
 		return ;
 	player->base->draw = NULL;
+	ft_printf("Congratulations !\n");
+	ft_printf("You collected all the coins in %fs and %u grounded moves!\n",
+		other->scene->env->time - other->scene->env->start_time,
+		(uint)player->walk_count);
 	process_close(self->base->scene->env);
 }

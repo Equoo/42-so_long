@@ -29,6 +29,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				texture/texture_slice_time.c\
 				texture.c\
 				classes/element/play_anim.c\
+				classes/element/draw.c\
 				classes/element.c\
 				classes/terrain/grid_utils.c\
 				classes/terrain/wall_rules.c\
@@ -69,6 +70,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				collisions/world_sweep_aabb.c\
             	error.c\
             	seed.c\
+            	tick_game.c\
             	game.c\
             	render.c\
             	so_long.c\

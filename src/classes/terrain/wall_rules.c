@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:50:38 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:36:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include "seed.h"
 
-t_bool	rule_top_grass(t_terrain *self, t_int2d pos, char **slice,
+t_bool	rule_topgrass(t_terrain *self, t_int2d pos, char **slice,
 		t_transform *transform)
 {
 	const char	textures[][19] = {"ground_top_green_1", "ground_top_green_2"};
@@ -34,11 +34,11 @@ t_bool	rule_top_grass(t_terrain *self, t_int2d pos, char **slice,
 	return (TRUE);
 }
 
-t_bool	rule_corner_grass(t_terrain *self, t_int2d pos, char **slice,
+t_bool	rule_corgrass(t_terrain *self, t_int2d pos, char **slice,
 		t_transform *transform)
 {
 	const char	textures[][22] = {"ground_corner_green_1",
-			"ground_corner_green_2"};
+		"ground_corner_green_2"};
 	int			dirs[4];
 
 	if (get_facing(self, pos, dirs) != 2)
@@ -56,13 +56,13 @@ t_bool	rule_corner_grass(t_terrain *self, t_int2d pos, char **slice,
 }
 
 static t_bool	basic_platform(t_terrain *self, t_int2d pos, char **slice,
-					int dirs[4]);
+			int dirs[4]);
 
 t_bool	rule_platform(t_terrain *self, t_int2d pos, char **slice,
 		__attribute__((unused)) t_transform *transform)
 {
 	const char	textures[][21] = {"platform", "platform_left_end",
-			"platform_right_end"};
+		"platform_right_end"};
 	int			dirs[4];
 	int			facings;
 
@@ -89,15 +89,15 @@ static t_bool	basic_platform(t_terrain *self, t_int2d pos, char **slice,
 		int dirs[4])
 {
 	const char	textures[][21] = {"platform_left_start", "platform",
-			"platform_right_start"};
+		"platform_right_start"};
 
 	if (!(dirs[DIR_TOP] == 0 && dirs[DIR_BOTTOM] == 0))
 		return (FALSE);
 	if (slice && !rule_platform(self, int2d_add(pos, (t_int2d){1, 0}), NULL,
-			NULL))
+		NULL))
 		*slice = ft_strdup(textures[0]);
 	else if (slice && !rule_platform(self, int2d_add(pos, (t_int2d){-1, 0}),
-			NULL, NULL))
+		NULL, NULL))
 		*slice = ft_strdup(textures[2]);
 	else if (slice)
 		*slice = ft_strdup(textures[1]);

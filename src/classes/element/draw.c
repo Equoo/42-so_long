@@ -6,13 +6,13 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:32:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:33:22 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 20:02:46 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
 
-void	actor_draw(t_element *self, t_render *render)
+void	element_draw(t_element *self, t_render *render)
 {
 	t_transform	transform;
 

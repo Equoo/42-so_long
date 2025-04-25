@@ -12,14 +12,14 @@
 
 #include "classes/entities/frog.h"
 #include "collisions.h"
+#include "libft.h"
 #include "render.h"
 #include "scene.h"
 #include "seed.h"
-#include "texture.h"
-#include "libft.h"
 #include "so_long.h"
-#include <stdlib.h>
+#include "texture.h"
 #include <stdint.h>
+#include <stdlib.h>
 
 void	frog_del(t_element **self)
 {
@@ -33,17 +33,17 @@ void	frog_del(t_element **self)
 
 static int	init(t_frog *frog, t_render *render)
 {
-	frog->textures[0] = ft_texture(render, "./textures/frog_blue_blue.xpm");
+	frog->textures[0] = ft_texture(render, "./textures/frog_bb.xpm");
 	if (frog->textures[0])
-		frog->textures[1] = ft_texture(render, "./textures/frog_blue_brown.xpm");
+		frog->textures[1] = ft_texture(render, "./textures/frog_bbr.xpm");
 	if (frog->textures[1])
-		frog->textures[2] = ft_texture(render, "./textures/frog_green_blue.xpm");
+		frog->textures[2] = ft_texture(render, "./textures/frog_gb.xpm");
 	if (frog->textures[2])
-		frog->textures[3] = ft_texture(render, "./textures/frog_green_brown.xpm");
+		frog->textures[3] = ft_texture(render, "./textures/frog_gbr.xpm");
 	if (frog->textures[3])
-		frog->textures[4] = ft_texture(render, "./textures/frog_purple_blue.xpm");
+		frog->textures[4] = ft_texture(render, "./textures/frog_pb.xpm");
 	if (frog->textures[4])
-		frog->textures[5] = ft_texture(render, "./textures/frog_purple_white.xpm");
+		frog->textures[5] = ft_texture(render, "./textures/frog_pw.xpm");
 	if (!frog->textures[0] || !frog->textures[1] || !frog->textures[2]
 		|| !frog->textures[3] || !frog->textures[4] || !frog->textures[5])
 		return (1);
@@ -73,6 +73,7 @@ t_frog	*ft_frog(t_scene *scene)
 	frog->base = actor->base;
 	frog->entity = actor->entity;
 	frog->actor = actor;
+	frog->base->zindex = 5;
 	frog->base->class = CLASS_FROG;
 	frog->base->parent = frog;
 	frog->base->del = &frog_del;
@@ -84,7 +85,7 @@ t_frog	*ft_frog(t_scene *scene)
 	return (frog);
 }
 
-void frog_anim_coroutine(t_element *self, t_render *render)
+void	frog_anim_coroutine(t_element *self, t_render *render)
 {
 	t_frog	*frog;
 	float	speed;
@@ -94,7 +95,7 @@ void frog_anim_coroutine(t_element *self, t_render *render)
 	speed = float2d_length(frog->entity->velocity);
 	if (frog->entity->b_isground && speed >= 0.05)
 	{
-			frog->base->anim = "Hop";
+		frog->base->anim = "Hop";
 	}
 	else
 		frog->base->anim = "Idle";

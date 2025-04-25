@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_frame.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:13:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:05:35 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 19:38:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_frame	texture_get_cycle_frame(t_texture *self, char *slice, double cycle)
 					(self->slices[i].to - self->slices[i].from + 1) * cycle);
 			if (frame >= self->nb_frames)
 				break ;
+			if (frame < 0)
+				frame = 0;
 			return (self->frames[frame]);
 		}
 		i++;

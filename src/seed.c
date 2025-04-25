@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   seed.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 20:03:34 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/14 22:00:37 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:02:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	*getseed(void)
 {
-	static int seed = 0;
+	static int	seed = 0;
 
 	return (&seed);
 }
 
 int	rand_int(void)
 {
-	int *seed;
-	int res;
+	int	*seed;
+	int	res;
 
 	seed = getseed();
 	*seed = *seed * 1103515245 + 12345;

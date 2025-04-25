@@ -3,25 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   text.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:36:52 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/23 17:00:39 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:15:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "ft_vector.h"
 #include "texture.h"
 #include "vector2d.h"
 #include "libft.h"
 #include "render.h"
+#include <errno.h>
 #include <stddef.h>
 
 int	draw_text(t_render *render, char *text, t_float2d pos, int font_size)
 {
 	t_rtext		data;
 
+	if (errno)
+		return (1);
 	data = (t_rtext){0};
 	data.text = ft_strdup(text);
 	if (!data.text)

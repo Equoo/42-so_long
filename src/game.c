@@ -6,94 +6,27 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:36:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:56:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "classes/background.h"
 #include "classes/element.h"
 #include "classes/entities/exit.h"
 #include "classes/entities/frog.h"
-#include "ft_bool.h"
-#include "ft_printf.h"
+#include "classes/entities/player.h"
+#include "classes/terrain.h"
+#include "error.h"
 #include "ft_time.h"
 #include "ft_vector.h"
-#include "input.h"
 #include "libft.h"
-#include "render.h"
-#include "so_long.h"
-#include "error.h"
 #include "scene.h"
-#include "classes/entities/player.h"
-#include "classes/background.h"
-#include "classes/terrain.h"
+#include "so_long.h"
 #include "vector2d.h"
 #include <X11/X.h>
 #include <X11/Xutil.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <string.h>
-
-void	tick_game(t_gameenv *env)
-{
-	t_scene		*scene;
-	t_player	*ply;
-	t_list		*node;
-	t_list		*tmp_node;
-	t_element	*node_elem;
-	int modifier;
-
-	scene = (t_scene *)env->scene;
-	ply = scene->ply;
-	if (input_ispressed('w', env))
-	{
-		ply->actor->move(ply->actor, 2, 0);
-		ply->base->play_anim(ply->base, "J_2");
-		ply->is_jumping = TRUE;
-	}
-	modifier = MOVE_JOG;
-	if (input_isdown(XK_Alt_L, env))
-		modifier = MOVE_WALK;
-	if (input_isdown(XK_Shift_L, env))
-		modifier = MOVE_SPEED;
-	if (input_isdown('a', env))
-		ply->actor->move(ply->actor, 0, modifier);
-	if (input_isdown('d', env))
-		ply->actor->move(ply->actor, 1, modifier);
-	if (input_ispressed('s', env))
-		ply->entity->gravity_dir = (t_float2d){0, -ply->entity->gravity_dir.y};
-	if (input_ispressed(XK_space, env))
-		ply->attack(ply);
-
-
-	node = scene->elements;
-	while (node)
-	{
-		tmp_node = node->next;
-		node_elem = (t_element *)node->content;
-		if (node_elem->internal_update && scene->ply && (float2d_length(float2d_sub(node_elem->pos, cast_element(scene->ply)->pos)) < 2048))
-			node_elem->internal_update(node_elem);
-		node = tmp_node;
-	}
-
-	char *coins = ft_itoa(((t_player *)scene->ply)->coins);
-	char *maxcoins = ft_itoa(((t_terrain *)scene->terrain)->coins.actual_size);
-	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
-	draw_text(&env->render, coins, (t_float2d){55, 35}, 32);
-	draw_text(&env->render, "/", (t_float2d){57 + 3 * strlen(coins), 35}, 32);
-	draw_text(&env->render, maxcoins, (t_float2d){61 + 3 * strlen(coins), 35}, 32);
-	free(coins);
-	free(maxcoins);
-
-	char *fps = ft_itoa(env->smooth_fps);
-	draw_text(&env->render, "FPS:", (t_float2d){39, 30}, 32);
-	draw_text(&env->render, fps, (t_float2d){50, 30}, 32);
-	free(fps);
-
-	char *moves = ft_itoa((int)((t_player *)scene->ply)->walk_count);
-	draw_text(&env->render, "MOVES:", (t_float2d){39, 25}, 32);
-	draw_text(&env->render, moves, (t_float2d){55, 25}, 32);
-	free(moves);
-}
 
 int	load_map(t_gameenv *env, char *path)
 {
@@ -103,13 +36,14 @@ int	load_map(t_gameenv *env, char *path)
 	scene = ft_scene(env, path);
 	if (!scene)
 		return (1);
-	scene->terrain = ft_terrain(scene, path, "./textures/stringstar_fields.xpm");
+	scene->terrain = ft_terrain(scene, path,
+			"./textures/stringstar_fields.xpm");
 	lst_scene = ft_lstnew(scene);
 	if (scene_add(scene, scene->terrain) || !lst_scene)
 	{
 		if (scene->terrain)
 			((t_terrain *)scene->terrain)->base->del(
-						&((t_terrain *)scene->terrain)->base);
+				&((t_terrain *)scene->terrain)->base);
 		if (lst_scene)
 			free(lst_scene);
 		scene_del(scene);
@@ -127,6 +61,7 @@ int	game_init(t_gameenv *env, char *mappath)
 	t_terrain	*terrain;
 	t_player	*player;
 	t_exit		*exit;
+	int			i;
 
 	if (load_map(env, mappath) || errno)
 		return (1);
@@ -139,32 +74,29 @@ int	game_init(t_gameenv *env, char *mappath)
 		return (1);
 	player->base->play_anim(player->base, "Spawn_2");
 	terrain = (t_terrain *)scene->terrain;
-	player->base->pos = float2d_sub(
-		(t_float2d){(terrain->spawn % terrain->w) * 16,
-			(terrain->spawn / terrain->w) * 16},
-		player->entity->hull.min
-		);
+	player->base->pos = float2d_sub((t_float2d){(terrain->spawn % terrain->w)
+			* 16, (terrain->spawn / terrain->w) * 16},
+			player->entity->hull.min);
 	scene->ply = player;
 	exit = ft_exit(scene);
 	if (scene_add(scene, exit) && print_error("Exit"))
 		return (1);
-	exit->base->pos = (t_float2d){(terrain->exit % terrain->w) * 16,
-		(terrain->exit / terrain->w) * 16};
-
-	int	i = 0;
+	exit->base->pos = float2d_sub((t_float2d){(terrain->exit % terrain->w) * 16,
+			(terrain->exit / terrain->w) * 16}, player->entity->hull.min);
+	i = 0;
 	while (i < terrain->coins.actual_size)
 	{
 		element = ft_frog(scene);
 		if (scene_add(scene, element) && print_error("Frog generation"))
 			return (1);
 		if (element)
-			cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins, i) % terrain->w) * 16,
-				(*(int *)vec_get(&terrain->coins, i) / terrain->w) * 16};
+			cast_element(element)->pos = (t_float2d){(*(int *)vec_get(&terrain->coins,
+						i) % terrain->w) * 16, (*(int *)vec_get(&terrain->coins,
+						i) / terrain->w) * 16};
 		else
 			break ;
 		i++;
 	}
-
 	scene->seed = ft_uptime();
 	if (scene->seed == -1 && print_error("Seed"))
 		return (1);

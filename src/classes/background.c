@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   background.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 01:25:29 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 22:47:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "classes/background.h"
 #include "classes/element.h"
 #include "render.h"
+#include "so_long.h"
 #include "texture.h"
 #include "vector2d.h"
-#include "so_long.h"
-#include "classes/background.h"
+#include <stdlib.h>
 
 void	background_del(t_element **self)
 {
@@ -36,7 +36,8 @@ static void	*init_background(t_scene *scene, t_background *background)
 	background->base->class = CLASS_BACKGROUND;
 	background->base->del = &background_del;
 	background->base->draw = &background_draw;
-	background->base->texture = ft_texture(render, "./textures/background0.xpm");
+	background->base->texture = ft_texture(render,
+			"./textures/background0.xpm");
 	if (background->base->texture)
 		background->back_1 = ft_texture(render, "./textures/background1.xpm");
 	if (background->back_1)
@@ -70,35 +71,45 @@ t_background	*ft_background(t_scene *scene)
 	return (init_background(scene, background));
 }
 
-void	background_draw(t_element *self_element, t_render *buffer)
+static void	background2_draw(t_element *self_element,
+	t_background *background, t_render *render, int offsety)
+{
+	int				offset3;
+
+	offset3 = (double)((int)((double)self_element->scene->cam_pos.x / 2) % 288
+			- 100);
+	texture_blend_slice(background->back_2, render->buffer,
+		t_from_pos((t_int2d){-288 - offset3, 16 * 7 + 8 - offsety}), "all");
+	texture_blend_slice(background->back_2, render->buffer,
+		t_from_pos((t_int2d){-offset3, 16 * 7 + 8 - offsety}), "all");
+	texture_blend_slice(background->back_2, render->buffer,
+		t_from_pos((t_int2d){288 - offset3, 16 * 7 + 8 - offsety}), "all");
+}
+
+void	background_draw(t_element *self_element, t_render *render)
 {
 	t_background	*background;
 	int				offset;
 	int				offsety;
 	int				offset2;
-	int				offset3;
 
 	background = (t_background *)self_element->parent;
 	offsety = (double)self_element->scene->cam_pos.y / 16;
-	offset = (double)((int)((double)self_element->scene->cam_pos.x / 8) % 288 - 100);
-	offset2 = (double)((int)((double)self_element->scene->cam_pos.x / 4) % 288 - 100);
-	offset3 = (double)((int)((double)self_element->scene->cam_pos.x / 2) % 288 - 100);
-	texture_blend_slice(self_element->texture, buffer->buffer,
+	offset = (double)((int)((double)self_element->scene->cam_pos.x / 8) % 288
+			- 100);
+	texture_blend_slice(self_element->texture, render->buffer,
 		t_from_pos((t_int2d){-288 - offset, 0}), "all");
-	texture_blend_slice(self_element->texture, buffer->buffer,
-		t_from_pos((t_int2d){ -offset, 0}), "all");
-	texture_blend_slice(self_element->texture, buffer->buffer,
+	texture_blend_slice(self_element->texture, render->buffer,
+		t_from_pos((t_int2d){-offset, 0}), "all");
+	texture_blend_slice(self_element->texture, render->buffer,
 		t_from_pos((t_int2d){288 - offset, 0}), "all");
-	texture_blend_slice(background->back_1, buffer->buffer,
+	offset2 = (double)((int)((double)self_element->scene->cam_pos.x / 4) % 288
+			- 100);
+	texture_blend_slice(background->back_1, render->buffer,
 		t_from_pos((t_int2d){-288 - offset2, 16 * 6 - offsety / 2 + 8}), "all");
-	texture_blend_slice(background->back_1, buffer->buffer,
+	texture_blend_slice(background->back_1, render->buffer,
 		t_from_pos((t_int2d){-offset2, 16 * 6 - offsety / 2 + 8}), "all");
-	texture_blend_slice(background->back_1, buffer->buffer,
+	texture_blend_slice(background->back_1, render->buffer,
 		t_from_pos((t_int2d){288 - offset2, 16 * 6 - offsety / 2 + 8}), "all");
-	texture_blend_slice(background->back_2, buffer->buffer,
-		t_from_pos((t_int2d){-288 - offset3, 16 * 7 + 8 - offsety}), "all");
-	texture_blend_slice(background->back_2, buffer->buffer,
-		t_from_pos((t_int2d){-offset3, 16 * 7 + 8 - offsety}), "all");
-	texture_blend_slice(background->back_2, buffer->buffer,
-		t_from_pos((t_int2d){288 - offset3, 16 * 7 + 8 - offsety}), "all");
+	background2_draw(self_element, background, render, offsety);
 }

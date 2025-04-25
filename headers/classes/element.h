@@ -6,14 +6,13 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:35 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:46:39 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 18:31:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ELEMENT_H
 # define ELEMENT_H
 
-#include "ft_bool.h"
 # include "scene.h"
 # include "texture.h"
 # include "vector2d.h"
@@ -48,6 +47,7 @@ typedef struct s_element
 
 void			element_internal_update(t_element *self);
 void			element_play_anim(t_element *self, char *anim_name);
+void			element_draw(t_element *self, t_render *render);
 
 t_element		*ft_element(t_scene *scene);
 t_element		*cast_element(void *element);

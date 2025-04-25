@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:51:14 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 21:10:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 
 char	getindir(t_terrain *self, t_int2d pos, int dir)
 {
-	const int dirs[][2] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
+	const int	dirs[][2] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
 
-	if (pos.x + dirs[dir][0] < 0 || pos.x + dirs[dir][0] >= self->w
-		|| pos.y + dirs[dir][1] < 0 || pos.y + dirs[dir][1] >= self->h)
+	if (pos.x + dirs[dir][0] < 0 || pos.x + dirs[dir][0] >= self->w || pos.y
+		+ dirs[dir][1] < 0 || pos.y + dirs[dir][1] >= self->h)
 		return (MAP_WALL);
-	return (self->grid[pos.x + pos.y * self->w + dirs[dir][0] + dirs[dir][1] * self->w]);
+	return (self->grid[pos.x + pos.y * self->w + dirs[dir][0] + dirs[dir][1]
+		* self->w]);
 }
 
 int	get_facing(t_terrain *self, t_int2d pos, int dirs[4])
 {
-	int			cur_dirs[4];
-	int			count;
-	int			i;
+	int	cur_dirs[4];
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;

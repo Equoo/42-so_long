@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:52:01 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:58:23 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 20:00:45 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ static char	*get_data_path(char *path)
 	return (data_path);
 }
 
-int	read_texture_data(t_texture *tex, char *path)
+int	read_texture_data(t_texture *tex, char *path, char	*line)
 {
 	int		fd;
-	char	*line;
 	int		i;
 
 	path = get_data_path(path);
@@ -108,6 +107,7 @@ int	read_texture_data(t_texture *tex, char *path)
 	}
 	if (!errno && (!tex->frames || !tex->slices))
 		print_cerror("Texture data parsing", ERRTEXNOFS);
+	close(fd);
 	free(path);
 	return (errno);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:51:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 20:00:34 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_texture	*ft_texture(t_render *render, char *path)
 		tex->img = mylx_xpm_to_img(render->mlx, path, &tex->width, &tex->height);
 	if (tex->img)
 		lst = ft_lstnew(tex);
-	if (!tex->path || !tex->img || !lst || read_texture_data(tex, path))
+	if (!tex->path || !tex->img || !lst || read_texture_data(tex, path, NULL))
 	{
 		print_error("Texture data parsing");
 		if (lst)

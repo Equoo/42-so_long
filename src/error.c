@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 23:58:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:51:36 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 23:02:11 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
-#include <ft_printf.h>
 #include <errno.h>
+#include <ft_printf.h>
 #include <string.h>
 
 static char	*str_custom_errors(int err)
@@ -31,7 +31,6 @@ static char	*str_custom_errors(int err)
 		return ("No path availabe");
 	if (err == ERRMAPNOPE)
 		return ("No player or exit");
-
 	if (err == ERRTEXARGS)
 		return ("Invalid slices or frames arguments");
 	if (err == ERRTEXNOFS)
