@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:51:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 01:43:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ void	tick_game(t_gameenv *env)
 		ply->actor->move(ply->actor, 0, modifier);
 	if (input_isdown('d', env))
 		ply->actor->move(ply->actor, 1, modifier);
+	if (input_ispressed('s', env))
+		ply->entity->gravity_dir = (t_float2d){0, -ply->entity->gravity_dir.y};
 	if (input_ispressed(XK_space, env))
 		ply->attack(ply);
+	
+	
 	node = scene->elements;
 	while (node)
 	{
@@ -131,9 +135,13 @@ int	game_init(t_gameenv *env, char *mappath)
 	player = ft_player(scene);
 	if (scene_add(scene, player) && print_error("Player"))
 		return (1);
+	player->base->play_anim(player->base, "Spawn_2");
 	terrain = (t_terrain *)scene->terrain;
-	player->base->pos = (t_float2d){(terrain->spawn % terrain->w) * 16,
-		(terrain->spawn / terrain->w) * 16};
+	player->base->pos = float2d_sub(
+		(t_float2d){(terrain->spawn % terrain->w) * 16,
+			(terrain->spawn / terrain->w) * 16},
+		player->entity->hull.min
+		);
 	scene->ply = player;
 
 	int	i = 0;

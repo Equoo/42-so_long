@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:12:45 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:27:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 01:58:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ void	player_attack(t_player *self)
 		&& sweep.hit.element->class & CGROUP_ACTOR)
 		actor = cast_actor(sweep.hit.element->parent);
 	if (actor)
+	{
 		actor->health -= 50;
-	if (actor && actor->base->class == CLASS_FROG)
-		actor->base->play_anim(actor->base, "Hurt");
+		if (actor->base->class == CLASS_FROG)
+			actor->base->play_anim(actor->base, "Hurt");
+		actor->entity->velocity = float2d_add(actor->entity->velocity, float2d_scaled(sweep.hit.normal, 100 * self->base->scene->env->frametime));
+	}
 	self->base->play_anim(self->base, "Attack_1");
 }

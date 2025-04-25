@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/20 13:19:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 01:32:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_entity	*ft_entity(t_scene *scene)
 	}
 	entity->base = base;
 	entity->entity = entity;
+	entity->gravity_dir = (t_float2d){0, -1};
 	entity->hull = (t_aabb){{-8, -16}, {8, 0}, {0}, {0}};
 	entity->base->update = &entity_physic;
 	entity->base->parent = entity;

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
+/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 19:07:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 01:50:22 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/entities/actor.h"
+#include "scene.h"
 #include "texture.h"
 #include "vector2d.h"
 #include "render.h"
@@ -93,7 +94,7 @@ void draw_all_animations(t_element *self, void *texture, t_render *render, t_tra
 	static double last_anim_times[ANIM_COUNT + 1] = {0};
 	static double cycles[ANIM_COUNT + 1] = {0};
 
-    int x = 8, y = 0;
+    int x = 40, y = 10;
     for (int i = 0; i < (int)ANIM_COUNT; i++) {
         t_transform transform = origin;
         transform.pos.x = x;
@@ -118,7 +119,7 @@ void draw_all_animations(t_element *self, void *texture, t_render *render, t_tra
 
         x += ANIM_SIZE - 4; // Space between animations
 		if (x + ANIM_SIZE + 8 > SCREEN_WIDTH) { // Move to next row if exceeding screen width
-            x = 8;
+            x = 40;
             y += ANIM_SIZE - 4;
         }
     }
@@ -135,19 +136,12 @@ void	actor_draw(t_element *self, t_render *render)
 	transform = t_from_pos(to_int2d(float2d_sub(float2d_add(self->pos, self->txt_off_pos), self->scene->cam_pos)));
 	if (actor->direction == -1)
 		transform.scale.x = -1;
-
-	//draw_all_animations(self, self->texture, render, transform);
-
-	if (self->anim)
-		texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
-
-    //t_int2d pos = to_int2d(float2d_sub(self->pos, self->scene->cam_pos));
-	//if (pos.x >= 0 && pos.x < render->buffer->width && pos.y >= 0 && pos.y < render->buffer->height)
-	//	mylx_pixel_put(render->buffer, pos.x, pos.y, 0x00FF00);
-	//if (pos.x + actor->entity->hull.min.x >= 0 && pos.x + actor->entity->hull.min.x < render->buffer->width
-	//	&& pos.y + actor->entity->hull.min.y >= 0 && pos.y + actor->entity->hull.min.y < render->buffer->height)
-	//	mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.min.x, pos.y + actor->entity->hull.min.y, 0x0000FF);
-	//if (pos.x + actor->entity->hull.max.x >= 0 && pos.x + actor->entity->hull.max.x < render->buffer->width
-	//	&& pos.y + actor->entity->hull.max.y >= 0 && pos.y + actor->entity->hull.max.y < render->buffer->height)
-	//	mylx_pixel_put(render->buffer, pos.x + actor->entity->hull.max.x, pos.y + actor->entity->hull.max.y, 0x0000FF);
+    if (actor->entity->gravity_dir.y < 0)
+        transform.scale.y = 1;
+    else
+        transform.scale.y = -1;
+    if (self->anim)
+        texture_blend_anim(self->texture, render->buffer, transform, self->anim, self->cycle);
+    //if (self->class == CLASS_PLAYER)
+	//    draw_all_animations(self, self->texture, render, transform);
 }
