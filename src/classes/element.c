@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   element.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:39:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 12:32:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	element_del(t_element **self)
 
 t_element	*ft_element(t_scene *scene)
 {
-	static int  elements_count = 0;
-	t_element *element;
+	static int	elements_count = 0;
+	t_element	*element;
 
 	element = ft_calloc(1, sizeof(t_element));
 	if (!element)
@@ -73,17 +73,17 @@ t_element	*cast_element(void *element)
 	return ((t_element *)(*(uintptr_t *)element));
 }
 
-void			element_internal_update(t_element *self)
+void	element_internal_update(t_element *self)
 {
-	t_gameenv *env;
+	t_gameenv	*env;
 
 	env = self->scene->env;
 	if (self->anim)
 	{
 		if (!self->last_anim_time)
 			self->last_anim_time = env->time;
-		self->cycle = (env->time - self->last_anim_time) / texture_slice_time(
-				self->texture, self->anim);
+		self->cycle = (env->time - self->last_anim_time)
+			/ texture_slice_time(self->texture, self->anim);
 		if (self->cycle >= 1)
 		{
 			self->cycle = 0;

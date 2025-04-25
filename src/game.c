@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 01:43:13 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 12:36:09 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/element.h"
+#include "classes/entities/exit.h"
 #include "classes/entities/frog.h"
 #include "ft_bool.h"
 #include "ft_printf.h"
@@ -29,8 +30,8 @@
 #include <X11/X.h>
 #include <X11/Xutil.h>
 #include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void	tick_game(t_gameenv *env)
 {
@@ -62,8 +63,8 @@ void	tick_game(t_gameenv *env)
 		ply->entity->gravity_dir = (t_float2d){0, -ply->entity->gravity_dir.y};
 	if (input_ispressed(XK_space, env))
 		ply->attack(ply);
-	
-	
+
+
 	node = scene->elements;
 	while (node)
 	{
@@ -78,8 +79,8 @@ void	tick_game(t_gameenv *env)
 	char *maxcoins = ft_itoa(((t_terrain *)scene->terrain)->coins.actual_size);
 	draw_text(&env->render, "COINS:", (t_float2d){39, 35}, 32);
 	draw_text(&env->render, coins, (t_float2d){55, 35}, 32);
-	draw_text(&env->render, "/", (t_float2d){58, 35}, 32);
-	draw_text(&env->render, maxcoins, (t_float2d){61, 35}, 32);
+	draw_text(&env->render, "/", (t_float2d){57 + 3 * strlen(coins), 35}, 32);
+	draw_text(&env->render, maxcoins, (t_float2d){61 + 3 * strlen(coins), 35}, 32);
 	free(coins);
 	free(maxcoins);
 
@@ -125,6 +126,7 @@ int	game_init(t_gameenv *env, char *mappath)
 	t_scene		*scene;
 	t_terrain	*terrain;
 	t_player	*player;
+	t_exit		*exit;
 
 	if (load_map(env, mappath) || errno)
 		return (1);
@@ -143,6 +145,11 @@ int	game_init(t_gameenv *env, char *mappath)
 		player->entity->hull.min
 		);
 	scene->ply = player;
+	exit = ft_exit(scene);
+	if (scene_add(scene, exit) && print_error("Exit"))
+		return (1);
+	exit->base->pos = (t_float2d){(terrain->exit % terrain->w) * 16,
+		(terrain->exit / terrain->w) * 16};
 
 	int	i = 0;
 	while (i < terrain->coins.actual_size)

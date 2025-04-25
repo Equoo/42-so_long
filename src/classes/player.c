@@ -64,10 +64,3 @@ t_player	*ft_player(t_scene *scene)
 	}
 	return (player);
 }
-
-t_player	*cast_player(void *player)
-{
-	if (!player)
-		return (NULL);
-	return ((t_player *)(((uintptr_t *)player))[2]);
-}

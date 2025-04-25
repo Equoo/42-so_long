@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/17 15:42:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 12:10:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	init(t_terrain *terrain)
 {
 	terrain->base->class = CLASS_TERRAIN;
 	terrain->base->parent = terrain;
-	terrain->collide = &terrain_collide;
 	terrain->base->del = &terrain_del;
 	terrain->base->draw = &terrain_draw;
 	terrain->base->zindex = 1;

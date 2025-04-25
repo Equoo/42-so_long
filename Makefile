@@ -34,7 +34,6 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/terrain/wall_rules.c\
 				classes/terrain/draw.c\
 				classes/terrain/load.c\
-				classes/terrain/collide.c\
 				classes/terrain/findpath.c\
 				classes/terrain.c\
 				classes/entity/physic.c\
@@ -43,6 +42,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/player/update.c\
 				classes/player/attack.c\
 				classes/player.c\
+				classes/exit.c\
 				classes/frog/on_die.c\
 				classes/frog.c\
 				scene.c\

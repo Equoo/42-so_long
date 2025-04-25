@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 00:43:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 11:52:40 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "scene.h"
 #include <errno.h>
 #include <mlx.h>
-#include <stdio.h>
 
 void	tick_render(t_gameenv *env, t_render *render)
 {

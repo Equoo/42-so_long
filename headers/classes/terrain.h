@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   terrain.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 23:34:06 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/25 12:21:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TERRAIN_H
 # define TERRAIN_H
 # include "classes/element.h"
-# include "classes/entity.h"
 # include "ft_vector.h"
 # include "vector2d.h"
 
@@ -33,8 +32,6 @@ typedef struct s_terrain
 	int			spawn;
 	int			exit;
 	t_vector	coins;
-
-	int			(*collide)(struct s_terrain *self, t_entity *ent, t_float2d vel);
 }				t_terrain;
 
 char			getindir(t_terrain *self, t_int2d pos, int dir);
@@ -54,7 +51,6 @@ void			terrain_load(t_terrain *self, char *path);
 int				terrain_findpath(t_terrain *self, int *checkedmap, t_int2d pos,
 					t_int2d last);
 void			terrain_draw(t_element *self, t_render *render);
-int				terrain_collide(t_terrain *self, t_entity *ent, t_float2d vel);
 
 t_terrain		*ft_terrain(t_scene *scene, char *mappath, char *texpath);
 
