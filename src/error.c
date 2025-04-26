@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 23:58:57 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 23:02:11 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 03:10:17 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static char	*str_custom_errors(int err)
 		return ("No frames or slices found");
 	if (err == EINVALTEX)
 		return ("Invalid texture");
+	if (err == ERRMAPSIZE)
+		return ("Map is too big");
 	return ("Unknown error");
 }
 

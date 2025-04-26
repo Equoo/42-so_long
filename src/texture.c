@@ -6,17 +6,17 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 01:14:36 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:34 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:56:38 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <mlx.h>
-#include "texture.h"
-#include "render.h"
 #include "error.h"
+#include "render.h"
+#include "texture.h"
+#include <errno.h>
+#include <libft.h>
+#include <mlx.h>
+#include <stdlib.h>
 
 void	texture_del(void *self)
 {
@@ -44,7 +44,7 @@ void	texture_del(void *self)
 
 static t_texture	*get_from_cache(t_render *render, char *path)
 {
-	t_list	*cache;
+	t_list		*cache;
 	t_texture	*tex;
 
 	cache = render->textures;
@@ -56,6 +56,15 @@ static t_texture	*get_from_cache(t_render *render, char *path)
 		cache = cache->next;
 	}
 	return (NULL);
+}
+
+static int	texture_err(t_list *lst, t_texture *tex)
+{
+	print_error("Texture data parsing");
+	if (lst)
+		free(lst);
+	texture_del(tex);
+	return (1);
 }
 
 /**
@@ -79,17 +88,13 @@ t_texture	*ft_texture(t_render *render, char *path)
 	tex->mlx = render->mlx;
 	tex->path = ft_strdup(path);
 	if (tex->path)
-		tex->img = mylx_xpm_to_img(render->mlx, path, &tex->width, &tex->height);
+		tex->img = mylx_xpm_to_img(render->mlx, path, &tex->width,
+				&tex->height);
 	if (tex->img)
 		lst = ft_lstnew(tex);
-	if (!tex->path || !tex->img || !lst || read_texture_data(tex, path, NULL))
-	{
-		print_error("Texture data parsing");
-		if (lst)
-			free(lst);
-		texture_del(tex);
+	if ((!tex->path || !tex->img || !lst || read_texture_data(tex, path, NULL))
+		&& texture_err(lst, tex))
 		return (NULL);
-	}
 	ft_lstadd_front(&render->textures, lst);
 	return (tex);
 }

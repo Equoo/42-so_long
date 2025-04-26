@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:03:13 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 23:27:52 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:52:56 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,10 @@ void	printticks(t_gameenv *env)
 		middle = env->frametime;
 		last = env->time;
 	}
-	//ft_printf("Time: %f s; Frame time: %f; TICK: %i; FPS: %i;\n", env->time,
-		//env->frametime, (int)(1 / env->frametime), fps);
 }
 
 int	update(t_gameenv *env)
 {
-	static double	last_frame = 0;
 	static double	lastrealtime = 0;
 	static double	elapsed = 0;
 
@@ -89,17 +86,17 @@ int	update(t_gameenv *env)
 		process_close(env);
 	if (!env->start_time)
 		env->start_time = env->time;
-	if (!last_frame)
-		last_frame = env->time;
+	if (!env->last_frame)
+		env->last_frame = env->time;
 	if (!lastrealtime)
 		lastrealtime = env->time;
 	elapsed += env->time - lastrealtime;
 	if (elapsed >= 1.f / ((double)TICK))
 	{
 		elapsed -= 1.f / ((double)TICK);
-		env->frametime = (env->time - last_frame);
+		env->frametime = (env->time - env->last_frame);
 		tick(env);
-		last_frame = env->time;
+		env->last_frame = env->time;
 	}
 	lastrealtime = env->time;
 	if (errno && errno != EAGAIN && print_error("Update"))

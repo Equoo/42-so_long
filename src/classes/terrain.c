@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:10:10 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 02:44:21 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,17 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 	terrain->base = ft_element(scene);
 	if (terrain->base)
 		terrain->base->texture = ft_texture(&scene->env->render, texpath);
-	if (terrain->base->texture)
+	if (terrain->base && terrain->base->texture)
 		terrain->coins = vec_new(32, sizeof(int));
 	if (terrain->coins.data)
 		terrain_load(terrain, mappath);
 	if (!terrain->base || !terrain->base->texture
 		|| !terrain->coins.data || !terrain->grid)
 	{
-		terrain->base->del(&terrain->base);
+		if (terrain->coins.data)
+			vec_destroy(&terrain->coins);
+		if (terrain->base)
+			terrain->base->del(&terrain->base);
 		free(terrain);
 		return (NULL);
 	}

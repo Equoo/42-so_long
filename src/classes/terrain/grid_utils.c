@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 22:51:14 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 21:10:17 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 06:06:49 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ char	getindir(t_terrain *self, t_int2d pos, int dir)
 		return (MAP_WALL);
 	return (self->grid[pos.x + pos.y * self->w + dirs[dir][0] + dirs[dir][1]
 		* self->w]);
+}
+
+t_int2d	getposindir(t_int2d pos, int dir)
+{
+	const int	dirs[][2] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
+
+	return ((t_int2d){pos.x + dirs[dir][0], pos.y + dirs[dir][1]});
 }
 
 int	get_facing(t_terrain *self, t_int2d pos, int dirs[4])

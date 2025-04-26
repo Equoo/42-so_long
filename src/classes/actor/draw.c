@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 02:20:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 20:02:25 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 03:38:29 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ void	actor_draw(t_element *self, t_render *render)
 	else
 		transform.scale.y = -1;
 	if (self->anim)
-		texture_blend_anim(self->texture, render->buffer, transform, self->anim,
-			self->cycle);
+		texture_blend_anim(self->texture, render->buffer, transform,
+			(t_anim_sl){self->anim, self->cycle});
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actor.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 22:17:08 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:45:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ typedef enum e_move_modifier
 	MOVE_WALK
 }				t_move_modifier;
 
-void	actor_draw(t_element *self, t_render *render);
-void	actor_update(t_element *self);
-void	actor_del(t_element **self);
+void			actor_draw(t_element *self, t_render *render);
+void			actor_update(t_element *self);
+void			actor_del(t_element **self);
 
-void	actor_move(t_actor *self, int dir, int modifier);
+void			actor_move(t_actor *self, int dir, int modifier);
 
-t_actor		*ft_actor(t_scene *scene);
-t_actor		*cast_actor(void *actor);
+t_actor			*ft_actor(t_scene *scene);
+t_actor			*cast_actor(void *actor);
 
 #endif

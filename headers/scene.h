@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dderny <dderny@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/24 01:02:38 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:46:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <ft_bool.h>
 # include <libft.h>
 
-enum e_scene
+enum			e_scene
 {
 	SCENE_GAME,
 	SCENE_MENU
@@ -34,7 +34,7 @@ typedef enum e_class
 	CLASS_HUD = 1 << 5,
 	CLASS_TERRAIN = 1 << 6,
 	CLASS_BACKGROUND = 1 << 7
-}	t_class;
+}				t_class;
 
 typedef enum e_cgroup
 {
@@ -43,7 +43,7 @@ typedef enum e_cgroup
 	CGROUP_ENTITY = CLASS_ENTITY | CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG,
 	CGROUP_ACTOR = CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG,
 	CGROUP_ALL = CGROUP_OTHER | CGROUP_TERRAIN | CGROUP_ENTITY | CGROUP_ACTOR
-}	t_cgroup;
+}				t_cgroup;
 
 typedef struct s_scene
 {
@@ -57,11 +57,11 @@ typedef struct s_scene
 	t_bool		removed;
 
 	void		(*update)(struct s_scene *self);
-}	t_scene;
+}				t_scene;
 
-void	scene_del(void *self);
-t_scene	*ft_scene(void *env, char *name);
+void			scene_del(void *self);
+t_scene			*ft_scene(void *env, char *name);
 
-int		scene_add(t_scene *self, void *element);
+int				scene_add(t_scene *self, void *element);
 
 #endif

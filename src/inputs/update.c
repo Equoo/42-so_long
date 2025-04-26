@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:23:05 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:40:30 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 00:57:42 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "so_long.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
+#include <bits/floatn-common.h>
 #include <sys/types.h>
 
 int	down_key(int keycode, t_gameenv *env)

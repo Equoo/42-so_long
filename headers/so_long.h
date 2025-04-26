@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 15:44:26 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 19:12:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:52:36 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <libft.h>
 
 # ifndef TICK
-#  define TICK 240
+#  define TICK 244
 # endif
 
 enum
@@ -38,21 +38,22 @@ typedef struct s_gameenv
 	double		start_time;
 	double		time;
 	double		frametime;
+	double		last_frame;
 	u_int		internal_keys[32];
 	u_int		internal_last_keys[32];
 	u_int		keys_states[32][2];
 
 	void		*scene;
 	t_list		*scenes_lst;
-}			t_gameenv;
+}				t_gameenv;
 
-int			render_init(t_gameenv *env);
-int			game_init(t_gameenv *env, char *mappath);
-int			update(t_gameenv *env);
-void		tick(t_gameenv *env);
-void		tick_game(t_gameenv *env);
-void		tick_render(t_gameenv *env, t_render *render);
+int				render_init(t_gameenv *env);
+int				game_init(t_gameenv *env, char *mappath);
+int				update(t_gameenv *env);
+void			tick(t_gameenv *env);
+void			tick_game(t_gameenv *env);
+void			tick_render(t_gameenv *env, t_render *render);
 
-int			process_close(t_gameenv *env);
+int				process_close(t_gameenv *env);
 
 #endif

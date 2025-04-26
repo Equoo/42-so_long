@@ -6,21 +6,21 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:54:37 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/18 16:33:39 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:48:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
-# include "vector2d.h"
 # include "ft_vector.h"
-
+# include "vector2d.h"
 # include <libft.h>
-# include <mm256.h>
 # include <mlx_int.h>
+# include <mm256.h>
 
-# define M256_NPIXEL (int)(sizeof(__m256i_u) / sizeof(unsigned int))
+// (int)(sizeof(__m256i_u) / sizeof(unsigned int))
+# define M256_NPIXEL 8
 
 typedef struct s_rtext
 {
@@ -63,13 +63,12 @@ typedef struct s_copyimg
 	int			angle;
 }				t_copyimg;
 
-void	render_texts(t_render *render, t_img *buffer);
+void			render_texts(t_render *render, t_img *buffer);
 
 void			mylx_pixel_put(t_img *img, int x, int y, unsigned int color);
 void			mylx_m256_pixel_put(t_img *img, int x, int y, __m256i_u color);
 unsigned int	*mylx_pixel_get(t_img *img, int x, int y);
 __m256i_u		*mylx_m256_pixel_get(t_img *img, int x, int y);
-
 
 /**
 ** Secure way to open a xpm image
@@ -79,7 +78,8 @@ __m256i_u		*mylx_m256_pixel_get(t_img *img, int x, int y);
 ** @param height: height pointer
 ** @return the new image
 */
-t_img	*mylx_xpm_to_img(void *mlx, char *path, int *width, int *height);
+t_img			*mylx_xpm_to_img(void *mlx, char *path, int *width,
+					int *height);
 
 /**
 ** Copy and scale an image to a new image
@@ -116,6 +116,7 @@ void			*mylx_img_fast_copy(t_2int2d sqr, t_int2d pos, t_img *dest,
 
 void			*mylx_img_copy(t_copyimg data);
 
-int	draw_text(t_render *render, char *text, t_float2d pos, int font_size);
+int				draw_text(t_render *render, char *text, t_float2d pos,
+					int font_size);
 
 #endif

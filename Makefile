@@ -33,6 +33,7 @@ SOLONG_SRCS =   vector2d/add.c\
 				classes/element.c\
 				classes/terrain/grid_utils.c\
 				classes/terrain/wall_rules.c\
+				classes/terrain/surface_rules.c\
 				classes/terrain/draw.c\
 				classes/terrain/load.c\
 				classes/terrain/findpath.c\

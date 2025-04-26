@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 18:31:02 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 03:00:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ t_element	*ft_element(t_scene *scene)
 	element->internal_update = &element_internal_update;
 	element->play_anim = &element_play_anim;
 	element->id = elements_count;
+	if (scene_add(scene, element))
+	{
+		element->del(&element);
+		return (NULL);
+	}
 	return (element);
 }
 

@@ -6,18 +6,17 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:35 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 18:31:45 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:45:53 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ELEMENT_H
 # define ELEMENT_H
 
+# include "render.h"
 # include "scene.h"
 # include "texture.h"
 # include "vector2d.h"
-# include "render.h"
-
 # include <mlx_int.h>
 # include <unistd.h>
 
@@ -54,4 +53,3 @@ t_element		*cast_element(void *element);
 void			element_del(t_element **self);
 
 #endif
-

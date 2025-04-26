@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:45:56 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 21:19:09 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 03:31:50 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static void	check_line(t_terrain *map, int y, char *line)
 		map->w = x;
 	else if (!errno && map->w != x)
 		errno = ERRMAPRECT;
+	if (x > MAP_MAXSIZE || y > MAP_MAXSIZE)
+		errno = ERRMAPSIZE;
 	if (!errno)
 		line[map->w] = 0;
 }

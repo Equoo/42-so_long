@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:10:51 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 11:52:40 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:51:35 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	tick_render(t_gameenv *env, t_render *render)
 		buffer = mylx_img_scale(render->mlx, render->buffer, render->r_scale);
 		render_texts(render, buffer);
 		mlx_put_image_to_window(render->mlx, render->win,
-				buffer, -ft_abs(buffer->width - render->w_width) / 2,
-				-ft_abs(buffer->height - render->w_height) / 2);
+			buffer, -ft_abs(buffer->width - render->w_width) / 2,
+			-ft_abs(buffer->height - render->w_height) / 2);
 		mlx_destroy_image(render->mlx, buffer);
 		return ;
 	}
 	render_texts(render, render->buffer);
 	mlx_put_image_to_window(render->mlx, render->win,
-				render->buffer, 0, 0);
+		render->buffer, 0, 0);
 }
 
 int	render_init(t_gameenv *env)
@@ -56,17 +56,18 @@ int	render_init(t_gameenv *env)
 	render->w_height = 1080;
 	if (render->mlx)
 		render->win = mlx_new_window(render->mlx, render->w_width,
-		render->w_height, "So long");
+				render->w_height, "So long");
 	render->r_width = 398;
 	render->r_height = 224;
 	render->r_scale = (int)((double)render->w_height / 224 * 1.3);
 	if (render->win)
 		render->buffer = mlx_new_image(render->mlx, render->r_width,
-			render->r_height);
+				render->r_height);
 	if (errno == EAGAIN)
 		errno = 0;
-	render->font = ft_texture(render, "textures/font.xpm");
-	if (!render->buffer || !render->font)
+	if (render->win)
+		render->font = ft_texture(render, "textures/font.xpm");
+	if (!render->buffer || !render->font || !render->win || !render->mlx)
 		return (1);
 	render->texts = vec_new(32, sizeof(t_rtext));
 	if (!render->texts.data)

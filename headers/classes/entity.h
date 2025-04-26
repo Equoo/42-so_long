@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 12:22:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 01:49:37 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_entity
 	t_bool		nogravity;
 
 	void		(*on_collide)(struct s_entity *self, t_element *other,
-				t_sweep data);
+			t_sweep data);
 }				t_entity;
 
 void			entity_del(t_element **self);
