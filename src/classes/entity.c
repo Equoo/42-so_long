@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:39:08 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 22:48:15 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:54:59 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	entity_del(t_element **self)
 		free(entity);
 }
 
-t_entity	*ft_entity(t_scene *scene)
+t_entity	*ft_entity(t_scene *scene, int zindex)
 {
 	t_element	*base;
 	t_entity	*entity;
 
-	base = ft_element(scene);
+	base = ft_element(scene, zindex);
 	if (!base)
 		return (NULL);
 	entity = ft_calloc(1, sizeof(t_entity));

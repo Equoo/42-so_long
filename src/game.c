@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:18:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 02:44:31 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:57:44 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	load_map(t_gameenv *env, char *path)
 
 static int	add_exitncoins(t_scene *scene, t_terrain *terrain, t_player *player)
 {
-	t_frog	*element;
+	t_frog	*frog;
 	t_exit	*exit;
 	int		i;
 
@@ -68,12 +68,12 @@ static int	add_exitncoins(t_scene *scene, t_terrain *terrain, t_player *player)
 	i = 0;
 	while (i < terrain->coins.actual_size)
 	{
-		element = ft_frog(scene);
-		if (element)
-			cast_element(element)->pos = (t_float2d){(*(int *)vec_get(
-					&terrain->coins, i) % terrain->w) * 16,
-			(*(int *)vec_get(&terrain->coins, i) / terrain->w)
-			* 16};
+		frog = ft_frog(scene);
+		if (frog)
+			frog->base->pos = float2d_sub((t_float2d){(*(int *)vec_get(
+							&terrain->coins, i) % terrain->w) * 16,
+					(*(int *)vec_get(&terrain->coins, i) / terrain->w)
+					* 16}, frog->entity->hull.min);
 		else
 			break ;
 		i++;

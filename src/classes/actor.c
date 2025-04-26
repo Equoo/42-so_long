@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 01:32:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 22:44:21 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:56:10 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	init_actor(t_actor *actor, t_entity *entity)
 	actor->direction = 1;
 	actor->health = 100;
 	actor->base = entity->base;
-	actor->base->zindex = 10;
 	actor->base->parent = actor;
 	actor->base->update = &actor_update;
 	actor->base->draw = &actor_draw;
@@ -50,7 +49,7 @@ t_actor	*ft_actor(t_scene *scene)
 	t_entity	*entity;
 	t_actor		*actor;
 
-	entity = ft_entity(scene);
+	entity = ft_entity(scene, 10);
 	if (!entity)
 		return (NULL);
 	actor = ft_calloc(1, sizeof(t_actor));

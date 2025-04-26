@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 14:17:11 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 06:22:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 22:02:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "vector2d.h"
 #include <X11/X.h>
 #include <errno.h>
+#include <stdlib.h>
 
 void	hover_ground_gen(t_terrain *self, t_render *render, t_int2d offset)
 {
@@ -87,7 +88,7 @@ void	ground_gen(t_terrain *self, t_render *render, t_int2d offset)
 	}
 }
 
-static char	*get_surface_text(t_terrain *self, t_int2d pos,
+static char	*get_surface_text(t_terrain *self, t_int2d *pos,
 	const t_srule rules[2], t_transform *transform, int *used)
 {
 	char	*tex;
@@ -103,7 +104,7 @@ static char	*get_surface_text(t_terrain *self, t_int2d pos,
 
 void	ground_surface(t_terrain *self, t_render *render, t_int2d offset)
 {
-	const t_srule	rules[] = {&rs_corgrass, &rs_grass};
+	const t_srule	rules[] = {&rs_corgrass, &rs_other};
 	t_int2d			origin;
 	t_int2d			pos;
 	t_transform		transform;
@@ -127,12 +128,18 @@ void	ground_surface(t_terrain *self, t_render *render, t_int2d offset)
 			pos = getposindir(origin, i.y);
 			if (used[pos.x + pos.y * self->w])
 				continue ;
-			transform = t_from_pos((t_int2d){offset.x + pos.x * 16, offset.y + pos.y
-				* 16});
-			tex = get_surface_text(self, pos, rules, &transform, used);
+			transform = (t_transform){.scale = {1, 1}};
+			tex = get_surface_text(self, &pos, rules, &transform, used);
 			if (errno)
 				return ;
-			if (!tex)
+			transform.pos = (t_int2d){offset.x + pos.x * 16, offset.y + pos.y
+				* 16};
+			if (tex && !*tex)
+			{
+				free(tex);
+				continue ;
+			}
+			if (!tex || !*tex)
 				continue ;
 			texture_blend_slice(self->base->texture, render->buffer, transform,
 				tex);

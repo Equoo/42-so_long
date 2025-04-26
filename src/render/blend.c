@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:59:04 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/22 14:46:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 22:56:54 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ void	*mylx_img_blend(t_copyimg data)
 	int		i;
 
 	real_size = data.size;
-	if (!(data.angle % 180))
-		real_size = (t_int2d){real_size.y, real_size.x};
 	i = -1;
 	if (real_size.x + data.to.x > data.dest->width)
 		real_size.x -= real_size.x + data.to.x - data.dest->width;

@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 22:47:44 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:54:32 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_background	*ft_background(t_scene *scene)
 	t_element		*base;
 	t_background	*background;
 
-	base = ft_element(scene);
+	base = ft_element(scene, 1);
 	if (!base)
 		return (NULL);
 	background = (t_background *)ft_calloc(1, sizeof(t_background));

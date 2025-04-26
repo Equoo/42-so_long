@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:15:23 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 02:44:21 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:58:00 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	init(t_terrain *terrain)
 	terrain->base->parent = terrain;
 	terrain->base->del = &terrain_del;
 	terrain->base->draw = &terrain_draw;
-	terrain->base->zindex = 1;
 }
 
 t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
@@ -48,7 +47,7 @@ t_terrain	*ft_terrain(t_scene *scene, char *mappath, char *texpath)
 	terrain = (t_terrain *)ft_calloc(1, sizeof(t_terrain));
 	if (!terrain)
 		return (NULL);
-	terrain->base = ft_element(scene);
+	terrain->base = ft_element(scene, 2);
 	if (terrain->base)
 		terrain->base->texture = ft_texture(&scene->env->render, texpath);
 	if (terrain->base && terrain->base->texture)

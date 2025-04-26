@@ -73,7 +73,6 @@ t_frog	*ft_frog(t_scene *scene)
 	frog->base = actor->base;
 	frog->entity = actor->entity;
 	frog->actor = actor;
-	frog->base->zindex = 5;
 	frog->base->class = CLASS_FROG;
 	frog->base->parent = frog;
 	frog->base->del = &frog_del;

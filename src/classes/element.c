@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:42 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 03:00:50 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:54:12 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	element_del(t_element **self)
 	*self = NULL;
 }
 
-t_element	*ft_element(t_scene *scene)
+t_element	*ft_element(t_scene *scene, int zindex)
 {
 	static int	elements_count = 0;
 	t_element	*element;
@@ -64,6 +64,7 @@ t_element	*ft_element(t_scene *scene)
 	element->internal_update = &element_internal_update;
 	element->play_anim = &element_play_anim;
 	element->id = elements_count;
+	element->zindex = zindex;
 	if (scene_add(scene, element))
 	{
 		element->del(&element);

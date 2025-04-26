@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:01:30 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 22:55:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 19:56:03 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	init_frog(t_scene *scene, t_exit *exit, t_entity *entity)
 			"./textures/exit.xpm");
 	exit->base->txt_off_pos = (t_float2d){-8, -19};
 	exit->entity->hull = (t_aabb){{-8, -19}, {8, 0}, {0}, {0}};
-	exit->base->zindex = 10;
+	exit->base->class = CLASS_EXIT;
 	exit->base->parent = exit;
 	exit->base->anim = "all";
 	exit->base->del = &exit_del;
@@ -54,7 +54,7 @@ t_exit	*ft_exit(t_scene *scene)
 	t_entity	*entity;
 	t_exit		*exit;
 
-	entity = ft_entity(scene);
+	entity = ft_entity(scene, 10);
 	if (!entity)
 		return (NULL);
 	exit = ft_calloc(1, sizeof(t_exit));

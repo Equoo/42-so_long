@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 11:56:50 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 07:17:07 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/26 21:36:23 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct s_terrain
 
 typedef struct s_prob
 {
-	int			ratio;
+	int			rate;
+	t_2int2d	size;
 	char		slice[32];
 }				t_prob;
 
@@ -48,12 +49,12 @@ t_int2d			getposindir(t_int2d pos, int dir);
 typedef t_bool	(*t_frule)(t_terrain *self, t_int2d pos, char **slice,
 		t_transform *transform);
 
-typedef t_bool	(*t_srule)(t_terrain *self, t_int2d pos, char **slice,
+typedef t_bool	(*t_srule)(t_terrain *self, t_int2d *pos, char **slice,
 		t_transform *transform, int *used);
 
-t_bool	rs_grass(t_terrain *self, t_int2d pos, char **slice,
+t_bool	rs_other(t_terrain *self, t_int2d *pos, char **slice,
 			t_transform *transform, int *used);
-t_bool	rs_corgrass(t_terrain *self, t_int2d pos, char **slice,
+t_bool	rs_corgrass(t_terrain *self, t_int2d *pos, char **slice,
 			t_transform *transform, int *used);
 
 t_bool			rule_topgrass(t_terrain *self, t_int2d pos, char **slice,
