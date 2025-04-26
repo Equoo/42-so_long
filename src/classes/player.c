@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 22:41:20 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/25 22:42:55 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/27 00:57:13 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	player_del(t_element **self)
 static void	init_plyer(t_player *player)
 {
 	player->actor->death_anim = "Death_1";
+	player->actor->on_die = &player_on_die;
 	player->base->anim_coroutine = &player_anim_coroutine;
 	player->base->update = &player_update;
 	player->attack = &player_attack;

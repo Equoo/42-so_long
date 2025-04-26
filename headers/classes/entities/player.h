@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 09:26:32 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 01:45:56 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/27 00:56:58 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void			player_del(t_element **self);
 void			player_update(t_element *self);
 void			player_attack(t_player *self);
 void			player_anim_coroutine(t_element *self, t_render *render);
+void			player_on_die(t_actor *self);
 
 t_player		*ft_player(t_scene *scene);
 

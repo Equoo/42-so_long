@@ -51,6 +51,7 @@ static int	init(t_frog *frog, t_render *render)
 	frog->base->anim_coroutine = &frog_anim_coroutine;
 	frog->base->txt_off_pos = (t_float2d){-21, -31};
 	frog->entity->hull = (t_aabb){{-11, -15}, {11, 0}, {0}, {0}};
+	frog->entity->on_collide = &frog_on_collide;
 	frog->actor->on_die = &frog_on_die;
 	frog->actor->death_anim = "Explosion";
 	return (0);

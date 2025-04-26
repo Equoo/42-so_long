@@ -6,7 +6,7 @@
 /*   By: dderny <dderny@42lyon.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:06:41 by dderny            #+#    #+#             */
-/*   Updated: 2025/04/26 20:00:28 by dderny           ###   ########.fr       */
+/*   Updated: 2025/04/27 00:00:52 by dderny           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef enum e_cgroup
 {
 	CGROUP_OTHER = CLASS_ELEMENT | CLASS_BACKGROUND | CLASS_HUD,
 	CGROUP_TERRAIN = CLASS_TERRAIN,
-	CGROUP_ENTITY = CLASS_ENTITY | CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG | CLASS_EXIT,
+	CGROUP_ENTITY = CLASS_ENTITY | CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG |
+	CLASS_EXIT,
 	CGROUP_ACTOR = CLASS_ACTOR | CLASS_PLAYER | CLASS_FROG,
 	CGROUP_ALL = CGROUP_OTHER | CGROUP_TERRAIN | CGROUP_ENTITY | CGROUP_ACTOR
 }				t_cgroup;
